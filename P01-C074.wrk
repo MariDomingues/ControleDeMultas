@@ -1,0 +1,616 @@
+      * P01-C074.wrk
+      * P01-C074.wrk is generated from T:\Transport\FONTES\TRABALHO\CTRC\P01-C074.Psf
+      * This is a generated file. DO NOT modify this file directly. 
+                  
+       77 Key-Status IS SPECIAL-NAMES CRT STATUS PIC 9(4) VALUE 0.
+           88 Exit-Pushed VALUE 27.
+           88 Message-Received VALUE 95.
+           88 Event-Occurred VALUE 96.
+           88 Screen-No-Input-Field VALUE 97.
+           88 Screen-Time-Out VALUE 99.
+      * property-defined variable
+
+      * user-defined variable
+           COPY  "T:\Transport\FONTES\TRABALHO\ROTINAS\COPYLIB\wsist.wrk
+      -    "".
+       77 Small-Font
+                  USAGE IS HANDLE OF FONT SMALL-FONT.
+       77 t1-Handle
+                  USAGE IS HANDLE OF WINDOW.
+       77 Arial9
+                  USAGE IS HANDLE OF FONT.
+       77 Tripao2-bmp      PIC  S9(6)
+                  USAGE IS COMP-4
+                  VALUE IS 0.
+       77 Tripao1-bmp      PIC  S9(6)
+                  USAGE IS COMP-4
+                  VALUE IS 0.
+       77 informacao-bmp   PIC  S9(6)
+                  USAGE IS COMP-4
+                  VALUE IS 0.
+       77 t1-Tb-1-Handle
+                  USAGE IS HANDLE OF WINDOW.
+       77 drv-usu          PIC  X(50).
+       77 stat-arq-usu     PIC  X(02).
+           88 Valid-arq-usu VALUE IS "00" THRU "09". 
+       77 drv-usu-prg      PIC  X(50).
+       77 stat-usu-prg     PIC  X(2).
+           88 Valid-usu-prg VALUE IS "00" THRU "09". 
+       77 t1-St-1-Handle
+                  USAGE IS HANDLE OF STATUS-BAR.
+       77 Arial7B
+                  USAGE IS HANDLE OF FONT.
+       77 stat-arq-prg     PIC  X(2).
+           88 Valid-arq-prg VALUE IS "00" THRU "09". 
+       77 STAT-ARQ-LOG123  PIC  X(2).
+           88 Valid-ARQ-LOG123 VALUE IS "00" THRU "09". 
+       77 STAT-ARQ-LOG23   PIC  X(2).
+           88 Valid-ARQ-LOG23 VALUE IS "00" THRU "09". 
+       01 wrk-tempo        PIC  9(08).
+      *
+      *
+       01 wrk-programa-chamar          PIC  X(08).
+       01 wrk-chamaprog    PIC  X(12).
+       77 stat-arq-emp00   PIC  X(2).
+           88 Valid-arq-emp00 VALUE IS "00" THRU "09". 
+       77 t1-Ta-1-Value    PIC  S9(1)
+                  VALUE IS 1.
+       77 t1-Pg-1-Visible  PIC  9
+                  VALUE IS 0.
+       77 t1-Pg-2-Visible  PIC  9
+                  VALUE IS 0.
+       77 t1-Pg-3-Visible  PIC  9
+                  VALUE IS 0.
+       77 Arial9B
+                  USAGE IS HANDLE OF FONT.
+       01 t1-Gd-1-Record.
+           05 Gd-1-Codigo      PIC  ZZZZZ9.
+           05 Gd-1-Descricao   PIC  X(70).
+           05 Gd-1-Pontuacao   PIC  Z9.
+           05 Gd-1-Valor       PIC  ZZZZZZZZ9,99.
+           05 Gd-1-1           PIC  Z9.
+       01 .
+           03 t1-Cm-1-Container-Item.
+               05      PIC  X(03)
+                          VALUE IS "Sim".
+               05      PIC  X(03)
+                          VALUE IS "Não".
+           78 t1-Cm-1-Container-Num VALUE IS 2. 
+           03 t1-Cm-1-Container REDEFINES t1-Cm-1-Container-Item  PIC  
+           X(03)
+                      OCCURS 2 TIMES
+                      INDEXED  t1-Cm-1-Container-Idx.
+       77 t1-Pg-5-Visible  PIC  9
+                  VALUE IS 0.
+       77 t1-Pg-4-Visible  PIC  9
+                  VALUE IS 0.
+       77 wrk-marca-cod    PIC  9(09).
+       77 wrk-marca-nome   PIC  X(30)
+                  VALUE IS "XXX".
+       77 wrk-IFC01-CONDUTOR           PIC  X(40)
+                  VALUE IS "XXXXXXXXXXXXXXXXXXXXXXX".
+       77 wrk-munic-cod    PIC  9(09).
+       77 wrk-munic-nome   PIC  X(40).
+       77 wrk-cpf          PIC  9(11)
+                  VALUE IS 99999.
+       77 wrk-rg           PIC  X(14)
+                  VALUE IS "99999999999999".
+       77 wrk-IFC01-PROPRIETARIO       PIC  X(40).
+       77 wrk-IFC01-MUNINFLACAO        PIC  X(40)
+                  VALUE IS "XXXXXXXXXXXXXXXXXXXXXXX".
+       77 t1-Cm-1-Value    PIC  X(03).
+       77 wrk-IFI01-CODINFLACAO        PIC  X(70).
+       77 wrk-artigo       PIC  X(30).
+       77 wrk-IFI01-RESPONSABILIDADE   PIC  X(30).
+       77 wrk-IFR01-CODRECURSO         PIC  X(30)
+                  VALUE IS "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX".
+       77 wrk-IFR01-MUNJULGADOR        PIC  X(40).
+       77 wrk-obs-1-r      PIC  X(70).
+       77 wrk-obs-2-r      PIC  X(70)
+                  VALUE IS "XXXXXXXXXXXXXXXXXXXXXXX".
+       77 wrk-obs-3-r      PIC  X(70).
+       77 wrk-obs-4-r      PIC  X(70).
+       77 wrk-IFS01-TIPO   PIC  X(20)
+                  VALUE IS "XXXXXXXXXX".
+       77 wrk-uf-pg1       PIC  X(02)
+                  VALUE IS "XX".
+       77 wrk-uf-pg3       PIC  X(02)
+                  VALUE IS "XX".
+       01 wrk-linha-grid-1 PIC  9(09).
+       01 wrk-linha-grid-2 PIC  9(09).
+       01 wrk-linha-grid-3 PIC  9(09).
+       01 wrk-linha-grid-4 PIC  9(09).
+       77 STAT-ARQ-VEI01   PIC  X(2).
+           88 Valid-ARQ-VEI01 VALUE IS "00" THRU "09". 
+       77 stat-arq-mot01   PIC  X(2).
+           88 Valid-ARQ-MOT01 VALUE IS "00" THRU "09". 
+       77 stat-arq-cid01   PIC  X(2).
+           88 Valid-arq-cid01 VALUE IS "00" THRU "09". 
+       77 STAT-ARQ-PRO01   PIC  X(2).
+           88 Valid-ARQ-PRO01 VALUE IS "00" THRU "09". 
+       77 STAT-ARQ-TIP01   PIC  X(2).
+           88 Valid-ARQ-TIP01 VALUE IS "00" THRU "09". 
+       77 t2-Handle
+                  USAGE IS HANDLE OF WINDOW.
+       77 Wrk-Rbcid        PIC  S9(1)
+                  VALUE IS 0.
+       77 wrk-consCid      PIC  X(20)
+                  VALUE IS "xxxxxxxxxxxxxxxxxxxx".
+       01 wrk-data-inv     PIC  9(08).
+       01 wrk-data-inv-r REDEFINES wrk-data-inv.
+           05 wrk-data-inv-r-ano           PIC  9(04).
+           05 wrk-data-inv-r-mes           PIC  9(02).
+           05 wrk-data-inv-r-dia           PIC  9(02).
+       01 wrk-hora-lancamento          PIC  9(08)V9(06).
+       01 REG-IFC01x.
+           05 IFC01-CHAVEx.
+               10 IFC01-CODIGOx    PIC  9(06).
+           05 IFC01-VEICULOx   PIC  X(07).
+           05 IFC01-CONDUTORx  PIC  9(05).
+           05 IFC01-PROPRIETARIOx          PIC  9(05).
+           05 IFC01-AUTINFLACAOx           PIC  X(40).
+           05 IFC01-NRONOTIFICACAOx        PIC  X(20).
+           05 IFC01-DATINFLACAOx           PIC  9(08).
+           05 IFC01-DATINFLACAO-Rx REDEFINES IFC01-DATINFLACAOx.
+               10 IFC01-DATINFLACAO-R-DIAx     PIC  9(02).
+               10 IFC01-DATINFLACAO-R-MESx     PIC  9(02).
+               10 IFC01-DATINFLACAO-R-ANOx     PIC  9(04).
+           05 IFC01-HORINFLACAOx           PIC  9(02)V99.
+           05 IFC01-LOCINFLACAOx           PIC  X(200).
+           05 IFC01-MUNINFLACAOx           PIC  9(09).
+           05 IFC01-AGEINFLACAOx           PIC  9(15).
+           05 IFC01-ORGINFLACAOx           PIC  X(15).
+           05 IFC01-ASSINADAx  PIC  X(01).
+           05 IFC01-DATLANCAMENTOx         PIC  9(08).
+           05 IFC01-DATLANCAMENTO-Rx REDEFINES IFC01-DATLANCAMENTOx.
+               10 IFC01-DATLANCAMENTO-R-DIAx   PIC  9(02).
+               10 IFC01-DATLANCAMENTO-R-MESx   PIC  9(02).
+               10 IFC01-DATLANCAMENTO-R-ANOx   PIC  9(04).
+           05 IFC01-HORLANCAMENTOx         PIC  9(02)V99.
+           05 IFC01-OPELANCAMENTOx         PIC  9(05).
+           05 IFC01-DAT-VENCIMENTOx        PIC  9(08).
+           05 IFC01-DAT-VENCIMENTO-Rx REDEFINES IFC01-DAT-VENCIMENTOx.
+               10 IFC01-DAT-VENCIMENTO-R-DIAx  PIC  9(02).
+               10 IFC01-DAT-VENCIMENTO-R-MESx  PIC  9(02).
+               10 IFC01-DAT-VENCIMENTO-R-ANOx  PIC  9(04).
+           05 IFC01-ORG-AUTUADORx          PIC  9(05).
+           05 IFC01-AUTINFLACAO-ANTx       PIC  X(40).
+           05 IFC01-TIPOx      PIC  9(01).
+           05 FILLER           PIC  X(618).
+       01 wrk-valid-data   PIC  X(02).
+       77 t3-Handle
+                  USAGE IS HANDLE OF WINDOW.
+       77 wrk-responsavel  PIC  S9(1)
+                  VALUE IS 0.
+       01 wrk-resp-vai     PIC  X(01).
+       77 wrk-cod-tipo     PIC  9(06)
+                  VALUE IS 999999.
+       77 wrk-nome-tipo    PIC  X(30)
+                  VALUE IS "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX".
+       01 wrk-tip-vai      PIC  X(01).
+       77 wrk-tipo         PIC  S9(1)
+                  VALUE IS 0.
+       01 wrk-ok           PIC  X(01).
+       01 wrk-hora-atual   PIC  X(11).
+       77 DRV-T01-C074     PIC  X(100).
+       77 STAT-T01-C074    PIC  X(2).
+           88 Valid-T01-C074 VALUE IS "00" THRU "09". 
+       01 wrk-progressivo-gd-2         PIC  9(09)
+                  VALUE IS zeros.
+       01 wrk-leitura-grid PIC  9(09).
+       01 wrk-controle     PIC  X(01).
+       01 t1-Gd-2-Record.
+           05 Gd-2-Data        PIC  X(10).
+           05 Gd-2-Tipo        PIC  X(30).
+           05 Gd-2-OrgJulg     PIC  X(200).
+           05 Gd-2-Cidade      PIC  X(45).
+           05 Gd-2-UF          PIC  X(02).
+           05 Gd-2-1           PIC  X(15).
+       01 t1-Gd-3-Record.
+           05 Gd-3-Data        PIC  X(10).
+           05 Gd-3-Tipo        PIC  X(70).
+           05 Gd-3-1           PIC  X(15).
+       01 t1-Gd-4-Record.
+           05 Gd-4-Data        PIC  X(10).
+           05 Gd-4-Hora        PIC  X(05).
+           05 Gd-4-Tipo        PIC  X(20).
+           05 Gd-4-Operador    PIC  X(40).
+           05 Gd-4-Obs         PIC  X(70).
+           05 Gd-4-1           PIC  X(08).
+       01 wrk-contagem-gd2 PIC  9(09)
+                  VALUE IS zeros.
+       01 REG-IFR01x.
+           05 IFR01-CHAVEx.
+               10 IFR01-CODIGOx    PIC  9(06).
+               10 IFR01-PROGRESSIVOx           PIC  9(06).
+           05 IFR01-CODRECURSOx            PIC  9(06).
+           05 IFR01-DATRECURSOx            PIC  9(08).
+           05 IFR01-DATRECURSO-Rx REDEFINES IFR01-DATRECURSOx.
+               10 IFR01-DATRECURSO-R-DIAx      PIC  9(02).
+               10 IFR01-DATRECURSO-R-MESx      PIC  9(02).
+               10 IFR01-DATRECURSO-R-ANOx      PIC  9(04).
+           05 IFR01-ORGJULGADORx           PIC  X(200).
+           05 IFR01-MUNJULGADORx           PIC  9(05).
+           05 IFR01-OBSERVACAO1x           PIC  X(70).
+           05 IFR01-OBSERVACAO2x           PIC  X(70).
+           05 IFR01-OBSERVACAO3x           PIC  X(70).
+           05 IFR01-OBSERVACAO4x           PIC  X(70).
+           05 IFR01-OBSERVACAO5x           PIC  X(70).
+           05 IFR01-OBSERVACAO6x           PIC  X(70).
+           05 IFR01-OBSERVACAO7x           PIC  X(70).
+           05 IFR01-OBSERVACAO8x           PIC  X(70).
+           05 FILLERx          PIC  X(1257).
+       77 DRV-T01-C074-3   PIC  X(100).
+       77 STAT-T01-C074-3  PIC  X(2).
+           88 Valid-T01-C074-3 VALUE IS "00" THRU "09". 
+       01 wrk-progressivo-gd-3         PIC  9(09).
+       01 wrk-contagem-gd3 PIC  9(09)
+                  VALUE IS zeros.
+       01 REG-IFM01x.
+           05 IFM01-CHAVEx.
+               10 IFM01-CODIGOx    PIC  9(05).
+               10 IFM01-PROGRESSIVOx           PIC  9(05).
+           05 IFM01-DATLANCAMENTOx         PIC  9(08).
+           05 IFM01-DATLANCAMENTO-Rx REDEFINES IFM01-DATLANCAMENTOx.
+               10 IFM01-DATLANCAMENTO-R-DIAx   PIC  9(02).
+               10 IFM01-DATLANCAMENTO-R-MESx   PIC  9(02).
+               10 IFM01-DATLANCAMENTO-R-ANOx   PIC  9(04).
+           05 IFM01-TIPOx      PIC  X(70).
+           05 IFM01-CAMINHOx   PIC  X(250).
+           05 FILLERx          PIC  X(686).
+       77 t6-Handle
+                  USAGE IS HANDLE OF WINDOW.
+       77 wrk-tipo-t6      PIC  S9(1)
+                  VALUE IS 0.
+       77 DRV-T01-C074-4   PIC  X(100).
+       77 STAT-T01-C074-4  PIC  X(2).
+           88 Valid-T01-C074-4 VALUE IS "00" THRU "09". 
+       01 wrk-progressivo-gd-4         PIC  9(09).
+       01 wrk-contagem-gd4 PIC  9(09)
+                  VALUE IS zeros.
+       01 wrk-obs-pg-5     PIC  X(70).
+       01 REG-IFS01x.
+           05 IFS01-CHAVEx.
+               10 IFS01-CODIGOx    PIC  9(06).
+               10 IFS01-PROGRESSIVOx           PIC  9(06).
+           05 IFS01-DATSITUACAOx           PIC  9(08).
+           05 IFS01-DATSITUACAO-Rx REDEFINES IFS01-DATSITUACAOx.
+               10 IFS01-DATSITUACAO-R-DIAx     PIC  9(02).
+               10 IFS01-DATSITUACAO-R-MESx     PIC  9(02).
+               10 IFS01-DATSITUACAO-R-ANOx     PIC  9(04).
+           05 IFS01-HORSITUACAOx           PIC  9(02)V99.
+           05 IFS01-TIPOx      PIC  9(02).
+           05 IFS01-OBSERVACAO1x           PIC  X(70).
+           05 IFS01-OBSERVACAO2x           PIC  X(70).
+           05 IFS01-OBSERVACAO3x           PIC  X(70).
+           05 IFS01-OBSERVACAO4x           PIC  X(70).
+           05 IFS01-OBSERVACAO5x           PIC  X(70).
+           05 IFS01-OPERADORx  PIC  9(05).
+           05 IFS01-IFC-TIPOx  PIC  9(01).
+           05 FILLERx          PIC  X(642).
+       77 DRV-T01-C074-5   PIC  X(100).
+       77 STAT-T01-C074-5  PIC  X(2).
+           88 Valid-T01-C074-5 VALUE IS "00" THRU "09". 
+       01 wrk-progressivo-gd-1         PIC  9(09).
+       01 wrk-contagem-gd1 PIC  9(09)
+                  VALUE IS zeros.
+       77 STAT-ARQ-IFC01   PIC  X(2).
+           88 Valid-ARQ-IFC01 VALUE IS "00" THRU "09". 
+       77 STAT-ARQ-IFS01   PIC  X(2).
+           88 Valid-ARQ-IFS01 VALUE IS "00" THRU "09". 
+       77 STAT-ARQ-IFM01   PIC  X(2).
+           88 Valid-ARQ-IFM01 VALUE IS "00" THRU "09". 
+       77 STAT-ARQ-IFI01   PIC  X(2).
+           88 Valid-ARQ-IFI01 VALUE IS "00" THRU "09". 
+       01 REG-IFI01x.
+           05 IFI01-CHAVEx.
+               10 IFI01-CODIGOx    PIC  9(06).
+               10 IFI01-CODINFLACAOx           PIC  9(06).
+           05 IFI01-GRAUx      PIC  9(02).
+           05 IFI01-PONTOSx    PIC  9(02).
+           05 IFI01-VALORx     PIC  9(09)V99.
+           05 IFI01-MEDREALIZADAx          PIC  9(03)V99.
+           05 IFI01-VALCONSIDERADOx        PIC  9(03)V99.
+           05 IFI01-LIMREGULAMENTADOx      PIC  9(03)V99.
+           05 IFI01-RESPONSABILIDADEx      PIC  9(01).
+           05 IFI01-NOTIFICACAOx           PIC  X(40).
+           05 IFI01-ARTIGOx    PIC  X(70).
+           05 FILLERx          PIC  X(871).
+       01 wrk-pergunta-btn PIC  X(01).
+       01 wrk-IFC01-AUTINFLACAO        PIC  X(40).
+       01 wrk-assinada     PIC  9(01).
+       01 wrk-codigo       PIC  9(06).
+       01 wrk-vai          PIC  X(01).
+       01 wrk-nro-itens-gd-1           PIC  9(09).
+       01 wrk-nro-itens-gd-2           PIC  9(09).
+       01 wrk-nro-itens-gd-3           PIC  9(09).
+       01 wrk-nro-itens-gd-4           PIC  9(09).
+       01 wrk-IFC01-CODIGO PIC  9(06).
+       77 STAT-ARQ-IFC99   PIC  X(2).
+           88 Valid-ARQ-IFC99 VALUE IS "00" THRU "09". 
+       01 wrk-exclui       PIC  X(01).
+       01 wrk-erro-browser PIC  X(01).
+       01 wrk-arquivo-dir  PIC  X(256).
+       01 Reg-0051.
+           02 reg-0051-drive   PIC  X(01)
+                      VALUE IS Space.
+           02 reg-0051-pasta   PIC  X(100)
+                      VALUE IS Spaces.
+           02 reg-0051-tipo    PIC  9(01)
+                      VALUE IS Zero.
+           02 reg-0051-erro    PIC  9(01)
+                      VALUE IS Zero.
+           COPY  "opensave.def".
+       01 wrk-I            PIC  9(05).
+       01 wrk-K            PIC  9(05).
+       01 wrk-destino      PIC  X(120).
+       01 wrk-erro         PIC  9(10).
+       77 t4-Handle
+                  USAGE IS HANDLE OF WINDOW.
+       01 wrk-imagem       PIC  X(200).
+       01 wrk-foto         PIC  X(250).
+       01 wrk-imagem-handle            PIC  S9(09)
+                  USAGE IS COMP-4.
+       01 wrk-cmd          PIC  X(200).
+      *
+      *
+       01 foto-jpg         PIC  S9(9)
+                  USAGE IS COMP-4.
+      *
+      *
+       01 wrk-Caminho-da-Foto          PIC  X(56).
+       01 wrk-codigo-ifc   PIC  9(06).
+       01 wrk-data-ifs     PIC  9(08).
+       77 wrk-IFC01-ORG-AUTUADOR       PIC  X(40).
+       77 stat-arq-for15   PIC  X(2).
+           88 Valid-arq-for15 VALUE IS "00" THRU "09". 
+       77 wrk-cod-for      PIC  9(05)
+                  VALUE IS 99999.
+       77 wrk-nom-for      PIC  X(40).
+       77 wrk-nro-aut      PIC  9(09).
+       77 STAT-ARQ-IFP01   PIC  X(2).
+           88 Valid-ARQ-IFP01 VALUE IS "00" THRU "09". 
+       01 wrk-lnk-1        PIC  9(03).
+       01 wrk-lnk-2        PIC  9(06).
+       01 wrk-lnk-3        PIC  9(08).
+       01 wrk-lnk-4        PIC  9(08).
+       01 wrk-lnk-5        PIC  9(09).
+       01 wrk-lnk-6        PIC  9(11)V99.
+       01 wrk-tot-infracao PIC  9(09)V99.
+       01 wrk-desd         PIC  9(01).
+       01 wrk-ext-P01-C074-cod-emp EXTERNAL   PIC  9(05).
+       01 wrk-ext-P01-C074-cod-for EXTERNAL   PIC  9(05).
+       01 wrk-ext-P01-C074-val-nf EXTERNAL   PIC  9(09)V99.
+       01 wrk-ext-P01-C074-dat-cont EXTERNAL   PIC  9(08).
+       01 wrk-ext-P01-C074-dat-emi EXTERNAL   PIC  9(08).
+       01 wrk-ext-P01-C074-dat-comp EXTERNAL   PIC  9(08).
+       01 wrk-ext-P01-C074-dat-ven EXTERNAL   PIC  9(08).
+       01 wrk-ext-P01-C074-val-tit EXTERNAL   PIC  9(09)V99.
+       01 wrk-ext-P01-C074-val-bru EXTERNAL   PIC  9(09)V99.
+       01 wrk-ext-P01-C074-val-liq EXTERNAL   PIC  9(09)V99.
+       01 wrk-ext-P01-C074-vei EXTERNAL   PIC  X(07).
+       01 wrk-ext-P01-C074-ifc-cod EXTERNAL   PIC  9(06).
+       77 stat-arq-uni15   PIC  X(2).
+           88 Valid-arq-uni15 VALUE IS "00" THRU "09". 
+       77 t1-Pg-6-Visible  PIC  9
+                  VALUE IS 0.
+       01 t1-Gd-5-Record.
+           05 Gd-5-Numero      PIC  ZZZZZZZZ9.
+           05 Gd-5-Desd        PIC  X(03).
+           05 Gd-5-Dt-Venc     PIC  99/99/9999.
+           05 Gd-5-Vl-Tit      PIC  ZZZZZZZZZZ9,99.
+           05 Gd-5-Saldo       PIC  ZZZZZZZZZZ9,99.
+           05 Gd-5-Col-6       PIC  X(08).
+       01 wrk-linha-grid-5 PIC  9(09).
+       01 wrk-contagem-gd5 PIC  9(09).
+       01 wrk-cod-emp      PIC  9(03).
+       01 REG-IFC01y.
+           05 IFC01-CHAVEy.
+               10 IFC01-CODIGOy    PIC  9(06).
+           05 IFC01-VEICULOy   PIC  X(07).
+           05 IFC01-CONDUTORy  PIC  9(05).
+           05 IFC01-PROPRIETARIOy          PIC  9(05).
+           05 IFC01-AUTINFLACAOy           PIC  X(40).
+           05 IFC01-NRONOTIFICACAOy        PIC  X(20).
+           05 IFC01-DATINFLACAOy           PIC  9(08).
+           05 IFC01-DATINFLACAO-Ry REDEFINES IFC01-DATINFLACAOy.
+               10 IFC01-DATINFLACAO-R-DIAy     PIC  9(02).
+               10 IFC01-DATINFLACAO-R-MESy     PIC  9(02).
+               10 IFC01-DATINFLACAO-R-ANOy     PIC  9(04).
+           05 IFC01-HORINFLACAOy           PIC  9(02)V99.
+           05 IFC01-LOCINFLACAOy           PIC  X(200).
+           05 IFC01-MUNINFLACAOy           PIC  9(09).
+           05 IFC01-AGEINFLACAOy           PIC  9(15).
+           05 IFC01-ORGINFLACAOy           PIC  X(15).
+           05 IFC01-ASSINADAy  PIC  X(01).
+           05 IFC01-DATLANCAMENTOy         PIC  9(08).
+           05 IFC01-DATLANCAMENTO-Ry REDEFINES IFC01-DATLANCAMENTOy.
+               10 IFC01-DATLANCAMENTO-R-DIAy   PIC  9(02).
+               10 IFC01-DATLANCAMENTO-R-MESy   PIC  9(02).
+               10 IFC01-DATLANCAMENTO-R-ANOy   PIC  9(04).
+           05 IFC01-HORLANCAMENTOy         PIC  9(02)V99.
+           05 IFC01-OPELANCAMENTOy         PIC  9(05).
+           05 IFC01-DAT-VENCIMENTOy        PIC  9(08).
+           05 IFC01-DAT-VENCIMENTO-Ry REDEFINES IFC01-DAT-VENCIMENTOy.
+               10 IFC01-DAT-VENCIMENTO-R-DIAy  PIC  9(02).
+               10 IFC01-DAT-VENCIMENTO-R-MESy  PIC  9(02).
+               10 IFC01-DAT-VENCIMENTO-R-ANOy  PIC  9(04).
+           05 IFC01-ORG-AUTUADORy          PIC  9(05).
+           05 IFC01-AUTINFLACAO-ANTy       PIC  X(40).
+           05 IFC01-TIPOy      PIC  9(01).
+           05 FILLER           PIC  X(618).
+       01 wrk-resp1        PIC  X(01).
+       01 wrk-resp2        PIC  X(01).
+       01 wrk-erro-btn-gravar          PIC  X(01).
+       01 wrk-total-pagar  PIC  9(11)V99.
+       01 wrk-total-infracao           PIC  9(11)V99.
+       01 IFC01-CODIGOz    PIC  9(06).
+       01 wrk-pagamento    PIC  X(01).
+       01 REG-IFC01w.
+           05 IFC01-CHAVEw.
+               10 IFC01-CODIGOw    PIC  9(06).
+           05 IFC01-VEICULOw   PIC  X(07).
+           05 IFC01-CONDUTORw  PIC  9(05).
+           05 IFC01-PROPRIETARIOw          PIC  9(05).
+           05 IFC01-AUTINFLACAOw           PIC  X(40).
+           05 IFC01-NRONOTIFICACAOw        PIC  X(20).
+           05 IFC01-DATINFLACAOw           PIC  9(08).
+           05 IFC01-DATINFLACAO-Rw REDEFINES IFC01-DATINFLACAOw.
+               10 IFC01-DATINFLACAO-R-DIAw     PIC  9(02).
+               10 IFC01-DATINFLACAO-R-MESw     PIC  9(02).
+               10 IFC01-DATINFLACAO-R-ANOw     PIC  9(04).
+           05 IFC01-HORINFLACAOw           PIC  9(02)V99.
+           05 IFC01-LOCINFLACAOw           PIC  X(200).
+           05 IFC01-MUNINFLACAOw           PIC  9(09).
+           05 IFC01-AGEINFLACAOw           PIC  9(15).
+           05 IFC01-ORGINFLACAOw           PIC  X(15).
+           05 IFC01-ASSINADAw  PIC  X(01).
+           05 IFC01-DATLANCAMENTOw         PIC  9(08).
+           05 IFC01-DATLANCAMENTO-Rw REDEFINES IFC01-DATLANCAMENTOw.
+               10 IFC01-DATLANCAMENTO-R-DIAw   PIC  9(02).
+               10 IFC01-DATLANCAMENTO-R-MESw   PIC  9(02).
+               10 IFC01-DATLANCAMENTO-R-ANOw   PIC  9(04).
+           05 IFC01-HORLANCAMENTOw         PIC  9(02)V99.
+           05 IFC01-OPELANCAMENTOw         PIC  9(05).
+           05 IFC01-DAT-VENCIMENTOw        PIC  9(08).
+           05 IFC01-DAT-VENCIMENTO-Rw REDEFINES IFC01-DAT-VENCIMENTOw.
+               10 IFC01-DAT-VENCIMENTO-R-DIAw  PIC  9(02).
+               10 IFC01-DAT-VENCIMENTO-R-MESw  PIC  9(02).
+               10 IFC01-DAT-VENCIMENTO-R-ANOw  PIC  9(04).
+           05 IFC01-ORG-AUTUADORw          PIC  9(05).
+           05 IFC01-AUTINFLACAO-ANTw       PIC  X(40).
+           05 IFC01-TIPOw      PIC  9(01).
+           05 FILLER           PIC  X(618).
+       77 t5-Handle
+                  USAGE IS HANDLE OF WINDOW.
+       77 wrk-cod-t5       PIC  X(6)
+                  VALUE IS "999999".
+       77 wrk-mascara-6    PIC  ZZZZZ9.
+       77 wrk-resposta     PIC  X(01).
+       77 wrk-aut-ant      PIC  X(40)
+                  VALUE IS "XXX9999xxxxxxxxxxxxxxxxxxXXX9999xxxxxxxx".
+       77 wrk-cod-ant      PIC  9(06)
+                  VALUE IS 999999.
+       77 t1-Cm-2-Value    PIC  X(15).
+       01 .
+           03 t1-Cm-2-Container-Item.
+               05      PIC  X(15)
+                          VALUE IS "1 - Notificação".
+               05      PIC  X(15)
+                          VALUE IS "2 - Multa".
+           78 t1-Cm-2-Container-Num VALUE IS 2. 
+           03 t1-Cm-2-Container REDEFINES t1-Cm-2-Container-Item  PIC  
+           X(15)
+                      OCCURS 2 TIMES
+                      INDEXED  t1-Cm-2-Container-Idx.
+       01 wrk-tipo-combobox            PIC  9(01).
+       77 t7-Handle
+                  USAGE IS HANDLE OF WINDOW.
+       77 t8-Handle
+                  USAGE IS HANDLE OF WINDOW.
+       77 t1-Tb-1-Handlea
+                  USAGE IS HANDLE OF WINDOW.
+       77 wrk-t8-cod       PIC  9(06).
+       77 wrk-t8-auto      PIC  X(40)
+                  VALUE IS "XXX9999xxxxxxxxxxxxxxxxxx".
+       77 wrk-t8-data      PIC  9(08)
+                  VALUE IS 99999999.
+       77 wrk-t8-hora      PIC  9(02)V99
+                  VALUE IS 99,99.
+       77 wrk-t8-tipo      PIC  9(02)
+                  VALUE IS 99.
+       77 wrk-t8-nom-tipo  PIC  X(10)
+                  VALUE IS "XXXXXXXXXX".
+       77 wrk-t8-obs1      PIC  X(70).
+       77 wrk-t8-obs2      PIC  X(70).
+       77 wrk-t8-obs3      PIC  X(70).
+       77 wrk-t8-obs4      PIC  X(70).
+       77 wrk-t8-obs5      PIC  X(70).
+       77 t8-St-1-Handle
+                  USAGE IS HANDLE OF STATUS-BAR.
+       01 wrk-dt-inv1      PIC  9(08).
+       01 wrk-dt-inv1-r REDEFINES wrk-dt-inv1.
+           05 wrk-dt-inv1-a    PIC  9(04).
+           05 wrk-dt-inv1-m    PIC  9(02).
+           05 wrk-dt-inv1-d    PIC  9(02).
+       01 wrk-dt-inv2      PIC  9(08).
+       01 wrk-dt-inv2-r REDEFINES wrk-dt-inv2.
+           05 wrk-dt-inv2-a    PIC  9(04).
+           05 wrk-dt-inv2-m    PIC  9(02).
+           05 wrk-dt-inv2-d    PIC  9(02).
+       77 STAT-ARQ-IFR01   PIC  X(2).
+           88 Valid-ARQ-IFR01 VALUE IS "00" THRU "09". 
+       01 wrk-obs1         PIC  X(70).
+       01 wrk-obs2         PIC  X(70).
+       01 wrk-obs3         PIC  X(70).
+       01 wrk-obs4         PIC  X(70).
+       01 wrk-obs5         PIC  X(70).
+       01 wrk-tipo-multa-ant           PIC  9(01).
+       77 wrk-NroTit       PIC  9(09).
+       77 wrk-pago         PIC  X(03).
+       77 wrk-dt-pgto      PIC  X(10).
+       77 STAT-ARQ-BAI09   PIC  X(2).
+           88 Valid-ARQ-BAI09 VALUE IS "00" THRU "09". 
+       77 STAT-ARQ-PAG09   PIC  X(2).
+           88 Valid-ARQ-PAG09 VALUE IS "00" THRU "09". 
+
+      * r1-RwDtTm-dataaa
+       01 r1-RwDtTm-dataaa-DATEBUF.
+           05 WRK-DATE      PIC 9(8).
+           05 WRK-DATE-DETAIL REDEFINES WRK-DATE.
+               10 WRK-YEAR        PIC 9(4).
+               10 WRK-MONTH       PIC 9(2).
+               10 WRK-DAY         PIC 9(2).
+           05 WRK-DATE-REF.
+               10 WRK-REF-DAY         PIC 9(2).
+               10 WRK-SEPERATOR-1     PIC  X   VALUE IS "/".
+               10 WRK-REF-MONTH       PIC 9(2).
+               10 WRK-SEPERATOR-2     PIC  X   VALUE IS "/".
+               10 WRK-REF-YEAR        PIC 9(4).
+           05 WRK-TIME      PIC 9(8).
+           05 WRK-TIME-DETAIL REDEFINES WRK-TIME.
+               10 WRK-HOUR         PIC  9(2).
+               10 WRK-MINUTE       PIC  9(2).
+               10 WRK-SECOND       PIC  9(2).
+               10 WRK-HS           PIC  9(2).
+      * r1-RwDtTm-horaaa
+       01 r1-RwDtTm-horaaa-DATEBUF.
+           05 WRK-DATE      PIC 9(8).
+           05 WRK-DATE-DETAIL REDEFINES WRK-DATE.
+               10 WRK-YEAR        PIC 9(4).
+               10 WRK-MONTH       PIC 9(2).
+               10 WRK-DAY         PIC 9(2).
+           05 WRK-TIME      PIC 9(8).
+           05 WRK-TIME-DETAIL REDEFINES WRK-TIME.
+               10 WRK-HOUR         PIC  9(2).
+               10 WRK-MINUTE       PIC  9(2).
+               10 WRK-SECOND       PIC  9(2).
+               10 WRK-HS           PIC  9(2).
+           05 WRK-TIME-REF.
+               10 WRK-REF-HOUR         PIC  9(2).
+               10 WRK-SEPERATOR-1      PIC  X   VALUE IS ":".
+               10 WRK-REF-MINUTE       PIC  9(2).
+               10 WRK-SEPERATOR-2      PIC  X   VALUE IS ":".
+               10 WRK-REF-SECOND       PIC  9(2).
+       
+       
+       77 r1-Dtl-1-BGCOLOR   PIC X(7)   VALUE  "#FFFFFF".
+       
+       
+      * GROUP : GroupBy buffer
+       01 r1-GROUPBY-BUF.
+           03 FILLER  PIC X.
+      * Do Print Routine Switch
+       77 r1-DOPRINTRTN-LOOP   PIC 9 VALUE 0.
+      * RPT for Section Page Control
+       01 r1-HEIGHT.
+           05 PAGE-HEIGHT   PIC 9(04) VALUE 1099.
+           05 PAGE-WIDTH    PIC 9(04) VALUE 759.
+           05 r1-PH-1-DEF-HEIGHT   PIC 9(4) VALUE 169.
+           05 r1-PH-1-HEIGHT       PIC 9(4) VALUE 169.
+           05 r1-Dtl-1-DEF-HEIGHT   PIC 9(4) VALUE 66.
+           05 r1-Dtl-1-HEIGHT       PIC 9(4) VALUE 66.
+           05 r1-PF-1-DEF-HEIGHT   PIC 9(4) VALUE 30.
+           05 r1-PF-1-HEIGHT       PIC 9(4) VALUE 30.
+
+       77 r1-CLEFTOFFSET PIC 9(6)  VALUE 0.

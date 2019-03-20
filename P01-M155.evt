@@ -1,0 +1,4585 @@
+      * P01-M155.evt
+      * P01-M155.evt is generated from T:\Transport\FONTES\TRABALHO\CTRC\P01-M155.Psf
+      * This is a generated file. DO NOT modify this file directly.
+      
+
+       t1-Exception-Proc.
+           PERFORM t1-Ex-Other
+           .
+
+       t1-Gd-1-Event-Proc.
+      * 
+           EVALUATE Event-Type
+           WHEN Msg-Begin-Entry
+              EVALUATE Event-Control-Id
+              WHEN 51
+                 PERFORM t1-Gd-1-Ev-Msg-Begin-Entry
+              WHEN 114
+                 PERFORM t4-Gd-1-Ev-Msg-Begin-Entry
+              WHEN 158
+                 PERFORM t7-Gd-1-Ev-Msg-Begin-Entry
+              END-EVALUATE
+           WHEN Msg-Goto-Cell
+              EVALUATE Event-Control-Id
+              WHEN 51
+                 PERFORM t1-Gd-1-Ev-Msg-Goto-Cell
+              WHEN 114
+                 PERFORM t4-Gd-1-Ev-Msg-Goto-Cell
+              WHEN 158
+                 PERFORM t7-Gd-1-Ev-Msg-Goto-Cell
+              END-EVALUATE
+           WHEN Msg-Goto-Cell-Mouse
+              EVALUATE Event-Control-Id
+              WHEN 51
+                 PERFORM t1-Gd-1-Ev-Msg-Goto-Cell-Mouse
+              WHEN 114
+                 PERFORM t4-Gd-1-Ev-Msg-Goto-Cell-Mouse
+              WHEN 158
+                 PERFORM t7-Gd-1-Ev-Msg-Goto-Cell-Mouse
+              END-EVALUATE
+           END-EVALUATE
+           .
+
+       t3-Event-Proc.
+           .
+
+       t3-Exception-Proc.
+           .
+
+       t2-Event-Proc.
+           .
+
+       t2-Exception-Proc.
+           PERFORM t2-Ex-Other
+           .
+
+       t4-Event-Proc.
+           .
+
+       t4-Exception-Proc.
+           PERFORM t4-Ex-Other
+           .
+
+       t5-Event-Proc.
+           .
+
+       t6-Event-Proc.
+           .
+
+       t7-Event-Proc.
+           .
+
+       t7-Exception-Proc.
+           PERFORM t7-Ex-Other
+           .
+      ***   start event editor code   ***
+      *
+       arq-usu-Before-Open.
+           move "\comp-3\ac-progr\programa\ARQ-USU.DAD" to drv-usu           
+           .
+      *
+       arq-usu-prg-Before-Open.
+           move "\comp-3\ac-progr\programa\ARQ-USU-PRG.DAD" 
+                                                        to drv-usu-prg           
+           .
+      *
+       arq-prg-Before-Open.
+           move "\comp-3\ac-progr\programa\ARQ-PRG.DAT" to drv-prg           
+           .
+      *
+       t1-Pb-grava-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t1-pb-grava bitmap-handle = tripao2-bmp
+           modify t1-pb-grava style         = pbs-framed
+           modify t1-pb-grava bitmap-number = 1
+           .
+      *
+       t1-Pb-grava-Aft-Procedure.
+           modify t1-pb-grava bitmap-handle = tripao2-bmp
+           modify t1-pb-grava bitmap-number = 1
+           modify t1-pb-grava flat
+           .
+      *
+       t1-Pb-desiste-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t1-pb-desiste bitmap-handle = tripao2-bmp
+           modify t1-pb-desiste style         = pbs-framed
+           modify t1-pb-desiste bitmap-number = 2
+           .
+      *
+       t1-Pb-desiste-Aft-Procedure.
+           modify t1-pb-desiste bitmap-handle = tripao2-bmp
+           modify t1-pb-desiste bitmap-number = 2
+           modify t1-pb-desiste flat
+           .
+      *
+       t1-Pb-exclui-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t1-pb-exclui bitmap-handle = tripao2-bmp
+           modify t1-pb-exclui style         = pbs-framed
+           modify t1-pb-exclui bitmap-number = 3
+           .
+      *
+       t1-Pb-exclui-Aft-Procedure.
+           modify t1-pb-exclui bitmap-handle = tripao2-bmp
+           modify t1-pb-exclui bitmap-number = 3
+           modify t1-pb-exclui flat
+           .
+      *
+       t1-Pb-cancela-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t1-pb-cancela bitmap-handle = tripao2-bmp
+           modify t1-pb-cancela style         = pbs-framed
+           modify t1-pb-cancela bitmap-number = 4
+           .
+      *
+       t1-Pb-cancela-Aft-Procedure.
+           modify t1-pb-cancela bitmap-handle = tripao2-bmp
+           modify t1-pb-cancela bitmap-number = 4
+           modify t1-pb-cancela flat
+           .
+      *
+       t1-Pb-primeiro-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t1-pb-primeiro bitmap-handle = tripao1-bmp
+           modify t1-pb-primeiro style         = pbs-framed
+           modify t1-pb-primeiro bitmap-number = 1
+           .
+      *
+       t1-Pb-primeiro-Aft-Procedure.
+           modify t1-pb-primeiro bitmap-handle = tripao1-bmp
+           modify t1-pb-primeiro bitmap-number = 1
+           modify t1-pb-primeiro flat
+           .
+      *
+       t1-Pb-anterior-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t1-pb-anterior bitmap-handle = tripao1-bmp
+           modify t1-pb-anterior style         = pbs-framed
+           modify t1-pb-anterior bitmap-number = 2
+           .
+      *
+       t1-Pb-anterior-Aft-Procedure.
+           modify t1-pb-anterior bitmap-handle = tripao1-bmp
+           modify t1-pb-anterior bitmap-number = 2
+           modify t1-pb-anterior flat
+           .
+      *
+       t1-Pb-proximo-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t1-pb-proximo bitmap-handle = tripao1-bmp
+           modify t1-pb-proximo style         = pbs-framed
+           modify t1-pb-proximo bitmap-number = 3
+           .
+      *
+       t1-Pb-proximo-Aft-Procedure.
+           modify t1-pb-proximo bitmap-handle = tripao1-bmp
+           modify t1-pb-proximo bitmap-number = 3
+           modify t1-pb-proximo flat
+           .
+      *
+       t1-Pb-ultimo-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t1-pb-ultimo bitmap-handle = tripao1-bmp
+           modify t1-pb-ultimo style         = pbs-framed
+           modify t1-pb-ultimo bitmap-number = 4
+           .
+      *
+       t1-Pb-ultimo-Aft-Procedure.
+           modify t1-pb-ultimo bitmap-handle = tripao1-bmp
+           modify t1-pb-ultimo bitmap-number = 4
+           modify t1-pb-ultimo flat
+           .
+      *
+       t1-Pb-relatorio-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t1-pb-relatorio bitmap-handle = tripao2-bmp
+           modify t1-pb-relatorio style         = pbs-framed
+           modify t1-pb-relatorio bitmap-number = 5
+           .
+      *
+       t1-Pb-relatorio-Aft-Procedure.
+           modify t1-pb-relatorio bitmap-handle = tripao2-bmp
+           modify t1-pb-relatorio bitmap-number = 5
+           modify t1-pb-relatorio flat
+           .
+      *
+       t1-Pb-pesquisa-Link.
+           if control-id = 27 |Auto de Infração
+              initialize REG-IFC01
+      
+              call 'VIEWVIX' using 'N' 'P01-' REG-IFC01
+              cancel 'VIEWVIX'
+      
+              if IFC01-CODIGO > 0
+                 move IFC01-AUTINFLACAO to wrk-aut-infla
+                 modify t1-Ef-wrk-aut-infla value wrk-aut-infla
+              end-if
+           end-if
+
+           if control-id = 28 |Condutor
+              initialize reg-mot01
+              
+              call 'VIEWVIX' using 'N' 'PCTRCMOT' reg-mot01
+              cancel 'VIEWVIX'
+ 
+              if mot01-codigo > 0
+                 move mot01-codigo to wrk-cod-condutor 
+                 modify t1-Ef-wrk-cod-condutor value wrk-cod-condutor
+              end-if
+ 
+              inquire t1-Ef-wrk-cod-condutor id in control-id
+              move 4 to accept-control
+              exit paragraph
+           end-if
+
+           if control-id = 30 |Veículo
+              initialize REG-VEI01
+      
+              call 'VIEWVIX' using 'N' 'PCTRCVEI' REG-VEI01
+              cancel 'VIEWVIX'
+      
+              if VEI01-CODIGO not = spaces
+                 move VEI01-CODIGO to wrk-veiculo
+                 modify t1-Ef-wrk-veiculo value wrk-veiculo
+              end-if
+           end-if
+
+           if control-id = 37 |Responsabilidade
+              move zeros  to wrk-consu-respon
+              move spaces to wrk-t3
+
+              perform Acu-t3-routine
+              
+              if wrk-t3 = "S"
+                 move wrk-consu-respon to wrk-cod-respon
+                 modify t1-Ef-wrk-cod-respon value wrk-cod-respon
+              end-if
+  
+              move zeros to wrk-consu-respon
+              
+              inquire t1-Ef-wrk-cod-respon id in control-id
+              move 4 to accept-control
+              exit paragraph
+           end-if
+
+           |Protocolo 54.666
+           if control-id = 72 |Código
+              initialize REG-IFC01
+      
+              call 'VIEWVIX' using 'N' 'P01-C074' REG-IFC01
+              cancel 'VIEWVIX'
+      
+              if IFC01-CODIGO > 0
+                 move IFC01-CODIGO to wrk-codigo
+                 modify t1-Ef-wrk-codigo value wrk-codigo
+              end-if
+           end-if
+
+           if control-id = 80 |Cód.Infração
+              initialize REG-IFC99
+      
+              call 'VIEWVIX' using 'N' 'P99-C117' REG-IFC99
+              cancel 'VIEWVIX'
+      
+              if IFC99-CODIGO > 0
+                 move IFC99-CODIGO to wrk-cod-infracao
+                 modify t1-Ef-wrk-cod-infracao value wrk-cod-infracao
+              end-if
+           end-if
+
+           |Fim
+           .
+      *
+       t1-Pb-inclui-Link.
+           evaluate control-id     
+              when 28 |Condutor
+                 Call "P99-C018" using lnk-padrao
+                 Cancel "P99-C018"
+              when 30 |Veículo
+                 Call "P99-C019" using lnk-padrao
+                 Cancel "P99-c019"
+              |Protocolo 54.666
+              when 72 |Código
+                 move zeros to wrk-LNK-IFC01-CODIGO
+
+                 Call "P01-C074" using lnk-padrao
+                                       wrk-LNK-IFC01-CODIGO
+                 Cancel "P01-c074"
+              |Fim
+           end-evaluate
+           .
+      *
+       t1-Pb-primeiro-Link.
+      *    initialize reg-usu
+      *    start arq-usu key is >= chave-usu
+      *    read arq-usu next with lock
+      *    if stat-arq-usu = "99"
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              move "Registro bloqueado por outro usuário" 
+                                                        to wrk-message-1
+              set wrk-warning-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+      *       inquire t1-ef-usu-codigo id in control-id
+      *       exit paragraph
+      *    end-if
+      *    if not valid-arq-usu
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              move "Nenhum registro encontrado" to wrk-message-1
+              set wrk-warning-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+      *       exit paragraph
+      *    end-if
+           move "A" to wrk-acaexe
+           perform monta-tela
+           inquire t1-pb-grava id in control-id
+           .
+      *
+       t1-Pb-anterior-Link.
+      *    start arq-usu key is <  chave-usu
+      *    read arq-usu previous with lock
+      *    if stat-arq-usu = "99"
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              move "Registro bloqueado por outro usuário" 
+                                                        to wrk-message-1
+              set wrk-warning-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+      *       inquire t1-ef-usu-codigo id in control-id
+      *       exit paragraph
+      *    end-if
+      *    if stat-arq-usu = "10" or "46"
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              move "Primeiro registro cadastrado" to wrk-message-1
+              set wrk-Information-type to true
+              set wrk-ok-type          to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+      *    end-if
+           move "A" to wrk-acaexe
+           perform monta-tela
+           inquire t1-pb-grava id in control-id
+           .
+      *
+       t1-Pb-proximo-Link.
+      *    start arq-usu key is > chave-usu
+      *    read arq-usu next with lock
+      *    if stat-arq-usu = "99"
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              move "Registro bloqueado por outro usuário" 
+                                                        to wrk-message-1
+              set wrk-warning-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+      *       inquire t1-ef-usu-codigo id in control-id
+      *       exit paragraph
+      *    end-if
+      *    if stat-arq-usu = "10" or "46"
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              move "Último registro cadastrado" to wrk-message-1
+              set wrk-Information-type to true
+              set wrk-ok-type          to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+      *    end-if
+           move "A" to wrk-acaexe
+           perform monta-tela
+           inquire t1-pb-grava id in control-id
+           .
+      *
+       t1-Pb-ultimo-Link.
+      *    move high-value to usu-codigo
+      *    start arq-usu key is < chave-usu
+      *    read arq-usu previous with lock
+      *    if stat-arq-usu = "99"
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              move "Registro bloqueado por outro usuário" 
+                                                        to wrk-message-1
+              set wrk-warning-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+      *       inquire t1-ef-usu-codigo id in control-id
+      *       exit paragraph
+      *    end-if
+      *    if not valid-arq-usu
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              move "Registro não encontrado" to wrk-message-1
+              set wrk-warning-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+      *       exit paragraph
+      *    end-if
+           move "A" to wrk-acaexe
+           perform monta-tela
+           inquire t1-pb-grava id in control-id
+           .
+      *
+       t1-Pb-relatorio-Link.
+           perform acu-r1-preview    
+           .
+      *
+       t1-Ex-Other.
+           if key-status = 27 
+              if control-id = 25
+                 Close T01-M155
+                 Call 'C$DELETE' using DRV-T01-M155, 'I'
+
+                 set exit-pushed to true
+                 exit paragraph
+              else
+                 perform inicio
+
+                 initialize key-status
+                 inquire t1-Ef-wrk-dt-inicial id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+           end-if
+           .
+      *
+       t1-Aft-Initdata.
+           move 01 to wrk-prgantnovo
+           if ext-codusu is not numeric or
+              ext-codusu = zeros
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              move "Usuário não encontrado" to wrk-message-1
+              set wrk-warning-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+              set exit-pushed to true
+           end-if
+      *    ler o usuario para montar a barra inferior
+           initialize reg-usu
+           move ext-codusu to usu-codigo
+           read arq-usu with no lock
+           if valid-arq-usu
+              string "Usuário: " usu-nome 
+                                   delimited by size into wrk-barusuario
+              modify t1-St-1-Handle panel-index 1
+                                               panel-text wrk-barusuario
+
+              initialize reg-emp00
+              move 1 to emp00-codigo
+              read arq-emp00 with no lock
+              if valid-arq-emp00
+                 Move emp00-nome to wrk-barempresa
+              else
+                 string "Empresa não encontrada"
+                                   delimited by size into wrk-barempresa
+              end-if
+                 modify t1-St-1-Handle panel-index 2 
+                                               panel-text wrk-barempresa
+           end-if
+
+      *    antes de checar as permissoes do usuario, tem que passar o 
+      *    nome do programa para a work ex: "p00-c001" 
+           move "P01-M155" to wrk-codprg
+      *     perform checa-permissao
+           copy "checa-permissao.cpy".
+           
+           perform inicio
+           .
+      *
+       trata-barra-funcoes.
+           move 1 to wrk-prgantnovo
+           modify t1-pb-pesquisa enabled 0
+           modify t1-pb-inclui   enabled 0
+           if control-id = 27 or 28 or 30 or 37 or 72 or 80
+              modify t1-pb-pesquisa enabled 1
+           end-if
+           if control-id = 28 or 30 or 72
+              modify t1-pb-inclui   enabled 1
+           end-if
+           .
+      *
+       monta-tela.
+           modify t1-Pb-anterior,   FLAT
+           modify t1-Pb-cancela,    FLAT
+           modify t1-Pb-desiste,    FLAT
+           modify t1-Pb-exclui,     FLAT
+           modify t1-Pb-grava,      FLAT
+           modify t1-pb-help,       FLAT
+           modify t1-Pb-inclui,     FLAT
+           modify t1-pb-informacao, FLAT
+           modify t1-Pb-pesquisa,   FLAT
+           modify t1-Pb-primeiro,   FLAT
+           modify t1-Pb-proximo,    FLAT
+           modify t1-Pb-relatorio,  FLAT
+           modify t1-Pb-ultimo,     FLAT
+
+           display t1
+           .
+      *
+       r1-RwEf-wrk-usuario-BeforePrint.
+           initialize reg-usu
+           move ext-codusu to usu-codigo
+           perform acu-ds-arq-usu-Read
+           if usu-login not = spaces
+              move usu-login to wrk-loginusuario
+           end-if           
+           .
+      *
+       r1-RwEf-wrk-pagina-BeforePrint.
+           move acu-pagenum to wrk-pagina            
+           .
+      *
+       t1-pb-informacao-Link.
+           move "P01-M155"       to    wrk-codprg
+           call   "rot-0084.acu" using wrk-codprg
+           cancel "rot-0084.acu"           
+           .
+      *
+       t1-pb-help-Link.
+           move "P01-M155"      to    wrk-codprg
+           call   "rot-hlp.acu" using wrk-codprg
+           cancel "rot-hlp.acu"                      
+           .
+      *
+       t1-Bef-Initdata.                     
+           move 1 to  wrk-prgantnovo
+           .
+      *
+       call-error.
+           move 1 to  wrk-prgantnovo
+           initialize wrk-texto-msg
+           string "Programa ( " wrk-codprg " ) não encontrado !" 
+                                    delimited by size into wrk-message-1
+           set wrk-warning-type to true
+           set wrk-ok-type      to true
+           call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                             wrk-message-1, wrk-Message-2, wrk-Message-3
+           on overflow perform call-error end-call
+           cancel "mensagem"
+           .       
+
+
+      *
+       t1-Bef-Create.
+           set environment "translate_to_ansi" to 0 
+           .
+      *
+       t1-Aft-Create.
+           copy "rot-log.cpy".
+           .
+      *
+       Chama-Programa.
+      *    Verifica o código do programa passado, para ver se chama o
+      *    programa antigo ou o novo.
+	        initialize reg-prg
+           move wrk-programa-chamar to prg-codant
+
+           start arq-prg key is >= chave-prg-codant
+
+           if not valid-arq-prg
+              move 1 to wrk-prgantnovo
+              initialize wrk-texto-msg
+              string "Programa " wrk-programa-chamar " não encontrado"
+                                                      into wrk-message-1
+
+              set wrk-warning-type to true
+              set wrk-ok-type      to true
+
+              call "mensagem" using wrk-Message-Type, wrk-Response-Type,
+                                    wrk-Message-1, wrk-Message-2,
+                                    wrk-Message-3
+              on overflow perform call-error end-call
+              cancel "mensagem"
+
+              exit paragraph
+           end-if
+
+           read arq-prg next
+
+           if valid-arq-prg
+
+      *       Se o prg-usacodnv = 1, então chama o programa pelo código novo
+      *       senão, usa o antigo mesmo
+              if prg-usacodnv = 1
+                 string prg-codigo ".acu" into wrk-chamaprog
+
+                 call wrk-chamaprog using lnk-padrao
+                 cancel wrk-chamaprog                 
+              else
+                 string prg-codant ".acu" into wrk-chamaprog
+
+                 set environment "TRANSLATE_TO_ANSI" to 1
+
+                 call wrk-chamaprog using lnk-padrao
+                 cancel wrk-chamaprog
+                 
+                 set environment "TRANSLATE_TO_ANSI" to 0
+              end-if
+           end-if
+           .
+
+       Mensagem.
+           move 1 to  wrk-prgantnovo
+           set wrk-warning-type to true
+           set wrk-ok-type      to true
+           Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                         wrk-message-1, wrk-Message-2, wrk-Message-3
+           on overflow perform call-error end-call
+           Cancel "mensagem"
+           .
+
+       Limpa-Grid.
+           modify t1-Gd-1, RESET-GRID 1
+           move Zeros to wrk-linha-grid
+           Add 1 to wrk-linha-grid
+           modify t1-Gd-1, NUM-ROWS wrk-linha-grid
+           Perform Acu-t1-Gd-1-Content
+           .
+      *
+       t1-Gd-1-Ev-Msg-Begin-Entry.
+           Set Event-Action to Event-Action-Fail
+
+           if wrk-codigo-ifc > 0
+              call "P01-C074" using lnk-padrao
+                                    wrk-codigo-ifc
+              cancel "P01-C074"
+
+              move zeros to wrk-codigo-ifc
+
+              perform t1-Pb-Filtrar-Link
+           end-if
+           .
+      *
+       t1-Gd-1-Ev-Msg-Goto-Cell.
+           modify t1-Gd-1, Start-X 1
+                                 X 8
+                           Start-Y event-data-2
+                                 Y event-data-2
+                           Region-Color 80
+
+           move zeros to wrk-codigo-ifc
+
+           inquire t1-Gd-1 (event-data-2, 1) Cell-data in wrk-codigo-ifc
+
+           |Protocolo 54.639
+           initialize REG-IFS01
+           move wrk-codigo-ifc to IFS01-CODIGO
+           move high-value     to IFS01-PROGRESSIVO
+           start ARQ-IFS01 key is < IFS01-CHAVE
+           read ARQ-IFS01 previous with no lock
+           if not valid-ARQ-IFS01 or wrk-codigo-ifc not = IFS01-CODIGO
+              initialize REG-IFS01
+           end-if
+
+           perform until not valid-ARQ-IFS01 or 
+                                      wrk-codigo-ifc not = IFS01-CODIGO
+              if IFS01-OBSERVACAO1 not = 
+                                  'Multa transformada em Notificação'
+                              and 'Notificação transformada em Multa'
+                 exit perform
+              end-if
+
+              read ARQ-IFS01 previous with no lock
+           end-perform
+           |Fim
+
+           move spaces to wrk-obs1
+           if IFS01-OBSERVACAO1 = spaces
+              if IFS01-OBSERVACAO2 = spaces
+                 if IFS01-OBSERVACAO3 = spaces
+                    if IFS01-OBSERVACAO4 = spaces
+                       if IFS01-OBSERVACAO5 = spaces
+                          move spaces to wrk-obs1
+                       else
+                          move IFS01-OBSERVACAO5 to wrk-obs1
+                       end-if
+                    else
+                       move IFS01-OBSERVACAO4 to wrk-obs1
+                    end-if
+                 else
+                    move IFS01-OBSERVACAO3 to wrk-obs1
+                 end-if
+              else
+                 move IFS01-OBSERVACAO2 to wrk-obs1
+              end-if
+           else
+              move IFS01-OBSERVACAO1 to wrk-obs1
+           end-if
+
+           if IFS01-TIPO = 1 or 4
+              modify t1-Pb-Baixar enabled true
+           else
+              modify t1-Pb-Baixar enabled false
+           end-if
+
+           if IFS01-TIPO = 1 or 2 or 4
+              modify t1-Pb-Recurso enabled true
+           else
+              modify t1-Pb-Recurso enabled false
+           end-if
+
+           if IFS01-TIPO not = 3
+              modify t1-Pb-Pagar enabled true
+           else
+              modify t1-Pb-Pagar enabled false
+           end-if
+
+           modify t1-La-wrk-obs1 title wrk-obs1
+           .
+      *
+       t1-Gd-1-Ev-Msg-Goto-Cell-Mouse.
+           perform t1-Gd-1-Ev-Msg-Goto-Cell
+           .
+
+       Inicio.
+           initialize wrk-t1
+
+           move 'N' to wrk-filtrou
+
+           move 1 to wrk-lancada
+                     wrk-em-recurso
+                     wrk-aguardando
+                     wrk-assi-sim
+                     wrk-assi-nao
+                     wrk-moto-sim
+                     wrk-moto-nao
+                     |Protocolo 54.544
+                     wrk-int-pagar-sim
+                     wrk-int-pagar-nao
+
+           perform Preenche-Data
+
+           display t1
+
+      *     perform Atualiza-Tela
+
+           perform Limpa-Grid
+           .
+
+       Atualiza-Tela.
+           modify t1-Ef-wrk-dt-inicial    value wrk-dt-inicial
+           modify t1-Ef-wrk-dt-final      value wrk-dt-final
+           modify t1-Ef-wrk-aut-infla     value wrk-aut-infla
+           modify t1-Ef-wrk-cod-condutor  value wrk-cod-condutor
+           modify t1-Ef-wrk-nome-condutor value wrk-nome-condutor
+           modify t1-Ef-wrk-veiculo       value wrk-veiculo
+           modify t1-Ef-wrk-pontos        value wrk-pontos
+           modify t1-Ef-wrk-cod-respon    value wrk-cod-respon
+           modify t1-Ef-wrk-nome-respon   value wrk-nome-respon
+           modify t1-Cb-wrk-lancada       value wrk-lancada
+           modify t1-Cb-wrk-em-recurso    value wrk-em-recurso
+           modify t1-Cb-wrk-aguardando    value wrk-aguardando
+           modify t1-Cb-wrk-baixada       value wrk-baixada
+           modify t1-Cb-wrk-cancelada     value wrk-cancelada
+           modify t1-Cb-wrk-assi-sim      value wrk-assi-sim
+           modify t1-Cb-wrk-assi-nao      value wrk-assi-nao
+           modify t1-Cb-wrk-moto-sim      value wrk-moto-sim
+           modify t1-Cb-wrk-moto-nao      value wrk-moto-nao
+           modify t1-La-wrk-obs1          value wrk-obs1
+           .
+      *
+       t1-Ef-wrk-dt-inicial-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Ef-wrk-dt-final-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Ef-wrk-aut-infla-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Ef-wrk-cod-condutor-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Ef-wrk-veiculo-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Ef-wrk-pontos-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Ef-wrk-cod-respon-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Cb-wrk-lancada-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Cb-wrk-em-recurso-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Cb-wrk-aguardando-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Cb-wrk-baixada-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Cb-wrk-cancelada-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Cb-wrk-assi-sim-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Cb-wrk-assi-nao-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Cb-wrk-moto-sim-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Cb-wrk-moto-nao-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Pb-Filtrar-Bef-Procedure.
+           perform trata-barra-funcoes
+           modify t1-Pb-Filtrar bitmap-handle = tripao2-bmp
+           modify t1-Pb-Filtrar style         = pbs-framed
+           modify t1-Pb-Filtrar bitmap-number = 14          
+           .
+      *
+       t1-Pb-Filtrar-Aft-Procedure.
+           modify t1-Pb-Filtrar bitmap-handle = tripao2-bmp
+           modify t1-Pb-Filtrar bitmap-number = 14
+           modify t1-Pb-Filtrar flat
+           .
+      *
+       t1-Pb-Novo-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Pb-Consultar-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Pb-Imprimir-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Pb-Relatorio1-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+
+       Preenche-Data.
+           accept wrk-data-inv from date YYYYMMDD
+           move 1 to wrk-dt-inicial-r-dia
+           move wrk-data-inv-r-mes to wrk-dt-inicial-r-mes
+           move wrk-data-inv-r-mes to wrk-dt-final-r-mes
+           move wrk-data-inv-r-ano to wrk-dt-inicial-r-ano
+           move wrk-data-inv-r-ano to wrk-dt-final-r-ano
+           | VERIFICANDO O ULTIMO DIA DO MÊS
+           if wrk-data-inv-r-mes = 1 or 3 or 5 or 7 or 8 or 10 or 12
+              move 31 to wrk-dt-final-r-dia
+
+           else
+              if wrk-data-inv-r-mes = 4 or 6 or 9 or 11
+                 move 30 to wrk-dt-final-r-dia
+              else
+                 divide wrk-data-inv-r-ano by 4 giving wrk-resultado
+                 remainder wrk-resto
+                 if wrk-resto = 0
+                    move 29 to wrk-dt-final-r-dia
+
+                 else 
+                    move 28 to wrk-dt-final-r-dia
+                 end-if
+              end-if
+           end-if
+           .
+      *
+       t1-Ef-wrk-dt-inicial-Aft-Procedure.
+           move "@" to wrk-valid-data
+           call "Rot-data" using wrk-dt-inicial, wrk-valid-data
+           cancel "Rot-data"
+           if wrk-valid-data = "N"
+              move "Data Inválida." to wrk-message-1
+              perform mensagem
+              inquire t1-Ef-wrk-dt-inicial id in control-id
+              move 4 to accept-control
+              exit paragraph
+           end-if
+           .
+      *
+       t1-Ef-wrk-dt-final-Aft-Procedure.
+           move "@" to wrk-valid-data
+           call "Rot-data" using wrk-dt-final, wrk-valid-data
+           cancel "Rot-data"
+           if wrk-valid-data = "N"
+              move "Data Inválida." to wrk-message-1
+              perform mensagem
+              inquire t1-Ef-wrk-dt-final id in control-id
+              move 4 to accept-control
+              exit paragraph
+           end-if
+           move zeros to wrk-dt-inicial-inv
+                         wrk-dt-final-inv
+
+           move wrk-dt-inicial-r-dia to wrk-dt-inicial-inv-r-dia
+           move wrk-dt-inicial-r-mes to wrk-dt-inicial-inv-r-mes
+           move wrk-dt-inicial-r-ano to wrk-dt-inicial-inv-r-ano
+           move wrk-dt-final-r-dia   to wrk-dt-final-inv-r-dia
+           move wrk-dt-final-r-mes   to wrk-dt-final-inv-r-mes
+           move wrk-dt-final-r-ano   to wrk-dt-final-inv-r-ano
+           if wrk-dt-inicial-inv > wrk-dt-final-inv
+              move "Data inicial maior que a data final." 
+                                                       to wrk-message-1
+              perform mensagem
+              inquire t1-Ef-wrk-dt-inicial id in control-id
+              move 4 to accept-control
+              exit paragraph
+           end-if
+           .
+      *
+       t1-Ef-wrk-aut-infla-Aft-Procedure.
+           if wrk-aut-infla not = spaces
+              initialize REG-IFC01
+              move wrk-aut-infla to IFC01-AUTINFLACAO
+              start ARQ-IFC01 key is >= CHAVE-IFC01-AUTINFLACAO
+              read ARQ-IFC01 next with no lock
+              if not valid-ARQ-IFC01 or wrk-aut-infla 
+                                                 not = IFC01-AUTINFLACAO
+                 move "Auto de Infração Inválido." 
+                                                        to wrk-message-1
+                 perform mensagem
+                 inquire t1-Ef-wrk-aut-infla id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if 
+           end-if
+           .
+      *
+       t1-Ef-wrk-cod-condutor-Aft-Procedure.
+           if wrk-cod-condutor > 0
+              initialize reg-mot01 
+              move wrk-cod-condutor to mot01-CODIGO
+              read ARQ-MOT01 with no lock
+              if not valid-ARQ-MOT01
+                 move "Condutor Inválido." to wrk-message-1
+                 perform mensagem
+                 move spaces to wrk-nome-condutor
+                 modify t1-Ef-wrk-nome-condutor value wrk-nome-condutor
+                 inquire t1-Ef-wrk-cod-condutor id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+              move mot01-NOME to wrk-nome-condutor
+              modify t1-Ef-wrk-nome-condutor value wrk-nome-condutor
+           else
+              move spaces to wrk-nome-condutor
+              modify t1-Ef-wrk-nome-condutor value wrk-nome-condutor
+           end-if
+           .
+      *
+       t1-Ef-wrk-veiculo-Aft-Procedure.
+           if wrk-veiculo not = spaces
+              initialize REG-VEI01
+              move wrk-veiculo to VEI01-CODIGO
+              read ARQ-VEI01 with no lock
+              if not valid-ARQ-VEI01
+                 move "Veículo Inválido." to wrk-message-1
+                 perform mensagem
+                 inquire t1-Ef-wrk-veiculo id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+           end-if
+           .
+      *
+       t1-Ef-wrk-cod-respon-Aft-Procedure.
+           if wrk-cod-respon > 0
+              if wrk-cod-respon > 3
+                 move "Responsável Inválido." to wrk-message-1
+                 perform mensagem
+                 move spaces to wrk-nome-respon
+                 modify t1-Ef-wrk-nome-respon value wrk-nome-respon
+                 inquire t1-Ef-wrk-cod-respon id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+              evaluate wrk-cod-respon
+                 when 1
+                    move "Condutor"     to wrk-nome-respon
+                 when 2
+                    move "Empresa"      to wrk-nome-respon
+                 when 3
+                    move "Proprietário" to wrk-nome-respon
+              end-evaluate
+              modify t1-Ef-wrk-nome-respon value wrk-nome-respon
+           else
+              move spaces to wrk-nome-respon
+              modify t1-Ef-wrk-nome-respon value wrk-nome-respon
+           end-if
+           .
+      *
+       t3-Pb-Ok-Link.
+           move "S" to wrk-t3
+           perform Acu-t3-exit
+           .
+      *
+       t3-Aft-Initdata.
+           move zeros to wrk-consu-respon
+           display t3
+           .
+      *
+       t3-Pb-Cancelar-Link.
+           move zeros to wrk-consu-respon
+           perform Acu-t3-exit
+           .
+      *
+       t1-Pb-Filtrar-Link.
+           move "S" to wrk-ok 
+                       wrk-filtrou
+                       
+           move "N" to wrk-controle
+
+           move zeros to wrk-progressivo
+
+           perform Limpa-Grid
+                         
+           close T01-M155
+           if DRV-T01-M155 not = spaces
+              Call 'C$DELETE' Using DRV-T01-M155, 'I'
+              move spaces to DRV-T01-M155
+           end-if
+
+           |Filtros
+           |Protocolo 54.666
+           if wrk-codigo = zeros or spaces
+              |Data Inicial
+              move "@" to wrk-valid-data
+              call "Rot-data" using wrk-dt-inicial, wrk-valid-data
+              cancel "Rot-data"
+              if wrk-valid-data = "N"
+                 move "Data Inválida." to wrk-message-1
+                 perform mensagem
+                 inquire t1-Ef-wrk-dt-inicial id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+   
+              |Data Final
+              move "@" to wrk-valid-data
+              call "Rot-data" using wrk-dt-final, wrk-valid-data
+              cancel "Rot-data"
+              if wrk-valid-data = "N"
+                 move "Data Inválida." to wrk-message-1
+                 perform mensagem
+                 inquire t1-Ef-wrk-dt-final id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+              move zeros to wrk-dt-inicial-inv
+                            wrk-dt-final-inv
+   
+              move wrk-dt-inicial-r-dia to wrk-dt-inicial-inv-r-dia
+              move wrk-dt-inicial-r-mes to wrk-dt-inicial-inv-r-mes
+              move wrk-dt-inicial-r-ano to wrk-dt-inicial-inv-r-ano
+              move wrk-dt-final-r-dia   to wrk-dt-final-inv-r-dia
+              move wrk-dt-final-r-mes   to wrk-dt-final-inv-r-mes
+              move wrk-dt-final-r-ano   to wrk-dt-final-inv-r-ano
+              if wrk-dt-inicial-inv > wrk-dt-final-inv
+                 move "Data inicial maior que a data final." 
+                                                        to wrk-message-1
+                 perform mensagem
+                 inquire t1-Ef-wrk-dt-inicial id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+   
+              |Auto de Infração
+              if wrk-aut-infla not = spaces
+                 initialize REG-IFC01
+                 move wrk-aut-infla to IFC01-AUTINFLACAO
+                 start ARQ-IFC01 key is >= CHAVE-IFC01-AUTINFLACAO
+                 read ARQ-IFC01 next with no lock
+                 if not valid-ARQ-IFC01 or wrk-aut-infla 
+                                                 not = IFC01-AUTINFLACAO
+                    move "Auto de Infração Inválido." to wrk-message-1
+                    perform mensagem
+                    inquire t1-Ef-wrk-aut-infla id in control-id
+                    move 4 to accept-control
+                    exit paragraph
+                 end-if 
+              end-if
+   
+              |Condutor
+              if wrk-cod-condutor > 0
+                 initialize reg-mot01 
+                 move wrk-cod-condutor to mot01-CODIGO
+                 read ARQ-MOT01 with no lock
+                 if not valid-ARQ-MOT01
+                    move "Condutor Inválido." to wrk-message-1
+                    perform mensagem
+                    move spaces to wrk-nome-condutor
+                    modify t1-Ef-wrk-nome-condutor 
+                                                 value wrk-nome-condutor
+                    inquire t1-Ef-wrk-cod-condutor id in control-id
+                    move 4 to accept-control
+                    exit paragraph
+                 end-if
+                 move mot01-NOME to wrk-nome-condutor
+                 modify t1-Ef-wrk-nome-condutor value wrk-nome-condutor
+              else
+                 move spaces to wrk-nome-condutor
+                 modify t1-Ef-wrk-nome-condutor value wrk-nome-condutor
+              end-if
+   
+              |Veículo
+              if wrk-veiculo not = spaces
+                 initialize REG-VEI01
+                 move wrk-veiculo to VEI01-CODIGO
+                 read ARQ-VEI01 with no lock
+                 if not valid-ARQ-VEI01
+                    move "Veículo Inválido." to wrk-message-1
+                    perform mensagem
+                    inquire t1-Ef-wrk-veiculo id in control-id
+                    move 4 to accept-control
+                    exit paragraph
+                 end-if
+              end-if
+
+              | Cód.Infração
+              if wrk-cod-infracao > 0
+                 initialize REG-IFC99
+                 move wrk-cod-infracao to IFC99-CODIGO
+                 read ARQ-IFC99 with no lock
+                 if not valid-ARQ-IFC99
+                    move 'Código não cadastrado.' to wrk-message-1
+                    perform mensagem
+                    inquire t1-Ef-wrk-cod-infracao id in control-id
+                    move 4 to accept-control
+                    exit paragraph
+                 end-if
+              end-if
+              
+              |Situação
+              if (wrk-lancada + wrk-em-recurso + wrk-aguardando +
+                  wrk-baixada + wrk-cancelada) = 0
+                 move "Escolha a Situação." to wrk-message-1
+                 perform mensagem
+                 inquire t1-Cb-wrk-lancada id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+   
+              |Responsabilidade
+              if wrk-cod-respon > 0
+                 if wrk-cod-respon > 3
+                    move "Responsável Inválido." to wrk-message-1
+                    perform mensagem
+                    move spaces to wrk-nome-respon
+                    modify t1-Ef-wrk-nome-respon value wrk-nome-respon
+                    inquire t1-Ef-wrk-cod-respon id in control-id
+                    move 4 to accept-control
+                    exit paragraph
+                 end-if
+                 evaluate wrk-cod-respon
+                    when 1
+                       move "Condutor"     to wrk-nome-respon
+                    when 2
+                       move "Empresa"      to wrk-nome-respon
+                    when 3
+                       move "Proprietário" to wrk-nome-respon
+                 end-evaluate
+                 modify t1-Ef-wrk-nome-respon value wrk-nome-respon
+              else
+                 move spaces to wrk-nome-respon
+                 modify t1-Ef-wrk-nome-respon value wrk-nome-respon
+              end-if
+   
+              |Assinada
+              if (wrk-assi-sim + wrk-assi-nao) = 0
+                 move 'Escolha o "Assinada".' to wrk-message-1
+                 perform mensagem
+                 inquire t1-Cb-wrk-assi-sim id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+   
+              |Sem Motorista
+              if (wrk-moto-sim + wrk-moto-nao) = 0
+                 move 'Escolha o "Sem Motorista".' to wrk-message-1
+                 perform mensagem
+                 inquire t1-Cb-wrk-moto-sim id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+   
+              |Protocolo 54.544
+              |Integrada ao Pagar
+              if (wrk-int-pagar-sim + wrk-int-pagar-nao) = 0
+                 move 'Indique se deseja que a multa esteja ou' 
+                                                        to wrk-message-1
+                 move 'não integrada ao pagar.' to wrk-message-2
+                 perform mensagem
+                 inquire t1-Cb-wrk-int-pagar-sim id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+              |Fim
+           end-if
+           |Fim Protocolo 54.666
+
+           |Grid
+           modify t1-Gd-1 MASS-UPDATE 1
+           modify t1-La-aguarde visible true 
+           Accept wrk-flushcount from environment 'FLUSH-COUNT'
+           set environment 'FLUSH-COUNT' to 0
+      
+           |Protocolo 54.666
+           if wrk-codigo > 0
+              initialize REG-IFC01
+              move wrk-codigo to IFC01-CODIGO
+              read ARQ-IFC01 with no lock
+              if not valid-ARQ-IFC01
+                 move "S" to wrk-controle
+              end-if 
+              
+              initialize REG-IFS01
+              move IFC01-CODIGO to IFS01-CODIGO
+              move high-value   to IFS01-PROGRESSIVO
+              start ARQ-IFS01 key is < IFS01-CHAVE
+              read ARQ-IFS01 previous with no lock
+              if not valid-ARQ-IFS01
+                 initialize REG-IFS01
+              end-if
+
+              initialize REG-IFI01
+              move IFC01-CODIGO to IFI01-CODIGO
+              move high-value   to IFI01-CODINFLACAO
+              start ARQ-IFI01 key is < IFI01-CHAVE
+              read ARQ-IFI01 previous with no lock
+              if not valid-ARQ-IFI01
+                 move "S" to wrk-controle2
+              end-if
+              
+              perform add-arq-temp
+              if wrk-ok = "N"
+                 move "S" to wrk-controle
+              end-if
+              perform add-temp-grid
+           else
+
+              | Protocolo 54.931 novo filtro "Data Infração"
+
+              if wrk-usa-dtinfracao <> 1
+                 initialize REG-IFC01
+                 move low-value to IFC01-CODIGO
+                 start ARQ-IFC01 key is >= IFC01-CHAVE
+                 read ARQ-IFC01 next with no lock
+              else
+                 initialize REG-IFC01
+                 move wrk-dt-inicial to IFC01-DATINFLACAO
+                 start ARQ-IFC01 key is >= CHAVE-IFC01-DATINFLACAO
+                 read ARQ-IFC01 next with no lock
+              end-if
+
+              if not valid-ARQ-IFC01
+                 move "S" to wrk-controle
+              end-if   
+              
+              perform until wrk-controle = "S" 
+                 move "S" to wrk-vai
+   
+                 | Protocolo 54.931 novo filtro "Data Infração"
+
+                 if wrk-usa-dtinfracao <> 1
+                    move zeros to wrk-dt-ifc-inv
+
+                    move IFC01-DATLANCAMENTO-R-DIA 
+                    to wrk-dt-ifc-inv-r-dia
+
+                    move IFC01-DATLANCAMENTO-R-MES
+                    to wrk-dt-ifc-inv-r-mes
+
+                    move IFC01-DATLANCAMENTO-R-ANO 
+                    to wrk-dt-ifc-inv-r-ano
+                 else
+                    move zeros to wrk-dt-ifc-inv
+
+                    move IFC01-DATINFLACAO-R-DIA 
+                    to wrk-dt-ifc-inv-r-dia
+
+                    move IFC01-DATINFLACAO-R-MES 
+                    to wrk-dt-ifc-inv-r-mes
+
+                    move IFC01-DATINFLACAO-R-ANO 
+                    to wrk-dt-ifc-inv-r-ano
+                 end-if
+   
+                 if wrk-dt-ifc-inv > wrk-dt-final-inv
+                                  or wrk-dt-ifc-inv < wrk-dt-inicial-inv
+                    move "N" to wrk-vai
+                 end-if
+   
+                 if wrk-aut-infla not = spaces and wrk-aut-infla not = 
+                                                       IFC01-AUTINFLACAO
+                    move "N" to wrk-vai
+                 end-if
+         
+                 if wrk-cod-condutor not = IFC01-CONDUTOR
+                                        and wrk-cod-condutor not = zeros
+                    move "N" to wrk-vai
+                 end-if
+         
+                 if wrk-veiculo not = IFC01-VEICULO
+                                            and wrk-veiculo not = spaces
+                    move "N" to wrk-vai
+                 end-if
+   
+                 if (wrk-lancada + wrk-em-recurso + wrk-aguardando +
+                     wrk-baixada + wrk-cancelada) > 0
+                    initialize REG-IFS01
+                    move IFC01-CODIGO to IFS01-CODIGO
+                    move high-value   to IFS01-PROGRESSIVO
+                    start ARQ-IFS01 key is < IFS01-CHAVE
+                    read ARQ-IFS01 previous with no lock
+                    if not valid-ARQ-IFS01
+                       initialize REG-IFS01
+                    end-if 
+   
+                    evaluate IFS01-TIPO also true
+                       when 1 also wrk-lancada    = 0
+                          move "N" to wrk-vai
+                       when 2 also wrk-em-recurso = 0
+                          move "N" to wrk-vai
+                       when 3 also wrk-cancelada  = 0
+                          move "N" to wrk-vai
+                       when 4 also wrk-aguardando = 0
+                          move "N" to wrk-vai
+                       when 5 also wrk-baixada    = 0
+                          move "N" to wrk-vai
+                    end-evaluate
+                 end-if
+                 
+                 move "N" to wrk-controle2
+                 initialize REG-IFI01
+                 move IFC01-CODIGO to IFI01-CODIGO
+                 move high-value   to IFI01-CODINFLACAO
+                 start ARQ-IFI01 key is < IFI01-CHAVE
+                 read ARQ-IFI01 previous with no lock
+                 if not valid-ARQ-IFI01
+                    move "S" to wrk-controle2
+                 end-if
+   
+                 if wrk-pontos > 0
+                    if IFI01-PONTOS <= wrk-pontos
+                       move "N" to wrk-vai
+                    end-if
+                 end-if
+   
+                 if wrk-cod-respon > 0
+                    if wrk-cod-respon not = IFI01-RESPONSABILIDADE
+                       move "N" to wrk-vai
+                    end-if
+                 end-if
+   
+                 if (wrk-assi-sim + wrk-assi-nao) > 0
+                    if IFC01-ASSINADA = spaces
+                       move "N" to IFC01-ASSINADA
+                    end-if
+   
+                    evaluate IFC01-ASSINADA also true
+                       when "S" also wrk-assi-sim = 0
+                          move "N" to wrk-vai
+                       when "N" also wrk-assi-nao = 0
+                          move "N" to wrk-vai
+                    end-evaluate
+                 end-if
+   
+                 if (wrk-moto-sim + wrk-moto-nao) > 0
+                    if IFC01-CONDUTOR > 0 and wrk-moto-nao = 0
+                       move "N" to wrk-vai
+                    end-if
+   
+                    if IFC01-CONDUTOR = zeros and wrk-moto-sim = 0
+                       move "N" to wrk-vai
+                    end-if
+                 end-if
+   
+                 |Protocolo 54.544
+                 if (wrk-int-pagar-sim + wrk-int-pagar-nao) > 0
+                    initialize REG-IFP01
+                    move IFC01-CODIGO to IFP01-CODIGO
+                    start ARQ-IFP01 key is >= IFP01-CHAVE
+                    read ARQ-IFP01 next with no lock
+                    if not valid-ARQ-IFP01 or 
+                                         IFC01-CODIGO not = IFP01-CODIGO
+                       if wrk-int-pagar-nao = 0
+                          move 'N' to wrk-vai
+                       end-if
+                    else
+                       if wrk-int-pagar-sim = 0
+                          move 'N' to wrk-vai
+                       end-if
+                    end-if
+                 end-if
+                 |Fim
+
+                 | Protocolo 54.931 novo filtro "Cód.Infração"
+                 if wrk-cod-infracao > zeros
+                    initialize REG-IFI01
+                    move IFC01-CODIGO     to IFI01-CODIGO
+                    move wrk-cod-infracao to IFI01-CODINFLACAO
+                    read ARQ-IFI01 with no lock 
+  
+                    if not valid-ARQ-IFI01
+                       move 'N' to wrk-vai
+                    end-if 
+                 end-if
+                     
+                 if wrk-vai = "S"
+                    perform add-arq-temp
+                    if wrk-ok = "N"
+                       move "S" to wrk-controle
+                    end-if
+                    perform add-temp-grid
+                 end-if
+         
+                 read ARQ-IFC01 next with no lock
+                 if not valid-ARQ-IFC01 
+                    move "S" to wrk-controle
+                 end-if
+              end-perform
+           end-if
+           |Fim Protocolo 54.666
+      
+           modify t1-Gd-1 MASS-UPDATE 0
+           modify t1-La-aguarde visible false
+           Accept wrk-flushcount from environment 'FLUSH-COUNT'
+           set environment 'FLUSH-COUNT' to 0
+      
+           if wrk-progressivo = 0
+              move "Não há nenhum registro a ser exibido." 
+                                                        to wrk-message-1
+              perform mensagem
+              exit paragraph
+           end-if
+           .
+
+       Add-arq-temp.
+           add 1 to wrk-progressivo
+           if wrk-progressivo = 1
+              perform criar-temp
+              if wrk-ok = "N"
+                 exit paragraph
+              end-if
+           end-if
+                                                     
+           initialize REG-T01-M155
+
+           move wrk-progressivo     to T01-M155-PROGRESSIVO
+           move IFC01-CODIGO        to T01-M155-CODIGO
+           move IFC01-DATLANCAMENTO to T01-M155-DATA
+           move IFC01-VEICULO       to T01-M155-VEICULO
+           move IFC01-CONDUTOR      to T01-M155-MOTORISTA
+           move IFS01-TIPO          to T01-M155-SITUACAO
+           move IFC01-AUTINFLACAO   to T01-M155-AUTOINFRA
+           move IFI01-PONTOS        to T01-M155-PONTOS
+
+           initialize REG-IFP01
+           move IFC01-CODIGO to IFP01-CODIGO
+           move low-value    to IFP01-PROGRESSIVO
+           start ARQ-IFP01 key is >= IFP01-CHAVE
+           read ARQ-IFP01 next with no lock
+           if valid-ARQ-IFP01 and IFC01-CODIGO = IFP01-CODIGO
+              move IFP01-AUTORIZACAO to T01-M155-NRO-AUT
+           end-if
+           
+           write REG-T01-M155
+           if not Valid-T01-M155 
+              move "Não foi possivel gravar o arquivo" to wrk-message-1
+              string "temporario. Status: " Stat-T01-M155
+                                                    into wrk-message-2
+              move "N" to wrk-ok
+              perform mensagem
+           end-if
+           .
+
+       Criar-temp.
+           Close T01-M155
+           Call 'C$DELETE' Using DRV-T01-M155, 'I'
+
+           Close T01-M155
+           move Spaces to DRV-T01-M155
+
+           move zeros to wrk-hora-atual
+           Accept wrk-hora-atual From Time
+
+           String '\Comp-3\Temp\T01-M155-' 
+                  ext-codusu '-' wrk-hora-atual(1:8) '.dad'
+                  into DRV-T01-M155
+
+           Open Output T01-M155
+           Close       T01-M155
+           Open I-O    T01-M155
+
+           if NOT Valid-T01-M155
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              move 'Não foi possível criar o arquivo' to wrk-message-1
+              string 'Temporário T01-M155. Status: ' Stat-T01-M155
+              into wrk-message-2
+              set wrk-warning-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+              move "N" to wrk-ok
+              exit paragraph 
+           End-if
+           .
+
+       Add-temp-grid.
+           |adiciona as informações do temporário para o grid
+           initialize t1-Gd-1-Record
+
+           move T01-M155-CODIGO to Gd-1-Codigo
+
+           if T01-M155-DATA > 0
+              string T01-M155-DATA-R-DIA "/"
+                     T01-M155-DATA-R-MES "/"
+                     T01-M155-DATA-R-ANO 
+                     into Gd-1-Data
+           end-if
+
+           move T01-M155-VEICULO to Gd-1-Veiculo
+
+           initialize reg-mot01
+           move T01-M155-MOTORISTA to mot01-CODIGO
+           read ARQ-MOT01 with no lock
+           if not valid-ARQ-MOT01
+              initialize reg-mot01
+           end-if
+           move mot01-NOME to Gd-1-Motorista
+
+           evaluate T01-M155-SITUACAO
+              when 1
+                 move "Lançada"    to Gd-1-Situacao
+              when 2
+                 move "Em Recurso" to Gd-1-Situacao
+              when 3
+                 move "Cancelada"  to Gd-1-Situacao
+              when 4
+                 move "Aguardando" to Gd-1-Situacao
+              when 5
+                 move "Baixada"    to Gd-1-Situacao
+           end-evaluate
+
+           move T01-M155-AUTOINFRA to Gd-1-Aut-Infla
+           move T01-M155-PONTOS    to Gd-1-Pontos
+           move T01-M155-NRO-AUT   to Gd-1-Tit-Pagar
+
+           add 1 to wrk-linha-grid
+                      
+           modify t1-Gd-1, NUM-ROWS wrk-linha-grid 
+                         RECORD-TO-ADD t1-Gd-1-Record
+
+           modify t1-Gd-1 x=1 y=wrk-linha-grid 
+                  hidden-data T01-M155-PROGRESSIVO
+           .
+      *
+       t1-Pb-Novo-Link.
+           move zeros to wrk-codigo-ifc
+
+           Call "P01-C074" using lnk-padrao
+                                 wrk-codigo-ifc
+           Cancel "P01-C074"
+
+           if wrk-filtrou = 'S'
+              perform t1-Pb-Filtrar-Link
+           end-if
+           .
+      *
+       t1-Pb-Consultar-Link.
+           if wrk-codigo-ifc > 0
+              call "P01-C074" using lnk-padrao
+                                    wrk-codigo-ifc
+              cancel "P01-C074"
+
+              move zeros to wrk-codigo-ifc
+
+              perform t1-Pb-Filtrar-Link
+           end-if
+           .
+      *
+       t1-Pb-Relatorio1-Link.
+           move zeros  to wrk-lnk-situacao-p01-m155
+                          wrk-lnk-periodo-p01-m155
+                          wrk-lnk-mot-p01-m155
+                          wrk-lnk-pro-p01-m155
+                          wrk-lnk-assinada-p01-m155
+                          wrk-lnk-listar-mot-p01-m155
+
+           move spaces to wrk-lnk-vei-p01-m155
+
+           Call "P99-R035" using lnk-padrao
+                                 wrk-lnk-situacao-p01-m155
+                                 wrk-lnk-periodo-p01-m155
+                                 wrk-lnk-mot-p01-m155
+                                 wrk-lnk-pro-p01-m155
+                                 wrk-lnk-vei-p01-m155
+                                 wrk-lnk-assinada-p01-m155
+                                 wrk-lnk-listar-mot-p01-m155
+           Cancel "P99-R035"
+           .
+      *
+       t1-Pb-Imprimir-Link.
+           if wrk-codigo-ifc > 0
+              move zeros  to wrk-lnk-situacao-p01-m155
+                             wrk-lnk-periodo-p01-m155
+                             wrk-lnk-mot-p01-m155
+                             wrk-lnk-pro-p01-m155
+                             wrk-lnk-assinada-p01-m155
+                             wrk-lnk-listar-mot-p01-m155
+                             wrk-lnk-ifc-codigo-p01-m155
+                             wrk-lnk-tipo-p01-m155
+
+              move spaces to wrk-lnk-vei-p01-m155
+   
+              initialize REG-IFC01
+              move wrk-codigo-ifc to IFC01-CODIGO
+              read ARQ-IFC01 with no lock
+              if not valid-ARQ-IFC01
+                 initialize REG-IFC01
+              end-if
+
+              initialize REG-IFS01
+              move IFC01-CODIGO to IFS01-CODIGO
+              move high-value   to IFS01-PROGRESSIVO
+              start ARQ-IFS01 key is < IFS01-CHAVE
+              read ARQ-IFS01 previous with no lock
+              if not valid-ARQ-IFS01
+                 initialize REG-IFS01
+              end-if
+
+              move IFS01-TIPO          to wrk-lnk-situacao-p01-m155
+              move IFC01-DATLANCAMENTO to wrk-lnk-periodo-p01-m155
+              move IFC01-CONDUTOR      to wrk-lnk-mot-p01-m155
+              move IFC01-PROPRIETARIO  to wrk-lnk-pro-p01-m155
+              move IFC01-VEICULO       to wrk-lnk-vei-p01-m155
+
+              if IFC01-ASSINADA = 'S'
+                 move 1 to wrk-lnk-assinada-p01-m155
+              else
+                 move 0 to wrk-lnk-assinada-p01-m155
+              end-if
+
+              if IFC01-CONDUTOR > 0
+                 move 0 to wrk-lnk-listar-mot-p01-m155
+              else
+                 move 1 to wrk-lnk-listar-mot-p01-m155
+              end-if
+              move IFC01-CODIGO to wrk-lnk-ifc-codigo-p01-m155
+
+              |Protocolo 54.601
+              move IFC01-TIPO   to wrk-lnk-tipo-p01-m155 
+              |Fim
+   
+              Call "P99-R035" using lnk-padrao
+              Cancel "P99-R035"
+
+              move zeros  to wrk-lnk-situacao-p01-m155
+                             wrk-lnk-periodo-p01-m155
+                             wrk-lnk-mot-p01-m155
+                             wrk-lnk-pro-p01-m155
+                             wrk-lnk-assinada-p01-m155
+                             wrk-lnk-listar-mot-p01-m155
+                             wrk-lnk-ifc-codigo-p01-m155
+                             wrk-lnk-tipo-p01-m155
+
+              move spaces to wrk-lnk-vei-p01-m155
+           else
+              move 'Selecione um registro no grid.' to wrk-message-1
+              perform mensagem
+              exit paragraph
+           end-if
+           .
+           |Protocolo 54.609
+      *
+       t1-Pb-Baixar-Link.
+           if wrk-codigo-ifc > 0
+              perform acu-t2-routine
+   
+              perform t1-Pb-Filtrar-Link
+           end-if
+           .
+      *
+       t2-Aft-Initdata.
+           initialize reg-usu
+           move ext-codusu to usu-codigo
+           read arq-usu with no lock
+           if valid-arq-usu
+              string "Usuário: " usu-nome 
+                                   delimited by size into wrk-barusuario
+              modify t2-St-1-Handle panel-index 1
+                                               panel-text wrk-barusuario
+
+              initialize reg-emp00
+              move 1 to emp00-codigo
+              read arq-emp00 with no lock
+              if valid-arq-emp00
+                 Move emp00-nome to wrk-barempresa
+              else
+                 string "Empresa não encontrada"
+                                   delimited by size into wrk-barempresa
+              end-if
+                 modify t2-St-1-Handle panel-index 2 
+                                               panel-text wrk-barempresa
+           end-if
+
+           move spaces to wrk-t2-auto
+                          wrk-t2-nom-tipo
+                          wrk-t2-obs1
+                          wrk-t2-obs2
+                          wrk-t2-obs3
+                          wrk-t2-obs4
+                          wrk-t2-obs5
+
+           move zeros  to wrk-t2-cod
+                          wrk-t2-data
+                          wrk-t2-hora
+                          wrk-t2-tipo
+
+           initialize REG-IFC01
+           move wrk-codigo-ifc to IFC01-CODIGO
+           read ARQ-IFC01 with no lock
+           if not valid-ARQ-IFC01
+              initialize REG-IFC01
+           end-if
+
+           move IFC01-CODIGO      to wrk-t2-cod
+           move IFC01-AUTINFLACAO to wrk-t2-auto
+           move 5                 to wrk-t2-tipo
+           move 'Baixada'         to wrk-t2-nom-tipo
+
+           accept wrk-data-inv from date YYYYMMDD
+           move wrk-data-inv-r-dia to wrk-t2-data(1:2)
+           move wrk-data-inv-r-mes to wrk-t2-data(3:2)
+           move wrk-data-inv-r-ano to wrk-t2-data(5:4)
+
+           accept wrk-hora-lancamento from time 
+           compute wrk-hora-lancamento = wrk-hora-lancamento / 1000000
+           move wrk-hora-lancamento to wrk-t2-hora
+
+           display t2
+           .
+      *
+       t2-Pb-grava-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t2-pb-grava bitmap-handle = tripao2-bmp
+           modify t2-pb-grava style         = pbs-framed
+           modify t2-pb-grava bitmap-number = 1
+           .
+      *
+       t2-Pb-grava-Aft-Procedure.
+           modify t2-pb-grava bitmap-handle = tripao2-bmp
+           modify t2-pb-grava bitmap-number = 1
+           modify t2-pb-grava flat
+           .
+      *
+       t2-Pb-desiste-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t2-pb-desiste bitmap-handle = tripao2-bmp
+           modify t2-pb-desiste style         = pbs-framed
+           modify t2-pb-desiste bitmap-number = 2
+           .
+      *
+       t2-Pb-desiste-Aft-Procedure.
+           modify t2-pb-desiste bitmap-handle = tripao2-bmp
+           modify t2-pb-desiste bitmap-number = 2
+           modify t2-pb-desiste flat
+           .
+      *
+       t2-Pb-grava-Link.
+           if wrk-t2-cod > 0
+              initialize REG-IFS01
+              move wrk-t2-cod to IFS01-CODIGO
+              move high-value to IFS01-PROGRESSIVO
+              start ARQ-IFS01 key is < IFS01-CHAVE
+              read ARQ-IFS01 previous with no lock
+              if not valid-ARQ-IFS01 or wrk-t2-cod not = IFS01-CODIGO
+                 move 1 to IFS01-PROGRESSIVO
+              else
+                 add  1 to IFS01-PROGRESSIVO
+              end-if
+              move wrk-t2-cod  to IFS01-CODIGO
+              move wrk-t2-data to IFS01-DATSITUACAO
+              move wrk-t2-hora to IFS01-HORSITUACAO
+              move 5           to IFS01-TIPO
+              move wrk-t2-obs1 to IFS01-OBSERVACAO1
+              move wrk-t2-obs2 to IFS01-OBSERVACAO2
+              move wrk-t2-obs3 to IFS01-OBSERVACAO3
+              move wrk-t2-obs4 to IFS01-OBSERVACAO4
+              move wrk-t2-obs5 to IFS01-OBSERVACAO5
+              move usu-codigo  to IFS01-OPERADOR
+   
+              write REG-IFS01
+              if not valid-ARQ-IFS01
+                 move 'Não foi possível gravar o arquivo ' 
+                                                        to wrk-message-1
+                 string 'ARQ-IFS01. Status: ' STAT-ARQ-IFS01 
+                                                      into wrk-message-2
+                 perform mensagem
+                 exit paragraph
+              else
+                 move 'Situação da Infração alterada' to wrk-message-1
+                 move 'com sucesso!' to wrk-message-2
+                 perform mensagem-i
+                 perform acu-t2-exit
+              end-if
+           end-if
+           .
+      *
+       t2-Ex-Other.
+           if key-status = 27 
+              if control-id = 127
+                 perform acu-t2-exit
+              else
+                 perform t2-Aft-Initdata
+
+                 initialize key-status
+                 inquire t2-Ef-wrk-t2-obs1 id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+           end-if
+           .
+
+       Mensagem-i.
+           move 1 to  wrk-prgantnovo
+           set wrk-information-type to true
+           set wrk-ok-type      to true
+           Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                         wrk-message-1, wrk-Message-2, wrk-Message-3
+           on overflow perform call-error end-call
+           Cancel "mensagem"
+           .
+      *
+       t1-Pb-Recurso-Link.
+           if wrk-codigo-ifc > 0
+              perform acu-t4-routine
+              perform t1-Pb-Filtrar-Link
+           end-if
+           .
+      *
+       t4-Aft-Initdata.
+           initialize reg-usu
+           move ext-codusu to usu-codigo
+           read arq-usu with no lock
+           if valid-arq-usu
+              string "Usuário: " usu-nome 
+                                   delimited by size into wrk-barusuario
+              modify t4-St-1-Handle panel-index 1
+                                               panel-text wrk-barusuario
+
+              initialize reg-emp00
+              move 1 to emp00-codigo
+              read arq-emp00 with no lock
+              if valid-arq-emp00
+                 Move emp00-nome to wrk-barempresa
+              else
+                 string "Empresa não encontrada"
+                                   delimited by size into wrk-barempresa
+              end-if
+                 modify t4-St-1-Handle panel-index 2 
+                                               panel-text wrk-barempresa
+           end-if
+
+           Close T01-C074-2
+           Call 'C$DELETE' using DRV-T01-C074-2, 'I'
+
+           perform Inicio-T4
+           .
+
+       Inicio-T4.
+           perform Limpa-Grid2
+
+           move zeros to wrk-contagem-gd2
+
+           initialize REG-IFC01
+           move wrk-codigo-ifc to IFC01-CODIGO
+           read ARQ-IFC01 with no lock
+           if not valid-ARQ-IFC01
+              initialize REG-IFC01
+           end-if
+
+           initialize REG-IFR01
+           move IFC01-CODIGO to IFR01-CODIGO
+           move low-value    to IFR01-PROGRESSIVO
+           start ARQ-IFR01 key is >= IFR01-CHAVE
+           read ARQ-IFR01 next with no lock
+           if not valid-ARQ-IFR01 or IFC01-CODIGO not = IFR01-CODIGO
+              initialize REG-IFR01
+              move 'I' to wrk-acaexe-t4
+              move spaces to wrk-verifica-grava
+           else
+              move 'A' to wrk-acaexe-t4
+              move 'S' to wrk-verifica-grava
+           end-if
+
+           perform until not valid-ARQ-IFR01 
+                                      or IFC01-CODIGO not = IFR01-CODIGO
+              add 1 to wrk-contagem-gd2
+
+              if wrk-contagem-gd2 = 1
+                 perform criar-temp-2
+                 if wrk-ok = "N"
+                    exit paragraph
+                 end-if
+              end-if
+   
+              initialize REG-T01-C074-2
+              move wrk-codigo-ifc   to T01-C074-2-CODIGO
+              move wrk-contagem-gd2 to T01-C074-2-PROGRESSIVO
+              move IFR01-DATRECURSO to T01-C074-2-DATA
+              move IFR01-CODRECURSO to T01-C074-2-TIPO-COD
+
+              initialize REG-IFT01
+              move IFR01-CODRECURSO to IFT01-CODIGO
+              read ARQ-IFT01 with no lock
+              if not valid-ARQ-IFT01
+                 initialize REG-IFT01
+              end-if
+
+              move IFT01-DESCRICAO   to T01-C074-2-TIPO-NOME
+              move IFR01-ORGJULGADOR to T01-C074-2-ORGJULGADOR
+              move IFR01-MUNJULGADOR to T01-C074-2-CIDADE-COD
+
+              initialize REG-CID01
+              move IFR01-MUNJULGADOR to CID01-CODIGO
+              read arq-cid01 with no lock
+              if not valid-arq-cid01
+                 initialize REG-CID01
+              end-if
+              move CID01-CIDADE      to T01-C074-2-CIDADE-NOME
+              move CID01-ESTADO      to T01-C074-2-UF 
+              move IFR01-OBSERVACAO1 to T01-C074-2-OBS1
+              move IFR01-OBSERVACAO2 to T01-C074-2-OBS2
+              move IFR01-OBSERVACAO3 to T01-C074-2-OBS3
+              move IFR01-OBSERVACAO4 to T01-C074-2-OBS4
+              move IFR01-PROGRESSIVO to T01-C074-2-PROGRE-IFR01
+   
+              write REG-T01-C074-2
+              if not Valid-T01-C074-2
+                 move "Não foi possivel gravar o arquivo"  
+                                                  to wrk-message-1
+                 string "temporario. Status: " Stat-T01-C074-2
+                                                into wrk-message-2
+                 move "N" to wrk-ok
+                 perform mensagem
+              end-if
+   
+              move zeros to wrk-progressivo-gd-2
+
+              read ARQ-IFR01 next with no lock
+           end-perform
+           move zeros to wrk-nro-itens-gd-2
+           move wrk-contagem-gd2 to wrk-nro-itens-gd-2
+
+           initialize REG-IFR01           
+           move spaces to wrk-t4-auto 
+                          wrk-IFR01-CODRECURSO
+                          wrk-IFR01-MUNJULGADOR
+                          wrk-uf
+
+           move zeros  to wrk-t4-cod
+                          wrk-t4-data
+                          wrk-t4-hora
+
+           move IFC01-CODIGO      to wrk-t4-cod
+           move IFC01-AUTINFLACAO to wrk-t4-auto
+
+           accept wrk-data-inv from date YYYYMMDD
+           move wrk-data-inv-r-dia to wrk-t4-data(1:2)
+                                      IFR01-DATRECURSO-R-DIA
+
+           move wrk-data-inv-r-mes to wrk-t4-data(3:2)
+                                      IFR01-DATRECURSO-R-MES
+
+           move wrk-data-inv-r-ano to wrk-t4-data(5:4)
+                                      IFR01-DATRECURSO-R-ANO
+
+           accept wrk-hora-lancamento from time 
+           compute wrk-hora-lancamento = wrk-hora-lancamento / 1000000
+           move wrk-hora-lancamento to wrk-t4-hora
+           
+           display t4
+           perform Preenche-Gd-2
+           .
+
+       Limpa-Grid2.
+           modify t4-Gd-1, RESET-GRID 1
+           move Zeros to wrk-linha-grid-2
+           Add 1 to wrk-linha-grid-2
+           modify t4-Gd-1, NUM-ROWS wrk-linha-grid-2
+           Perform Acu-t4-Gd-1-Content
+           .
+      *
+       t4-Pb-IncluiR-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t4-Pb-IncluiR bitmap-handle = tripao2-bmp
+           modify t4-Pb-IncluiR style         = pbs-framed
+           modify t4-Pb-IncluiR bitmap-number = 20
+           .
+      *
+       t4-Pb-IncluiR-Aft-Procedure.
+           modify t4-Pb-IncluiR bitmap-handle = tripao2-bmp
+           modify t4-Pb-IncluiR bitmap-number = 20
+           modify t4-Pb-IncluiR flat
+           .
+      *
+       t4-Pb-ExcluiR-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t4-Pb-ExcluiR bitmap-handle = tripao2-bmp
+           modify t4-Pb-ExcluiR style         = pbs-framed
+           modify t4-Pb-ExcluiR bitmap-number = 10
+           .
+      *
+       t4-Pb-ExcluiR-Aft-Procedure.
+           modify t4-Pb-ExcluiR bitmap-handle = tripao2-bmp
+           modify t4-Pb-ExcluiR bitmap-number = 10
+           modify t4-Pb-ExcluiR flat
+           .
+      *
+       t4-Pb-grava-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t4-Pb-grava bitmap-handle = tripao2-bmp
+           modify t4-Pb-grava style         = pbs-framed
+           modify t4-Pb-grava bitmap-number = 1
+           .
+      *
+       t4-Pb-grava-Aft-Procedure.
+           modify t4-Pb-grava bitmap-handle = tripao2-bmp
+           modify t4-Pb-grava bitmap-number = 1
+           modify t4-Pb-grava flat
+           .
+      *
+       t4-Pb-desiste-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t4-Pb-desiste bitmap-handle = tripao2-bmp
+           modify t4-Pb-desiste style         = pbs-framed
+           modify t4-Pb-desiste bitmap-number = 2
+           .
+      *
+       t4-Pb-desiste-Aft-Procedure.
+           modify t4-Pb-desiste bitmap-handle = tripao2-bmp
+           modify t4-Pb-desiste bitmap-number = 2
+           modify t4-Pb-desiste flat
+           .
+      *
+       t4-Pb-Baixar-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t4-Pb-Baixar bitmap-handle = tripao2-bmp
+           modify t4-Pb-Baixar style         = pbs-framed
+           modify t4-Pb-Baixar bitmap-number = 15
+           .
+      *
+       t4-Pb-Baixar-Aft-Procedure.
+           modify t4-Pb-Baixar bitmap-handle = tripao2-bmp
+           modify t4-Pb-Baixar bitmap-number = 15
+           modify t4-Pb-Baixar flat
+           .
+      *
+       trata-barra-funcoes-t4.
+           move 1 to wrk-prgantnovo
+           modify t4-pb-pesquisa enabled 0
+           modify t4-pb-inclui   enabled 0
+           if control-id = 97 or 103
+              modify t4-pb-pesquisa enabled 1
+           end-if
+           if control-id = 97 or 103
+              modify t4-pb-inclui   enabled 1
+           end-if
+           .
+      *
+       t4-Ef-IFR01-DATRECURSO-Bef-Procedure.
+           perform trata-barra-funcoes-t4
+           .
+      *
+       t4-Ef-IFR01-CODRECURSO-Bef-Procedure.
+           perform trata-barra-funcoes-t4
+           .
+      *
+       t4-Ef-IFR01-ORGJULGADOR-Bef-Procedure.
+           perform trata-barra-funcoes-t4
+           .
+      *
+       t4-Ef-IFR01-MUNJULGADOR-Bef-Procedure.
+           perform trata-barra-funcoes-t4
+           .
+      *
+       t4-Ef-wrk-obs-1-r-Bef-Procedure.
+           perform trata-barra-funcoes-t4
+           .
+      *
+       t4-Ef-wrk-obs-2-r-Bef-Procedure.
+           perform trata-barra-funcoes-t4
+           .
+      *
+       t4-Ef-wrk-obs-3-r-Bef-Procedure.
+           perform trata-barra-funcoes-t4
+           .
+      *
+       t4-Ef-wrk-obs-4-r-Bef-Procedure.
+           perform trata-barra-funcoes-t4
+           .
+      *
+       t4-Ef-IFR01-DATRECURSO-Aft-Procedure.
+           if IFR01-DATRECURSO > 0
+              move "@" to wrk-valid-data
+              call "Rot-data" using IFR01-DATRECURSO, wrk-valid-data
+              cancel "Rot-data"
+              if wrk-valid-data = "N"
+                 move "Data Inválida." to wrk-message-1
+                 perform mensagem
+                 inquire t4-Ef-IFR01-DATRECURSO id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+           else
+              move 'Indique a Data de Recurso.' to wrk-message-1
+              perform mensagem
+              inquire t4-Ef-IFR01-DATRECURSO id in control-id
+              move 4 to accept-control
+              exit paragraph
+           end-if
+           .
+      *
+       t4-Ef-IFR01-CODRECURSO-Aft-Procedure.
+           if IFR01-CODRECURSO > 0
+              initialize REG-IFT01
+              move IFR01-CODRECURSO to IFT01-CODIGO
+              read ARQ-IFT01 with no lock
+              if not Valid-ARQ-IFT01
+                 move "Tipo do Recurso Inválido." to wrk-message-1
+                 perform mensagem
+                 move spaces to wrk-IFR01-CODRECURSO
+                 modify t4-Ef-wrk-IFR01-CODRECURSO 
+                                              value wrk-IFR01-CODRECURSO
+                 inquire t4-Ef-IFR01-CODRECURSO id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if      
+              move IFT01-DESCRICAO to wrk-IFR01-CODRECURSO
+           else
+              move 'Indique o Tipo do Recurso.' to wrk-message-1
+              perform mensagem
+              move spaces to wrk-IFR01-CODRECURSO
+              modify t4-Ef-wrk-IFR01-CODRECURSO 
+                                              value wrk-IFR01-CODRECURSO
+              inquire t4-Ef-IFR01-CODRECURSO id in control-id
+              move 4 to accept-control
+              exit paragraph
+           end-if
+           modify t4-Ef-wrk-IFR01-CODRECURSO value wrk-IFR01-CODRECURSO
+           .
+      *
+       t4-Ef-IFR01-MUNJULGADOR-Aft-Procedure.
+           if IFR01-MUNJULGADOR > 0
+              initialize REG-CID01
+              move IFR01-MUNJULGADOR to CID01-CODIGO
+              read arq-cid01 with no lock
+              if not valid-arq-cid01
+                 move "Município Inválido." to wrk-message-1
+                 perform mensagem
+                 move spaces to wrk-IFR01-MUNJULGADOR
+                                wrk-uf
+                  
+                 modify t4-Ef-wrk-IFR01-MUNJULGADOR 
+                                             value wrk-IFR01-MUNJULGADOR
+                 modify t4-Ef-wrk-uf value wrk-uf
+      
+                 inquire t4-Ef-IFR01-MUNJULGADOR id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+              move CID01-CIDADE to wrk-IFR01-MUNJULGADOR
+              move CID01-ESTADO to wrk-uf
+           else
+              move spaces to wrk-IFR01-MUNJULGADOR
+                             wrk-uf
+           end-if
+           modify t4-Ef-wrk-IFR01-MUNJULGADOR 
+                                             value wrk-IFR01-MUNJULGADOR
+           modify t4-Ef-wrk-uf value wrk-uf
+           .
+      *
+       t4-Pb-IncluiR-Link.
+           if IFR01-DATRECURSO = zeros
+              inquire t4-Ef-IFR01-DATRECURSO id in control-id
+              move 4 to accept-control
+              exit paragraph
+           end-if
+      
+           if IFR01-CODRECURSO = zeros
+              inquire t4-Ef-IFR01-CODRECURSO id in control-id
+              move 4 to accept-control
+              exit paragraph
+           end-if
+      
+           move 2 to wrk-leitura-grid
+           move spaces to wrk-controle
+           perform until wrk-leitura-grid > wrk-linha-grid-2
+              move zeros  to wrk-progressivo-gd-2
+      
+              inquire t4-Gd-1 (wrk-leitura-grid, 1) hidden-data 
+                                                 in wrk-progressivo-gd-2
+      
+              initialize REG-T01-C074-2
+              move wrk-codigo-ifc       to T01-C074-2-CODIGO
+              move wrk-progressivo-gd-2 to T01-C074-2-PROGRESSIVO
+              read T01-C074-2 with no lock
+              if valid-T01-C074-2 and 
+                         (IFR01-DATRECURSO  = T01-C074-2-DATA        and
+                          IFR01-CODRECURSO  = T01-C074-2-TIPO-COD    and 
+                          IFR01-ORGJULGADOR = T01-C074-2-ORGJULGADOR and
+                          IFR01-MUNJULGADOR = T01-C074-2-CIDADE-COD  and
+                          IFR01-OBSERVACAO1 = T01-C074-2-OBS1        and
+                          IFR01-OBSERVACAO2 = T01-C074-2-OBS2        and
+                          IFR01-OBSERVACAO3 = T01-C074-2-OBS3        and
+                          IFR01-OBSERVACAO4 = T01-C074-2-OBS4)   
+      
+                 move "Registro já adicionado." to wrk-message-1
+                 perform mensagem
+                 inquire t4-Ef-IFR01-CODRECURSO id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+      
+              add 1 to wrk-leitura-grid
+           end-perform 
+      
+           |********alteração de grid**********
+           initialize REG-T01-C074-2
+           move wrk-codigo-ifc to T01-C074-2-CODIGO
+           move low-value      to T01-C074-2-PROGRESSIVO
+           start T01-C074-2 key is >= T01-C074-2-CHAVE
+           read T01-C074-2 next with no lock
+           if not valid-T01-C074-2
+              initialize REG-T01-C074-2
+           end-if
+      
+           perform until not valid-T01-C074-2
+              if     IFR01-CODRECURSO      = T01-C074-2-TIPO-COD           
+                and (IFR01-DATRECURSO  not = T01-C074-2-DATA 
+                 or  IFR01-ORGJULGADOR not = T01-C074-2-ORGJULGADOR
+                 or  IFR01-MUNJULGADOR not = T01-C074-2-CIDADE-COD
+                 or  IFR01-OBSERVACAO1 not = T01-C074-2-OBS1
+                 or  IFR01-OBSERVACAO2 not = T01-C074-2-OBS2
+                 or  IFR01-OBSERVACAO3 not = T01-C074-2-OBS3
+                 or  IFR01-OBSERVACAO4 not = T01-C074-2-OBS4)
+      
+                 move IFR01-CODRECURSO      to T01-C074-2-TIPO-COD
+                 move wrk-IFR01-CODRECURSO  to T01-C074-2-TIPO-NOME
+                 move IFR01-DATRECURSO      to T01-C074-2-DATA
+                 move IFR01-ORGJULGADOR     to T01-C074-2-ORGJULGADOR
+                 move IFR01-MUNJULGADOR     to T01-C074-2-CIDADE-COD
+                 move wrk-IFR01-MUNJULGADOR to T01-C074-2-CIDADE-NOME
+                 move wrk-uf                to T01-C074-2-UF
+                 move IFR01-OBSERVACAO1     to T01-C074-2-OBS1
+                 move IFR01-OBSERVACAO2     to T01-C074-2-OBS2
+                 move IFR01-OBSERVACAO3     to T01-C074-2-OBS3
+                 move IFR01-OBSERVACAO4     to T01-C074-2-OBS4
+      
+                 rewrite REG-T01-C074-2
+                 if not Valid-T01-C074-2
+                    move "Não foi possivel regravar o arquivo"  
+                                                        to wrk-message-1
+                    string "temporario. Status: " Stat-T01-C074-2
+                                                      into wrk-message-2
+                    perform mensagem
+                    exit paragraph
+                 end-if
+                 
+                 initialize REG-IFR01
+      
+                 move spaces to wrk-IFR01-CODRECURSO
+                                wrk-IFR01-MUNJULGADOR
+                                wrk-uf
+                  
+                 move zeros  to wrk-progressivo-gd-2
+      
+                 move wrk-data-inv-r-dia to IFR01-DATRECURSO-R-DIA                                            
+                 move wrk-data-inv-r-mes to IFR01-DATRECURSO-R-MES                                          
+                 move wrk-data-inv-r-ano to IFR01-DATRECURSO-R-ANO
+                                            
+                 display t4
+      
+                 perform Limpa-Grid2
+      
+                 perform Preenche-Gd-2
+
+                 inquire t4-Ef-IFR01-DATRECURSO id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+      
+              read T01-C074-2 next with no lock
+           end-perform 
+           |********fim**********
+           
+           add 1 to wrk-contagem-gd2
+      
+           if wrk-contagem-gd2 = 1
+              perform criar-temp-2
+              if wrk-ok = "N"
+                 exit paragraph
+              end-if
+           end-if
+      
+           initialize REG-T01-C074-2
+           move wrk-codigo-ifc        to T01-C074-2-CODIGO
+           move wrk-contagem-gd2      to T01-C074-2-PROGRESSIVO
+           move IFR01-DATRECURSO      to T01-C074-2-DATA
+           move IFR01-CODRECURSO      to T01-C074-2-TIPO-COD
+           move wrk-IFR01-CODRECURSO  to T01-C074-2-TIPO-NOME
+           move IFR01-ORGJULGADOR     to T01-C074-2-ORGJULGADOR
+           move IFR01-MUNJULGADOR     to T01-C074-2-CIDADE-COD
+           move wrk-IFR01-MUNJULGADOR to T01-C074-2-CIDADE-NOME
+           move wrk-uf                to T01-C074-2-UF
+           move IFR01-OBSERVACAO1     to T01-C074-2-OBS1
+           move IFR01-OBSERVACAO2     to T01-C074-2-OBS2
+           move IFR01-OBSERVACAO3     to T01-C074-2-OBS3
+           move IFR01-OBSERVACAO4     to T01-C074-2-OBS4
+      
+           write REG-T01-C074-2
+           if not Valid-T01-C074-2
+              move "Não foi possivel gravar o arquivo"  to wrk-message-1
+              string "temporario. Status: " Stat-T01-C074-2
+                                                      into wrk-message-2
+              move "N" to wrk-ok
+              perform mensagem
+           end-if     
+      
+           string T01-C074-2-DATA-R-DIA "/"  
+                  T01-C074-2-DATA-R-MES "/"
+                  T01-C074-2-DATA-R-ANO 
+                  into Gd-4-Data
+      
+           move T01-C074-2-TIPO-NOME   to Gd-4-Tipo
+           move T01-C074-2-ORGJULGADOR to Gd-4-OrgJulg
+           move T01-C074-2-CIDADE-NOME to Gd-4-Cidade
+           move T01-C074-2-UF          to Gd-4-UF
+      
+           add 1 to wrk-linha-grid-2
+      
+           modify t4-Gd-1, NUM-ROWS wrk-linha-grid-2 
+                         RECORD-TO-ADD t4-Gd-1-Record
+      
+           modify t4-Gd-1 x=1 y= wrk-linha-grid-2 
+           hidden-data T01-C074-2-PROGRESSIVO
+      
+           move zeros to wrk-progressivo-gd-2
+      
+           initialize REG-IFR01
+      
+           move spaces to wrk-IFR01-CODRECURSO
+                          wrk-IFR01-MUNJULGADOR
+                          wrk-uf
+      
+           move wrk-data-inv-r-dia to IFR01-DATRECURSO-R-DIA
+           move wrk-data-inv-r-mes to IFR01-DATRECURSO-R-MES
+           move wrk-data-inv-r-ano to IFR01-DATRECURSO-R-ANO
+      
+           display t4-Ef-IFR01-DATRECURSO
+           modify t4-Ef-IFR01-CODRECURSO     value IFR01-CODRECURSO
+           modify t4-Ef-wrk-IFR01-CODRECURSO value wrk-IFR01-CODRECURSO
+           modify t4-Ef-IFR01-ORGJULGADOR    value IFR01-ORGJULGADOR
+           modify t4-Ef-IFR01-MUNJULGADOR    value IFR01-MUNJULGADOR
+           modify t4-Ef-wrk-IFR01-MUNJULGADOR 
+                                             value wrk-IFR01-MUNJULGADOR
+           modify t4-Ef-wrk-uf               value wrk-uf
+           modify t4-Ef-wrk-obs-1-r          value IFR01-OBSERVACAO1
+           modify t4-Ef-wrk-obs-2-r          value IFR01-OBSERVACAO2
+           modify t4-Ef-wrk-obs-3-r          value IFR01-OBSERVACAO3
+           modify t4-Ef-wrk-obs-4-r          value IFR01-OBSERVACAO4
+
+           inquire t4-Ef-IFR01-DATRECURSO id in control-id
+           move 4 to accept-control
+           exit paragraph
+           .
+
+       Preenche-Gd-2.
+           perform Limpa-Grid2
+
+           initialize REG-T01-C074-2
+           move wrk-codigo-ifc to T01-C074-2-CODIGO
+           move low-value      to T01-C074-2-PROGRESSIVO
+           start T01-C074-2 key is >= T01-C074-2-CHAVE
+           read T01-C074-2 next with no lock
+           if not valid-T01-C074-2 or 
+                                  wrk-codigo-ifc not = T01-C074-2-CODIGO
+              initialize REG-T01-C074-2
+           end-if
+      
+           perform until not valid-T01-c074-2 or 
+                                  wrk-codigo-ifc not = T01-C074-2-CODIGO
+              string T01-C074-2-DATA-R-DIA "/"  
+                     T01-C074-2-DATA-R-MES "/"
+                     T01-C074-2-DATA-R-ANO 
+                     into Gd-2-Data
+      
+              move T01-C074-2-TIPO-NOME   to Gd-2-Tipo
+              move T01-C074-2-ORGJULGADOR to Gd-2-OrgJulg
+              move T01-C074-2-CIDADE-NOME to Gd-2-Cidade
+              move T01-C074-2-UF          to Gd-2-UF
+      
+              add 1 to wrk-linha-grid-2
+      
+              modify t4-Gd-1, NUM-ROWS wrk-linha-grid-2 
+                            RECORD-TO-ADD t1-Gd-2-Record
+      
+              modify t4-Gd-1 x=1 y= wrk-linha-grid-2 
+              hidden-data T01-C074-2-PROGRESSIVO
+      
+              move zeros to wrk-progressivo-gd-2
+      
+              read T01-C074-2 next with no lock
+           end-perform
+           .
+
+       Criar-temp-2.
+           move spaces to wrk-ok
+           Close T01-C074-2
+           Call 'C$DELETE' Using DRV-T01-C074-2, 'I'
+      
+           Close T01-C074-2
+           move Spaces to DRV-T01-C074-2
+      
+           move zeros to wrk-hora-atual
+           Accept wrk-hora-atual From Time
+      
+           String '\Comp-3\Temp\T01-M155-R-' 
+                  ext-codusu '-' wrk-hora-atual(1:6) '.dad'
+                  into DRV-T01-C074-2
+      
+           Open Output T01-C074-2
+           Close       T01-C074-2
+           Open I-O    T01-C074-2
+      
+           if NOT Valid-T01-C074-2
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              move 'Não foi possível criar o arquivo' to wrk-message-1
+              string 'Temporário T01-C074-2. Status: ' Stat-T01-C074-2
+              into wrk-message-2
+              set wrk-warning-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+              move "N" to wrk-ok
+              exit paragraph 
+           End-if
+           .
+      *
+       t4-Pb-pesquisa-Link.
+           if control-id = 97 |Município
+              initialize REG-CID01
+      
+              call 'VIEWVIX' using 'N' 'PCTRC133' REG-CID01
+              cancel 'VIEWVIX'
+      
+              if CID01-CODIGO > 0
+                 move CID01-CODIGO to IFR01-MUNJULGADOR
+                 modify t4-Ef-IFR01-MUNJULGADOR value IFR01-MUNJULGADOR
+              end-if
+           end-if
+
+           if control-id = 103 |Tipo
+              initialize REG-IFT01
+      
+              call 'VIEWVIX' using 'N' 'P99-C118' REG-IFT01
+              cancel 'VIEWVIX'
+      
+              if IFT01-CODIGO > 0
+                 move IFT01-CODIGO to IFR01-CODRECURSO
+                 modify t4-Ef-IFR01-CODRECURSO value IFR01-CODRECURSO
+              end-if
+           end-if
+           .
+      *
+       t4-Pb-inclui-Link.
+           evaluate control-id     
+             when 97  |Município
+                Call "P99-C017" using lnk-padrao
+                Cancel "P99-C017"
+             when 103 |Tipo
+                Call "P99-C118" using lnk-padrao
+                Cancel "P99-C118"
+           end-evaluate
+           .
+      *
+       t4-Ex-Other.
+           if key-status = 27 
+              if control-id = 95
+                 Close T01-C074-2
+                 Call 'C$DELETE' using DRV-T01-C074-2, 'I'
+
+                 set exit-pushed to true
+                 exit paragraph
+              else
+                 perform inicio-t4
+
+                 initialize key-status
+                 inquire t4-Ef-IFR01-DATRECURSO id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+           end-if
+           .
+      *
+       t4-Pb-ExcluiR-Link.
+           if wrk-progressivo-gd-2 = zeros
+              move "Selecione um registro para continuar." 
+                                                        to wrk-message-1
+              perform mensagem
+              exit paragraph
+           end-if
+      
+           move 1 to wrk-prgantnovo
+           move "Deseja excluir o registro selecionado?" 
+                                                        to wrk-message-1
+           set wrk-warning-type to true
+           set wrk-yes-no-type  to true
+           set wrk-default-2 to true
+           Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                          wrk-message-1, wrk-Message-2, wrk-Message-3
+           on overflow perform call-error end-call
+           Cancel "mensagem"
+                                 
+           if wrk-response = 1
+              initialize REG-T01-C074-2
+              move wrk-codigo-ifc       to T01-C074-2-CODIGO
+              move wrk-progressivo-gd-2 to T01-C074-2-PROGRESSIVO
+              read T01-C074-2 with no lock
+              if not valid-T01-C074-2
+                 move "Erro ao localizar o registro." to wrk-message-1
+                 perform mensagem
+                 exit paragraph
+              end-if
+              delete T01-C074-2
+              if not valid-T01-C074-2
+                 move "Erro na exclusão" to wrk-message-1
+                 set wrk-error-type to true
+                 set wrk-ok-type      to true
+                 Call "mensagem" Using wrk-Message-Type, 
+                                    wrk-Response-Type, 
+                                    wrk-message-1,
+                                    wrk-Message-2,
+                                    wrk-Message-3
+                 on overflow perform call-error end-call
+                 Cancel "mensagem"
+                 exit paragraph
+              end-if
+      
+              initialize REG-IFR01
+              move wrk-t4-cod to IFR01-CODIGO
+              move low-value  to IFR01-PROGRESSIVO
+              start ARQ-IFR01 key is >= IFR01-CHAVE
+              read ARQ-IFR01 next with no lock
+              if not valid-ARQ-IFR01 or wrk-t4-cod not = IFR01-CODIGO 
+                 perform Limpa-Grid2
+      
+                 initialize REG-T01-C074-2
+                 move wrk-codigo-ifc to T01-C074-2-CODIGO
+                 move low-value      to T01-C074-2-PROGRESSIVO
+                 start T01-C074-2 key is >= T01-C074-2-CHAVE
+                 read T01-C074-2 next with no lock
+      
+                 perform until not valid-T01-C074-2
+                    string T01-C074-2-DATA-R-DIA "/"  
+                           T01-C074-2-DATA-R-MES "/"
+                           T01-C074-2-DATA-R-ANO 
+                           into Gd-4-Data
+         
+                    move T01-C074-2-TIPO-NOME   to Gd-4-Tipo
+                    move T01-C074-2-ORGJULGADOR to Gd-4-OrgJulg
+                    move T01-C074-2-CIDADE-NOME to Gd-4-Cidade
+                    move T01-C074-2-UF          to Gd-4-UF
+         
+                    add 1 to wrk-linha-grid-2
+         
+                    modify t4-Gd-1, NUM-ROWS wrk-linha-grid-2 
+                                  RECORD-TO-ADD t4-Gd-1-Record
+         
+                    modify t4-Gd-1 x=1 y= wrk-linha-grid-2 
+                    hidden-data T01-C074-2-PROGRESSIVO
+      
+                    read T01-C074-2 next with no lock
+                 end-perform
+      
+                 initialize REG-IFR01
+
+                 move wrk-data-inv-r-dia to IFR01-DATRECURSO-R-DIA                                            
+                 move wrk-data-inv-r-mes to IFR01-DATRECURSO-R-MES                                          
+                 move wrk-data-inv-r-ano to IFR01-DATRECURSO-R-ANO
+                 move spaces to wrk-IFR01-CODRECURSO
+                                wrk-IFR01-MUNJULGADOR
+                                wrk-uf
+
+                 display t4-Ef-IFR01-DATRECURSO 
+                 modify t4-Ef-IFR01-CODRECURSO   value IFR01-CODRECURSO
+                 modify t4-Ef-wrk-IFR01-CODRECURSO 
+                                             value wrk-IFR01-CODRECURSO
+                 modify t4-Ef-IFR01-ORGJULGADOR  value IFR01-ORGJULGADOR
+                 modify t4-Ef-IFR01-MUNJULGADOR  value IFR01-MUNJULGADOR
+                 modify t4-Ef-wrk-IFR01-MUNJULGADOR 
+                                             value wrk-IFR01-MUNJULGADOR
+                 modify t4-Ef-wrk-uf         value wrk-uf
+                 modify t4-Ef-wrk-obs-1-r    value IFR01-OBSERVACAO1
+                 modify t4-Ef-wrk-obs-2-r    value IFR01-OBSERVACAO2
+                 modify t4-Ef-wrk-obs-3-r    value IFR01-OBSERVACAO3
+                 modify t4-Ef-wrk-obs-4-r    value IFR01-OBSERVACAO4
+              else
+                 perform until not valid-ARQ-IFR01 or 
+                                           wrk-t4-cod not = IFR01-CODIGO
+                    if T01-C074-2-DATA        = IFR01-DATRECURSO  and
+                       T01-C074-2-TIPO-COD    = IFR01-CODRECURSO  and
+                       T01-C074-2-ORGJULGADOR = IFR01-ORGJULGADOR and
+                       T01-C074-2-CIDADE-COD  = IFR01-MUNJULGADOR
+                       exit perform
+                    end-if
+      
+                    read ARQ-IFR01 next with no lock
+                 end-perform
+      
+                 delete ARQ-IFR01
+                 if not valid-ARQ-IFR01
+                    move 1 to  wrk-prgantnovo
+                    initialize wrk-texto-msg
+                    move "Erro na exclusão." to wrk-message-1
+                    set wrk-error-type to true
+                    set wrk-ok-type      to true
+                    Call "mensagem" Using wrk-Message-Type, 
+                                       wrk-Response-Type, 
+                                       wrk-message-1,
+                                       wrk-Message-2,
+                                       wrk-Message-3
+                    on overflow perform call-error end-call
+                    Cancel "mensagem"
+                 else
+                    initialize REG-IFR01
+
+                    move wrk-data-inv-r-dia to IFR01-DATRECURSO-R-DIA                                            
+                    move wrk-data-inv-r-mes to IFR01-DATRECURSO-R-MES                                          
+                    move wrk-data-inv-r-ano to IFR01-DATRECURSO-R-ANO
+      
+                    display t4-Ef-IFR01-DATRECURSO 
+                    modify t4-Ef-IFR01-CODRECURSO value IFR01-CODRECURSO
+                    modify t4-Ef-wrk-IFR01-CODRECURSO 
+                                             value wrk-IFR01-CODRECURSO
+                    modify t4-Ef-IFR01-ORGJULGADOR  
+                                             value IFR01-ORGJULGADOR
+                    modify t4-Ef-IFR01-MUNJULGADOR
+                                             value IFR01-MUNJULGADOR
+                    modify t4-Ef-wrk-IFR01-MUNJULGADOR 
+                                             value wrk-IFR01-MUNJULGADOR
+                    modify t4-Ef-wrk-uf      value wrk-uf
+                    modify t4-Ef-wrk-obs-1-r value IFR01-OBSERVACAO1
+                    modify t4-Ef-wrk-obs-2-r value IFR01-OBSERVACAO2
+                    modify t4-Ef-wrk-obs-3-r value IFR01-OBSERVACAO3
+                    modify t4-Ef-wrk-obs-4-r value IFR01-OBSERVACAO4
+      
+                    perform Limpa-Grid2
+      
+                    |preenche grid
+                    initialize REG-T01-C074-2
+                    move wrk-codigo-ifc to T01-C074-2-CODIGO
+                    move low-value      to T01-C074-2-PROGRESSIVO
+                    start T01-C074-2 key is >= T01-C074-2-CHAVE
+                    read T01-C074-2 next with no lock
+      
+                    perform until not valid-T01-C074-2
+                       string T01-C074-2-DATA-R-DIA "/"  
+                              T01-C074-2-DATA-R-MES "/"
+                              T01-C074-2-DATA-R-ANO 
+                              into Gd-4-Data
+            
+                       move T01-C074-2-TIPO-NOME   to Gd-4-Tipo
+                       move T01-C074-2-ORGJULGADOR to Gd-4-OrgJulg
+                       move T01-C074-2-CIDADE-NOME to Gd-4-Cidade
+                       move T01-C074-2-UF          to Gd-4-UF
+            
+                       add 1 to wrk-linha-grid-2
+            
+                       modify t4-Gd-1, NUM-ROWS wrk-linha-grid-2 
+                                     RECORD-TO-ADD t4-Gd-1-Record
+            
+                       modify t4-Gd-1 x=1 y= wrk-linha-grid-2 
+                       hidden-data T01-C074-2-PROGRESSIVO
+      
+                       read T01-C074-2 next with no lock
+                    end-perform
+                 end-if
+              end-if
+              move zeros to wrk-progressivo-gd-2
+      
+              inquire t4-Ef-IFR01-DATRECURSO id in control-id
+              move 4 to accept-control
+              exit paragraph
+           end-if 
+           .
+      *
+       t4-Gd-1-Ev-Msg-Begin-Entry.
+           Set Event-Action to Event-Action-Fail
+           .
+      *
+       t4-Gd-1-Ev-Msg-Goto-Cell.
+           modify t4-Gd-1, Start-X 1
+                                 X 6
+                           Start-Y event-data-2
+                                 Y event-data-2
+                           Region-Color 80
+
+           move zeros to wrk-progressivo-gd-2
+
+           inquire t4-Gd-1 (event-data-2, 1) hidden-data 
+                                                 in wrk-progressivo-gd-2
+           
+           initialize REG-T01-C074-2
+           move wrk-codigo-ifc       to T01-C074-2-CODIGO
+           move wrk-progressivo-gd-2 to T01-C074-2-PROGRESSIVO
+           read T01-C074-2 with no lock
+           if not valid-T01-C074-2
+              initialize REG-T01-C074-2
+           end-if
+           move T01-C074-2-DATA        to IFR01-DATRECURSO
+           move T01-C074-2-TIPO-COD    to IFR01-CODRECURSO
+           move T01-C074-2-ORGJULGADOR to IFR01-ORGJULGADOR
+           move T01-C074-2-CIDADE-COD  to IFR01-MUNJULGADOR
+           move T01-C074-2-OBS1        to IFR01-OBSERVACAO1
+           move T01-C074-2-OBS2        to IFR01-OBSERVACAO2
+           move T01-C074-2-OBS3        to IFR01-OBSERVACAO3
+           move T01-C074-2-OBS4        to IFR01-OBSERVACAO4
+
+           initialize REG-IFT01
+           move IFR01-CODRECURSO to IFT01-CODIGO
+           read ARQ-IFT01 with no lock
+           if not valid-ARQ-IFT01
+              initialize REG-IFT01
+           end-if
+           move IFT01-DESCRICAO to wrk-IFR01-CODRECURSO
+
+           initialize REG-CID01
+           move IFR01-MUNJULGADOR to CID01-CODIGO
+           read arq-cid01 with no lock
+           if not valid-arq-cid01
+              initialize REG-CID01
+           end-if
+           move CID01-CIDADE to wrk-IFR01-MUNJULGADOR
+           move CID01-ESTADO to wrk-uf
+
+           display t4-Ef-IFR01-DATRECURSO 
+           modify t4-Ef-IFR01-CODRECURSO     value IFR01-CODRECURSO
+           modify t4-Ef-wrk-IFR01-CODRECURSO value wrk-IFR01-CODRECURSO
+           modify t4-Ef-IFR01-ORGJULGADOR    value IFR01-ORGJULGADOR
+           modify t4-Ef-IFR01-MUNJULGADOR    value IFR01-MUNJULGADOR
+           modify t4-Ef-wrk-IFR01-MUNJULGADOR 
+                                             value wrk-IFR01-MUNJULGADOR
+           modify t4-Ef-wrk-uf               value wrk-uf
+           modify t4-Ef-wrk-obs-1-r          value IFR01-OBSERVACAO1
+           modify t4-Ef-wrk-obs-2-r          value IFR01-OBSERVACAO2
+           modify t4-Ef-wrk-obs-3-r          value IFR01-OBSERVACAO3
+           modify t4-Ef-wrk-obs-4-r          value IFR01-OBSERVACAO4
+           .
+      *
+       t4-Gd-1-Ev-Msg-Goto-Cell-Mouse.
+           perform t4-Gd-1-Ev-Msg-Goto-Cell
+           .
+      *
+       t4-Pb-grava-Link.
+           |Verificação
+           if wrk-linha-grid-2 < 2
+              move 'Não foi adicionado nenhum Recurso.' to wrk-message-1
+              perform mensagem
+              exit paragraph
+           end-if
+
+           |Gravação
+           if wrk-acaexe-t4 = 'I'
+              |ARQ-IFR01
+              initialize REG-T01-C074-2
+              move wrk-codigo-ifc to T01-C074-2-CODIGO
+              move low-value      to T01-C074-2-PROGRESSIVO
+              start T01-C074-2 key is >= T01-C074-2-CHAVE
+              read T01-C074-2 next with no lock
+              if not valid-T01-C074-2
+                 move "Não foi possível localizar o registro"
+                                                        to wrk-message-1
+                 string "no T01-C074-2. Status: "
+                                         STAT-T01-C074-2
+                                                      into wrk-message-2 
+                 perform mensagem
+                 exit paragraph
+              end-if
+              perform until not valid-T01-C074-2
+                 initialize REG-IFR01
+                 move T01-C074-2-CODIGO to IFR01-CODIGO
+                 move high-value        to IFR01-PROGRESSIVO
+                 start ARQ-IFR01 key is < IFR01-CHAVE
+                 read ARQ-IFR01 previous with no lock
+                 if not valid-ARQ-IFR01 or wrk-t4-cod not = IFR01-CODIGO
+                    move 1 to IFR01-PROGRESSIVO
+                 else
+                    add  1 to IFR01-PROGRESSIVO
+                 end-if
+                 move T01-C074-2-CODIGO      to IFR01-CODIGO
+                 move T01-C074-2-DATA        to IFR01-DATRECURSO
+                 move T01-C074-2-TIPO-COD    to IFR01-CODRECURSO
+                 move T01-C074-2-ORGJULGADOR to IFR01-ORGJULGADOR
+                 move T01-C074-2-CIDADE-COD  to IFR01-MUNJULGADOR
+                 move T01-C074-2-OBS1        to IFR01-OBSERVACAO1
+                 move T01-C074-2-OBS2        to IFR01-OBSERVACAO2
+                 move T01-C074-2-OBS3        to IFR01-OBSERVACAO3
+                 move T01-C074-2-OBS4        to IFR01-OBSERVACAO4
+                                       
+                 write REG-IFR01
+                 if not valid-ARQ-IFR01
+                    move "Erro na gravação do arquivo ARQ-IFR01." 
+                                                        to wrk-message-1
+                    string "Status: " STAT-ARQ-IFR01  into wrk-message-2
+                    perform mensagem
+                    exit paragraph
+                 end-if
+      
+                 read T01-C074-2 next with no lock
+              end-perform
+
+              |ARQ-IFS01
+              initialize REG-IFS01
+              move wrk-codigo-ifc to IFS01-CODIGO
+              move high-value     to IFS01-PROGRESSIVO
+              start ARQ-IFS01 key is < IFS01-CHAVE
+              read ARQ-IFS01 previous with no lock
+              if not valid-ARQ-IFS01 or 
+                                       wrk-codigo-ifc not = IFS01-CODIGO
+                 move 1 to IFS01-PROGRESSIVO
+              else
+                 add  1 to IFS01-PROGRESSIVO
+              end-if
+              move wrk-codigo-ifc to IFS01-CODIGO
+              move wrk-t4-data    to IFS01-DATSITUACAO
+              move wrk-t4-hora    to IFS01-HORSITUACAO
+              move 2              to IFS01-TIPO
+              move usu-codigo     to IFS01-OPERADOR
+
+              write REG-IFS01
+              if not valid-ARQ-IFS01
+                 move 'Erro na gravação do arquivo ARQ-IFS01.' 
+                                                        to wrk-message-1
+                 string 'Status: ' STAT-ARQ-IFS01 into wrk-message-2
+                 perform mensagem
+                 exit paragraph
+              else
+                 move 'Gravação realizada com sucesso!' to wrk-message-1
+                 perform mensagem-i
+                 move 'S' to wrk-verifica-grava
+              end-if
+           else |Regravação
+              |ARQ-IFR01
+              |********alteração de grid**********
+              initialize REG-T01-C074-2
+              move wrk-codigo-ifc to T01-C074-2-CODIGO
+              move low-value      to T01-C074-2-PROGRESSIVO
+              start T01-C074-2 key is >= T01-C074-2-CHAVE
+              read T01-C074-2 next with no lock
+              if not valid-T01-C074-2
+                 initialize REG-T01-C074-2
+              end-if
+   
+              perform until not valid-T01-C074-2
+                 initialize REG-IFR01
+                 move IFC01-CODIGO            to IFR01-CODIGO
+                 move T01-C074-2-PROGRE-IFR01 to IFR01-PROGRESSIVO
+                 read ARQ-IFR01 with no lock
+                 if not valid-ARQ-IFR01
+                    initialize REG-IFR01
+                 end-if 
+
+                 if     IFR01-CODRECURSO      = T01-C074-2-TIPO-COD           
+                   and (IFR01-DATRECURSO  not = T01-C074-2-DATA 
+                    or  IFR01-ORGJULGADOR not = T01-C074-2-ORGJULGADOR
+                    or  IFR01-MUNJULGADOR not = T01-C074-2-CIDADE-COD
+                    or  IFR01-OBSERVACAO1 not = T01-C074-2-OBS1
+                    or  IFR01-OBSERVACAO2 not = T01-C074-2-OBS2
+                    or  IFR01-OBSERVACAO3 not = T01-C074-2-OBS3
+                    or  IFR01-OBSERVACAO4 not = T01-C074-2-OBS4)
+
+                    move T01-C074-2-TIPO-COD    to IFR01-CODRECURSO  
+                    move T01-C074-2-DATA        to IFR01-DATRECURSO 
+                    move T01-C074-2-ORGJULGADOR to IFR01-ORGJULGADOR
+                    move T01-C074-2-CIDADE-COD  to IFR01-MUNJULGADOR
+                    move T01-C074-2-OBS1        to IFR01-OBSERVACAO1 
+                    move T01-C074-2-OBS2        to IFR01-OBSERVACAO2
+                    move T01-C074-2-OBS3        to IFR01-OBSERVACAO3
+                    move T01-C074-2-OBS4        to IFR01-OBSERVACAO4
+
+                    rewrite REG-IFR01
+                    if not Valid-ARQ-IFR01
+                       move "Não foi possivel regravar o arquivo"  
+                                                     to wrk-message-1
+                       string "ARQ-IFR01. Status: " Stat-ARQ-IFR01
+                               into wrk-message-2
+                       perform mensagem
+                       exit paragraph
+                    end-if
+                 end-if
+   
+                 read T01-C074-2 next with no lock
+              end-perform
+              |********fim**********
+
+              if wrk-linha-grid-2 > 1 and 
+                               wrk-contagem-gd2 not = wrk-nro-itens-gd-2
+                 initialize REG-T01-C074-2
+                 move wrk-codigo-ifc to T01-C074-2-CODIGO
+                 move low-value      to T01-C074-2-PROGRESSIVO
+                 start T01-C074-2 key is >= T01-C074-2-CHAVE
+                 read T01-c074-2 next with no lock
+                 if not valid-T01-C074-2
+                    move "Não foi possível localizar o registro" 
+                                                     to wrk-message-1
+                    string "no arquivo T01-C074-2. Status: " 
+                           STAT-T01-C074-2 into wrk-message-2
+                    perform mensagem
+                    exit paragraph
+                 end-if
+
+                 perform until not valid-T01-C074-2
+                    move zeros  to wrk-progressivo-gd-2
+                    move spaces to wrk-vai
+
+                    initialize REG-IFR01
+                    move IFC01-CODIGO to IFR01-CODIGO
+                    move low-value    to IFR01-PROGRESSIVO
+                    start ARQ-IFR01 key is >= IFR01-CHAVE
+                    read ARQ-IFR01 next with no lock
+                    if not valid-ARQ-IFR01 or IFC01-CODIGO not = 
+                                                         IFR01-CODIGO 
+                       initialize REG-IFR01
+                       move IFC01-CODIGO to IFR01-CODIGO
+                       move high-value   to IFR01-PROGRESSIVO
+                       start ARQ-IFR01 key is < IFR01-CHAVE
+                       read ARQ-IFR01 previous with no lock
+                       if not valid-ARQ-IFR01 or 
+                                         IFC01-CODIGO not = IFR01-CODIGO 
+                          move 1 to IFR01-PROGRESSIVO
+                       else
+                          add  1 to IFR01-PROGRESSIVO
+                       end-if
+
+                       move IFC01-CODIGO           to IFR01-CODIGO
+                       move T01-C074-2-DATA        to IFR01-DATRECURSO
+                       move T01-C074-2-TIPO-COD    to IFR01-CODRECURSO
+                       move T01-C074-2-ORGJULGADOR to IFR01-ORGJULGADOR
+                       move T01-C074-2-CIDADE-COD  to IFR01-MUNJULGADOR
+                       move T01-C074-2-OBS1        to IFR01-OBSERVACAO1
+                       move T01-C074-2-OBS2        to IFR01-OBSERVACAO2
+                       move T01-C074-2-OBS3        to IFR01-OBSERVACAO3
+                       move T01-C074-2-OBS4        to IFR01-OBSERVACAO4
+                                             
+                       write REG-IFR01
+                       if not valid-ARQ-IFR01
+                         move 'Erro na regravação do arquivo ARQ-IFR01.'
+                                                        to wrk-message-1
+                          string "Status: " STAT-ARQ-IFR01 
+                                                      into wrk-message-2
+                          perform mensagem
+                          exit paragraph
+                       end-if  
+                    end-if
+
+                    perform until not valid-ARQ-IFR01 or 
+                                      IFC01-CODIGO not = IFR01-CODIGO
+
+                       if     T01-C074-2-DATA        = IFR01-DATRECURSO   
+                          and T01-C074-2-TIPO-COD    = IFR01-CODRECURSO  
+                          and T01-C074-2-ORGJULGADOR = IFR01-ORGJULGADOR 
+                          and T01-C074-2-CIDADE-COD  = IFR01-MUNJULGADOR  
+                          move "N" to wrk-vai
+                          exit perform
+                       else 
+                          move "S" to wrk-vai
+                       end-if   
+
+                       read ARQ-IFR01 next with no lock
+                    end-perform                                          
+
+                    if wrk-vai = "S"
+                       initialize REG-IFR01
+                       move IFC01-CODIGO to IFR01-CODIGO
+                       move high-value   to IFR01-PROGRESSIVO
+                       start ARQ-IFR01 key is < IFR01-CHAVE
+                       read ARQ-IFR01 previous with no lock
+                       if not valid-ARQ-IFR01 or 
+                                         IFC01-CODIGO not = IFR01-CODIGO 
+                          move 1 to IFR01-PROGRESSIVO
+                       else
+                          add  1 to IFR01-PROGRESSIVO
+                       end-if
+
+                       move IFC01-CODIGO           to IFR01-CODIGO
+                       move T01-C074-2-DATA        to IFR01-DATRECURSO
+                       move T01-C074-2-TIPO-COD    to IFR01-CODRECURSO
+                       move T01-C074-2-ORGJULGADOR to IFR01-ORGJULGADOR
+                       move T01-C074-2-CIDADE-COD  to IFR01-MUNJULGADOR
+                       move T01-C074-2-OBS1        to IFR01-OBSERVACAO1
+                       move T01-C074-2-OBS2        to IFR01-OBSERVACAO2
+                       move T01-C074-2-OBS3        to IFR01-OBSERVACAO3
+                       move T01-C074-2-OBS4        to IFR01-OBSERVACAO4
+                                             
+                       write REG-IFR01
+                       if not valid-ARQ-IFR01
+                         move "Erro na regravação do arquivo ARQ-IFR01." 
+                                                     to wrk-message-1
+                          string "Status: " STAT-ARQ-IFR01 
+                                                   into wrk-message-2
+                          perform mensagem
+                          exit paragraph
+                       end-if
+                    end-if
+
+                    read T01-C074-2 next with no lock
+                 end-perform
+              end-if
+
+              |ARQ-IFS01
+              initialize REG-IFS01
+              move wrk-codigo-ifc to IFS01-CODIGO
+              move high-value     to IFS01-PROGRESSIVO
+              start ARQ-IFS01 key is < IFS01-CHAVE
+              read ARQ-IFS01 previous with no lock
+              if not valid-ARQ-IFS01 or 
+                                       wrk-codigo-ifc not = IFS01-CODIGO
+                 move 1 to IFS01-PROGRESSIVO
+              else
+                 add  1 to IFS01-PROGRESSIVO
+              end-if
+              move wrk-codigo-ifc to IFS01-CODIGO
+              move wrk-t4-data    to IFS01-DATSITUACAO
+              move wrk-t4-hora    to IFS01-HORSITUACAO
+              move 2              to IFS01-TIPO
+              move usu-codigo     to IFS01-OPERADOR
+
+              write REG-IFS01
+              if not valid-ARQ-IFS01
+                 move 'Erro na regravação do arquivo ARQ-IFS01.' 
+                                                        to wrk-message-1
+                 string 'Status: ' STAT-ARQ-IFS01 into wrk-message-2
+                 perform mensagem
+                 exit paragraph
+              else
+                 move 'Regravação realizada com sucesso!' 
+                                                        to wrk-message-1
+                 perform mensagem-i
+                 move 'S' to wrk-verifica-grava
+              end-if
+           end-if
+
+           initialize REG-IFR01
+
+           move wrk-data-inv-r-dia to IFR01-DATRECURSO-R-DIA                                            
+           move wrk-data-inv-r-mes to IFR01-DATRECURSO-R-MES                                          
+           move wrk-data-inv-r-ano to IFR01-DATRECURSO-R-ANO
+           move spaces to wrk-IFR01-CODRECURSO
+                          wrk-IFR01-MUNJULGADOR
+                          wrk-uf
+
+           display t4
+
+           perform Limpa-Grid2
+           perform Preenche-Gd-2
+           .
+      *
+       t4-Pb-Baixar-Link.
+           if wrk-verifica-grava not = 'S'
+              move 'O Recurso ainda não foi gravado.' to wrk-message-1
+              perform mensagem
+              exit paragraph
+           end-if
+           perform acu-t5-routine
+           set exit-pushed to true
+           exit paragraph
+           .
+      *
+       t5-Aft-Initdata.
+           initialize reg-usu
+           move ext-codusu to usu-codigo
+           read arq-usu with no lock
+           if valid-arq-usu
+              string "Usuário: " usu-nome 
+                                   delimited by size into wrk-barusuario
+              modify t4-St-1-Handle panel-index 1
+                                               panel-text wrk-barusuario
+
+              initialize reg-emp00
+              move 1 to emp00-codigo
+              read arq-emp00 with no lock
+              if valid-arq-emp00
+                 Move emp00-nome to wrk-barempresa
+              else
+                 string "Empresa não encontrada"
+                                   delimited by size into wrk-barempresa
+              end-if
+                 modify t4-St-1-Handle panel-index 2 
+                                               panel-text wrk-barempresa
+           end-if
+
+           perform Inicio-T5
+           .
+
+       Inicio-T5.
+           move spaces to wrk-t5-aut
+                          wrk-t5-tip-nom
+                          wrk-t5-obs1
+                          wrk-t5-obs2
+                          wrk-t5-obs3
+                          wrk-t5-obs4
+                          wrk-t5-obs5
+
+           move zeros  to wrk-t5-cod
+                          wrk-t5-dat
+                          wrk-t5-hor
+                          wrk-t5-tip
+
+           initialize REG-IFC01
+           move wrk-codigo-ifc to IFC01-CODIGO
+           read ARQ-IFC01 with no lock
+           if not valid-ARQ-IFC01
+              initialize REG-IFC01
+           end-if
+           move IFC01-CODIGO      to wrk-t5-cod
+           move IFC01-AUTINFLACAO to wrk-t5-aut
+
+           accept wrk-data-inv from date YYYYMMDD
+           move wrk-data-inv-r-dia to wrk-t5-dat(1:2)
+           move wrk-data-inv-r-mes to wrk-t5-dat(3:2)
+           move wrk-data-inv-r-ano to wrk-t5-dat(5:4)
+
+           accept wrk-hora-lancamento from time 
+           compute wrk-hora-lancamento = wrk-hora-lancamento / 1000000
+           move wrk-hora-lancamento to wrk-t5-hor
+
+           display t5
+           .
+      *
+       t5-Ef-wrk-t5-tip-Bef-Procedure.
+           perform trata-barra-funcoes-t5
+           .
+
+       Trata-barra-funcoes-t5.
+           move 1 to wrk-prgantnovo
+           modify t5-pb-pesquisa enabled 0
+           modify t5-pb-inclui   enabled 0
+
+           if control-id = 177
+              modify t5-pb-pesquisa enabled 1
+           end-if
+           .
+      *
+       t5-Ef-wrk-t5-obs1-Bef-Procedure.
+           perform trata-barra-funcoes-t5
+           .
+      *
+       t5-Ef-wrk-t5-obs2-Bef-Procedure.
+           perform trata-barra-funcoes-t5
+           .
+      *
+       t5-Ef-wrk-t5-obs3-Bef-Procedure.
+           perform trata-barra-funcoes-t5
+           .
+      *
+       t5-Ef-wrk-t5-obs4-Bef-Procedure.
+           perform trata-barra-funcoes-t5
+           .
+      *
+       t5-Ef-wrk-t5-obs5-Bef-Procedure.
+           perform trata-barra-funcoes-t5
+           .
+      *
+       t5-Ef-wrk-t5-tip-Aft-Procedure.
+           if wrk-t5-tip not = 1 and 3 and 4 and 5
+              if wrk-t5-tip = 2
+                 move 'Infração já está com essa Situação.' 
+                                                        to wrk-message-1
+                 perform mensagem
+                 move spaces to wrk-t5-tip-nom
+                 modify t5-Ef-wrk-t5-tip-nom value wrk-t5-tip-nom
+                 inquire t5-Ef-wrk-t5-cod id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              else
+                 move 'Tipo Inválido.' to wrk-message-1
+                 perform mensagem
+                 move spaces to wrk-t5-tip-nom
+                 modify t5-Ef-wrk-t5-tip-nom value wrk-t5-tip-nom
+                 inquire t5-Ef-wrk-t5-cod id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+           else
+              evaluate wrk-t5-tip
+                 when 1
+                    move 'Lançada'    to wrk-t5-tip-nom
+                 when 3
+                    move 'Cancelada'  to wrk-t5-tip-nom
+                 when 4
+                    move 'Aguardando' to wrk-t5-tip-nom
+                 when 5
+                    move 'Baixada'    to wrk-t5-tip-nom
+              end-evaluate
+              modify t5-Ef-wrk-t5-tip-nom value wrk-t5-tip-nom
+           end-if
+           .
+      *
+       t5-Pb-pesquisa-Link.
+           perform acu-t6-routine
+
+           move wrk-tipo-t6 to wrk-t5-tip
+           modify t5-Ef-wrk-t5-tip value wrk-t5-tip
+
+           evaluate wrk-t5-tip
+              when 1
+                 move 'Lançada'    to wrk-t5-tip-nom
+              when 3
+                 move 'Cancelada'  to wrk-t5-tip-nom
+              when 4
+                 move 'Aguardando' to wrk-t5-tip-nom
+              when 5
+                 move 'Baixada'    to wrk-t5-tip-nom
+           end-evaluate
+           modify t5-Ef-wrk-t5-tip-nom value wrk-t5-tip-nom
+
+           inquire t5-Ef-wrk-t5-tip id in control-id
+           move 4 to accept-control
+           exit paragraph
+           .
+      *
+       t6-Aft-Initdata.
+           move zeros to wrk-tipo-t6
+           display t6
+           .
+      *
+       t6-Pb-Ok-Link.
+           perform acu-t6-exit
+           .
+      *
+       t5-Pb-grava-Bef-Procedure.
+           perform trata-barra-funcoes-t5
+           modify t5-pb-grava bitmap-handle = tripao2-bmp
+           modify t5-pb-grava style         = pbs-framed
+           modify t5-pb-grava bitmap-number = 1
+           .
+      *
+       t5-Pb-grava-Aft-Procedure.
+           modify t5-pb-grava bitmap-handle = tripao2-bmp
+           modify t5-pb-grava bitmap-number = 1
+           modify t5-pb-grava flat
+           .
+      *
+       t5-Pb-desiste-Bef-Procedure.
+           perform trata-barra-funcoes-t5
+           modify t5-pb-desiste bitmap-handle = tripao2-bmp
+           modify t5-pb-desiste style         = pbs-framed
+           modify t5-pb-desiste bitmap-number = 2
+           .
+      *
+       t5-Pb-desiste-Aft-Procedure.
+           modify t5-pb-desiste bitmap-handle = tripao2-bmp
+           modify t5-pb-desiste bitmap-number = 2
+           modify t5-pb-desiste flat
+           .
+      *
+       t5-Pb-grava-Link.
+           |Verificações
+           |Tipo
+           if wrk-t5-tip not = 1 and 3 and 4 and 5
+              if wrk-t5-tip = 2
+                 move 'Infração já está com essa Situação.' 
+                                                        to wrk-message-1
+                 perform mensagem
+                 move spaces to wrk-t5-tip-nom
+                 modify t5-Ef-wrk-t5-tip-nom value wrk-t5-tip-nom
+                 inquire t5-Ef-wrk-t5-cod id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              else
+                 move 'Tipo Inválido.' to wrk-message-1
+                 perform mensagem
+                 move spaces to wrk-t5-tip-nom
+                 modify t5-Ef-wrk-t5-tip-nom value wrk-t5-tip-nom
+                 inquire t5-Ef-wrk-t5-cod id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+           else
+              evaluate wrk-t5-tip
+                 when 1
+                    move 'Lançada'    to wrk-t5-tip-nom
+                 when 3
+                    move 'Cancelada'  to wrk-t5-tip-nom
+                 when 4
+                    move 'Aguardando' to wrk-t5-tip-nom
+                 when 5
+                    move 'Baixada'    to wrk-t5-tip-nom
+              end-evaluate
+              modify t5-Ef-wrk-t5-tip-nom value wrk-t5-tip-nom
+           end-if
+
+           |Gravação
+           initialize REG-IFS01
+           move IFC01-CODIGO to IFS01-CODIGO
+           move high-value   to IFS01-PROGRESSIVO
+           start ARQ-IFS01 key is < IFS01-CHAVE
+           read ARQ-IFS01 previous with no lock
+           if not valid-ARQ-IFS01 or IFC01-CODIGO not = IFS01-CODIGO
+              move 1 to IFS01-PROGRESSIVO
+           else
+              add  1 to IFS01-PROGRESSIVO
+           end-if
+           move IFC01-CODIGO to IFS01-CODIGO
+           move wrk-t5-dat   to IFS01-DATSITUACAO
+           move wrk-t5-hor   to IFS01-HORSITUACAO
+           move wrk-t5-tip   to IFS01-TIPO
+           move wrk-t5-obs1  to IFS01-OBSERVACAO1
+           move wrk-t5-obs2  to IFS01-OBSERVACAO2
+           move wrk-t5-obs3  to IFS01-OBSERVACAO3
+           move wrk-t5-obs4  to IFS01-OBSERVACAO4
+           move wrk-t5-obs5  to IFS01-OBSERVACAO5
+           move usu-codigo   to IFS01-OPERADOR
+
+           write REG-IFS01
+           if not valid-ARQ-IFS01
+              move 'Erro na gravação do arquivo ARQ-IFS01.' 
+                                                        to wrk-message-1
+              string 'Status: ' STAT-ARQ-IFS01 into wrk-message-2
+              perform mensagem
+              exit paragraph
+           else
+              move 'Situação alterada com sucesso!' to wrk-message-1
+              perform mensagem-i
+              perform acu-t5-exit
+           end-if
+           .
+      *
+       t1-Pb-Pagar-Link.
+           if wrk-codigo-ifc > 0
+              perform acu-t7-routine
+              perform t1-Pb-Filtrar-Link
+           end-if
+           .
+      *
+       t7-Aft-Initdata.
+           initialize reg-usu
+           move ext-codusu to usu-codigo
+           read arq-usu with no lock
+           if valid-arq-usu
+              string "Usuário: " usu-nome 
+                                   delimited by size into wrk-barusuario
+              modify t7-St-1-Handle panel-index 1
+                                               panel-text wrk-barusuario
+
+              initialize reg-emp00
+              move 1 to emp00-codigo
+              read arq-emp00 with no lock
+              if valid-arq-emp00
+                 Move emp00-nome to wrk-barempresa
+              else
+                 string "Empresa não encontrada"
+                                   delimited by size into wrk-barempresa
+              end-if
+                 modify t7-St-1-Handle panel-index 2 
+                                               panel-text wrk-barempresa
+           end-if
+
+           perform Inicio-T7
+           .
+
+       Inicio-T7.
+           move spaces to wrk-t7-aut
+                          wrk-t7-nom-for
+                          wrk-pago
+                          wrk-dt-pgto
+
+           move zeros  to wrk-t7-cod
+                          wrk-t7-dat
+                          wrk-t7-hor
+                          wrk-t7-cod-for
+                          wrk-t7-nro-aut
+
+           move 'S' to wrk-pagar
+
+           accept wrk-data-inv from date YYYYMMDD
+           move wrk-data-inv-r-dia to wrk-t7-dat(1:2)
+           move wrk-data-inv-r-mes to wrk-t7-dat(3:2)
+           move wrk-data-inv-r-ano to wrk-t7-dat(5:4)
+
+           accept wrk-hora-lancamento from time 
+           compute wrk-hora-lancamento = wrk-hora-lancamento / 1000000
+           move wrk-hora-lancamento to wrk-t7-hor
+
+           initialize REG-IFC01
+           move wrk-codigo-ifc to IFC01-CODIGO
+           read ARQ-IFC01 with no lock
+           if not valid-ARQ-IFC01
+              initialize REG-IFC01
+           end-if
+           move IFC01-CODIGO       to wrk-t7-cod
+           move IFC01-AUTINFLACAO  to wrk-t7-aut
+           move IFC01-ORG-AUTUADOR to wrk-t7-cod-for
+
+           initialize REG-FOR15
+           move wrk-t7-cod-for to FOR15-CODIGO
+           read ARQ-FOR15 with no lock
+           if not valid-ARQ-FOR15
+              initialize REG-FOR15
+           end-if
+           move FOR15-NOME to wrk-t7-nom-for
+
+           display t7
+
+           perform Limpa-Grid-T7
+            
+           |ARQ-IFP01
+           |mostrar na tela arq-ifp01
+           perform Preenche-Gd-T7
+           if wrk-pagar = 'N'
+              exit paragraph
+           end-if
+
+           move IFC01-ORG-AUTUADOR to wrk-t7-cod-for
+           move 'S' to wrk-ok
+
+           move zeros to wrk-total-pagar 
+           perform until not valid-ARQ-IFP01 or 
+                                         IFC01-CODIGO not = IFP01-CODIGO 
+              if IFP01-ATRELA = 'S'
+                 add 1 to wrk-contagem-gd3
+      
+                 if wrk-contagem-gd3 = 1
+                    perform criar-temp-6
+                    if wrk-ok = "N"
+                       exit paragraph
+                    end-if
+                 end-if
+
+                 initialize REG-PAG09
+                 move wrk-cod-emp    to PAG09-CODEMP
+                 move wrk-t7-cod-for to PAG09-CODFOR
+                 move IFP01-NROTIT   to PAG09-NROTIT
+                 move IFP01-DESTIT   to PAG09-DESTIT
+                 read ARQ-PAG09 with no lock
+                 if not valid-ARQ-PAG09
+                    exit perform
+                 end-if         
+
+                 move IFP01-NROTIT to T01-C074-6-NROTIT
+                 move IFP01-DESTIT to T01-C074-6-DESTIT
+                 move PAG09-DATVEC to T01-C074-6-DT-VEN
+                 move PAG09-VALTIT to T01-C074-6-VALTIT
+                 move PAG09-SALTIT to T01-C074-6-SALDO
+
+                 if wrk-contagem-gd3 = 1
+                    move PAG09-NROAUT to wrk-t7-nro-aut
+                    modify t7-Pb-Gravar enabled false
+                 end-if
+
+                 add PAG09-VALTIT to wrk-total-pagar
+   
+                 write REG-T01-C074-6
+                 if not valid-T01-C074-6
+                    move 'Não foi possível gravar o arquivo' 
+                                                     to wrk-message-1
+                    string 'T01-C074-6. Status: ' STAT-T01-C074-6 
+                                                   into wrk-message-2
+                    perform mensagem
+                    exit paragraph
+                 end-if
+              end-if
+
+              read ARQ-IFP01 next with no lock
+           end-perform
+
+           modify t7-Ef-wrk-t7-cod-for value wrk-t7-cod-for
+           modify t7-Ef-wrk-t7-nom-for value wrk-t7-nom-for
+           modify t7-Ef-wrk-t7-nro-aut value wrk-t7-nro-aut
+
+           close T01-C074-6
+           open input T01-C074-6
+
+           initialize REG-T01-C074-6
+           start T01-C074-6 key is >= T01-C074-6-CHAVE
+           read T01-C074-6 next with no lock
+           
+           perform until not valid-T01-C074-6
+              move T01-C074-6-NROTIT to Gd-1-Numero
+              move T01-C074-6-DESTIT to Gd-1-Desd
+              move T01-C074-6-DT-VEN to Gd-1-Dt-Venc
+              move T01-C074-6-VALTIT to Gd-1-Vl-Tit
+              move T01-C074-6-SALDO  to Gd-1-Saldo
+   
+              add 1 to wrk-linha-grid-t7
+   
+              modify t7-Gd-1, NUM-ROWS wrk-linha-grid-t7
+                            RECORD-TO-ADD t7-Gd-1-Record
+
+              read T01-C074-6 next with no lock
+           end-perform
+
+           initialize REG-FOR15
+           move IFC01-ORG-AUTUADOR to FOR15-CODIGO
+           read ARQ-FOR15 with no lock
+           if not valid-ARQ-FOR15
+              initialize REG-FOR15
+           end-if
+           move FOR15-CODIGO to wrk-t7-cod-for
+           move FOR15-NOME   to wrk-t7-nom-for
+
+           modify t7-Ef-wrk-t7-cod-for value wrk-t7-cod-for
+           modify t7-Ef-wrk-t7-nom-for value wrk-t7-nom-for
+
+           |Protocolo 54.781
+           Perform Atualiza-Pagamento
+           |Fim
+           .
+
+       Limpa-Grid-T7.
+           modify t7-Gd-1, RESET-GRID 1
+           move Zeros to wrk-linha-grid-t7
+           Add 1 to wrk-linha-grid-t7
+           modify t7-Gd-1, NUM-ROWS wrk-linha-grid-t7
+           Perform Acu-t7-Gd-1-Content
+           .
+      *
+       t7-Pb-Gravar-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t7-pb-gravar bitmap-handle = tripao2-bmp
+           modify t7-pb-gravar style         = pbs-framed
+           modify t7-pb-gravar bitmap-number = 20
+           .
+      *
+       t7-Pb-Gravar-Aft-Procedure.
+           modify t7-pb-gravar bitmap-handle = tripao2-bmp
+           modify t7-pb-gravar bitmap-number = 20
+           modify t7-pb-gravar flat
+           .
+      *
+       t7-Pb-Excluir-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t7-pb-excluir bitmap-handle = tripao2-bmp
+           modify t7-pb-excluir style         = pbs-framed
+           modify t7-pb-excluir bitmap-number = 10
+           .
+      *
+       t7-Pb-Excluir-Aft-Procedure.
+           modify t7-pb-excluir bitmap-handle = tripao2-bmp
+           modify t7-pb-excluir bitmap-number = 10
+           modify t7-pb-excluir flat
+           .
+
+       Preenche-Gd-T7.
+           initialize REG-IFP01
+           move IFC01-CODIGO to IFP01-CODIGO
+           start ARQ-IFP01 key is >= IFP01-CHAVE
+           read ARQ-IFP01 next with no lock
+           if not valid-ARQ-IFP01 or IFC01-CODIGO not = IFP01-CODIGO
+              initialize REG-IFP01
+              move zeros  to wrk-t7-nro-aut
+
+              modify t7-Pb-Gravar enabled true
+
+              perform Limpa-Grid-T7
+              move 'N' to wrk-pagar
+
+              modify t7-Ef-wrk-t7-nro-aut value wrk-t7-nro-aut
+              exit paragraph
+           end-if
+
+           initialize REG-VEI01
+           move IFC01-VEICULO to VEI01-CODIGO
+           read ARQ-VEI01 with no lock
+           if not valid-ARQ-VEI01
+              initialize REG-VEI01
+           end-if
+
+           initialize REG-UNI15
+           move VEI01-UN-NEG to UNI15-CODIGO
+           read ARQ-UNI15 with no lock
+           if not valid-ARQ-UNI15
+              initialize REG-UNI15
+           end-if
+
+           move zeros to wrk-cod-emp 
+           if UNI15-EMP-PED-COMPRAS > 0
+              move UNI15-EMP-PED-COMPRAS to wrk-cod-emp
+           else
+              move 1 to wrk-cod-emp
+           end-if
+
+           move zeros to wrk-contagem-gd3
+
+           perform Limpa-Grid-T7
+           .
+
+       Criar-temp-6.
+           move spaces to wrk-ok
+           Close T01-C074-6
+           Call 'C$DELETE' Using DRV-T01-C074-6, 'I'
+
+           Close T01-C074-6
+           move Spaces to DRV-T01-C074-6
+
+           move zeros to wrk-hora-atual
+           Accept wrk-hora-atual From Time
+
+           String '\Comp-3\Temp\T01-C074-6-' 
+                  ext-codusu '-' wrk-hora-atual(1:6) '.dad'
+                  into DRV-T01-C074-6
+
+           Open Output T01-C074-6
+           Close       T01-C074-6
+           Open I-O    T01-C074-6
+
+           if NOT Valid-T01-C074-6
+              move 'Não foi possível criar o arquivo'   to wrk-message-1
+              string 'Temporário T01-C074-6. Status: ' Stat-T01-C074-6
+                                                      into wrk-message-2
+              perform mensagem
+              move "N" to wrk-ok
+              exit paragraph 
+           End-if
+           .
+      *
+       t7-Pb-Gravar-Link.
+           initialize REG-IFI01
+           move IFC01-CODIGO to IFI01-CODIGO
+           move low-value    to IFI01-CODINFLACAO
+           start ARQ-IFI01 key is >= IFI01-CHAVE
+           read ARQ-IFI01 next with no lock
+           if not valid-ARQ-IFI01 or IFC01-CODIGO not = IFI01-CODIGO
+              move 'Não foi adicionado nenhum enquadramento' 
+                                                        to wrk-message-1
+              move 'nesta Infração. Não é possível integrar'
+                                                        to wrk-message-2
+              move 'com o Pagar.' to wrk-message-3
+              perform mensagem
+              exit paragraph
+           end-if
+      
+           move zeros  to wrk-ext-P01-C074-cod-emp
+                          wrk-ext-P01-C074-cod-for
+                          wrk-ext-P01-C074-val-nf
+                          wrk-ext-P01-C074-dat-cont
+                          wrk-ext-P01-C074-dat-emi
+                          wrk-ext-P01-C074-dat-comp
+                          wrk-ext-P01-C074-dat-ven
+                          wrk-ext-P01-C074-val-tit
+                          wrk-ext-P01-C074-val-bru
+                          wrk-ext-P01-C074-val-liq
+                          wrk-ext-P01-C074-ifc-cod
+      
+           move spaces to wrk-ext-P01-C074-vei
+      
+           |Código da Empresa
+           initialize REG-VEI01
+           move IFC01-VEICULO to VEI01-CODIGO
+           read ARQ-VEI01 with no lock
+           if not valid-ARQ-VEI01
+              initialize REG-VEI01
+           end-if
+      
+           if VEI01-UN-NEG > 0
+              initialize REG-UNI15
+              move VEI01-UN-NEG to UNI15-CODIGO
+              read ARQ-UNI15 with no lock
+              if not valid-ARQ-UNI15
+                 initialize REG-UNI15
+              end-if
+      
+              if UNI15-EMP-PED-COMPRAS > 0
+                 move UNI15-EMP-PED-COMPRAS to wrk-ext-P01-C074-cod-emp
+              else
+                 move 1 to wrk-ext-P01-C074-cod-emp
+              end-if
+           else
+              move 1 to wrk-ext-P01-C074-cod-emp
+           end-if
+      
+           |Código do Fornecedor
+           if IFC01-ORG-AUTUADOR > 0
+              move IFC01-ORG-AUTUADOR to wrk-ext-P01-C074-cod-for
+           else
+              move zeros to wrk-ext-P01-C074-cod-for
+           end-if
+      
+           |Valor da Nota Fiscal
+           perform until not valid-ARQ-IFI01 or 
+                                         IFC01-CODIGO not = IFI01-CODIGO
+              add IFI01-VALOR to wrk-ext-P01-C074-val-nf
+
+              read ARQ-IFI01 next with no lock
+           end-perform 
+      
+           |Data Contábil
+           move IFC01-DATLANCAMENTO  to wrk-ext-P01-C074-dat-cont
+      
+           |Data de Emissão
+           move IFC01-DATLANCAMENTO  to wrk-ext-P01-C074-dat-emi
+      
+           |Data de Competência
+           move IFC01-DATLANCAMENTO  to wrk-ext-P01-C074-dat-comp
+                 
+           |Data de Vencimento
+           move IFC01-DAT-VENCIMENTO to wrk-ext-P01-C074-dat-ven
+      
+           |Valor do Título
+           move wrk-ext-P01-C074-val-nf to wrk-ext-P01-C074-val-tit
+      
+           |Valor Bruto
+           move wrk-ext-P01-C074-val-nf to wrk-ext-P01-C074-val-bru
+      
+           |Valor Líquido
+           move wrk-ext-P01-C074-val-nf to wrk-ext-P01-C074-val-liq
+      
+           |Veículo
+           move IFC01-VEICULO to wrk-ext-P01-C074-vei
+      
+           |Código do IFC01
+           move IFC01-CODIGO  to wrk-ext-P01-C074-ifc-cod
+      
+           move zeros to wrk-lnk-1
+                         wrk-lnk-2
+                         wrk-lnk-3
+                         wrk-lnk-4
+                         wrk-lnk-5
+                         wrk-lnk-6
+      
+           call 'PPAGA212' using lnk-padrao
+                                 wrk-lnk-1
+                                 wrk-lnk-2
+                                 wrk-lnk-3
+                                 wrk-lnk-4
+                                 wrk-lnk-5
+                                 wrk-lnk-6
+
+           cancel 'PPAGA212'
+
+           initialize REG-IFP01
+           move IFC01-CODIGO to IFP01-CODIGO
+           move high-value   to IFP01-PROGRESSIVO
+           start ARQ-IFP01 key is <= IFP01-CHAVE
+           read ARQ-IFP01 previous with no lock
+           if not valid-ARQ-IFP01 or IFC01-CODIGO not = IFP01-CODIGO
+              initialize REG-IFP01
+              move zeros  to wrk-t7-cod-for
+                             wrk-t7-nro-aut
+                             
+              move spaces to wrk-t7-nom-for
+
+              modify t7-Pb-Gravar enabled true
+      
+              modify t7-Ef-wrk-t7-cod-for value wrk-t7-cod-for
+              modify t7-Ef-wrk-t7-nom-for value wrk-t7-nom-for
+              modify t7-Ef-wrk-t7-nro-aut value wrk-t7-nro-aut
+
+              perform Limpa-Grid-T7
+              exit paragraph
+           end-if
+
+           |Autorização
+           move IFP01-AUTORIZACAO to wrk-t7-nro-aut
+
+           |Atrela - gravação
+           perform until not valid-ARQ-IFP01 
+                                      or IFC01-CODIGO not = IFP01-CODIGO
+
+              move 'S' to IFP01-ATRELA
+
+              rewrite REG-IFP01
+              if not valid-ARQ-IFP01
+                 move 'Não foi possível atrelar com o ' 
+                                                     to wrk-message-1
+                 string 'módulo Pagar. Status: 'STAT-ARQ-IFP01 
+                                                   into wrk-message-2
+                 perform mensagem
+                 exit paragraph
+              end-if
+
+              read ARQ-IFP01 previous with no lock
+           end-perform
+
+           |Fornecedor
+           move wrk-ext-P01-C074-cod-for to wrk-t7-cod-for
+
+           initialize REG-FOR15
+           move wrk-t7-cod-for to FOR15-CODIGO
+           read arq-for15 with no lock
+           if not valid-arq-for15
+              initialize REG-FOR15
+           end-if
+           move FOR15-NOME to wrk-t7-nom-for
+
+           |Preenche Grid
+           initialize REG-IFP01
+           move IFC01-CODIGO to IFP01-CODIGO
+           start ARQ-IFP01 key is >= IFP01-CHAVE
+           read ARQ-IFP01 next with no lock
+           if not valid-ARQ-IFP01 or IFC01-CODIGO not = IFP01-CODIGO
+              initialize REG-IFP01
+              move zeros  to wrk-t7-cod-for
+                             wrk-t7-nro-aut
+                             
+              move spaces to wrk-t7-nom-for
+
+              modify t7-Pb-Gravar enabled true
+
+              perform Limpa-Grid-T7
+              modify t7-Ef-wrk-t7-cod-for value wrk-t7-cod-for
+              modify t7-Ef-wrk-t7-nom-for value wrk-t7-nom-for
+              modify t7-Ef-wrk-t7-nro-aut value wrk-t7-nro-aut
+              exit paragraph
+           end-if
+
+           initialize REG-VEI01
+           move IFC01-VEICULO to VEI01-CODIGO
+           read ARQ-VEI01 with no lock
+           if not valid-ARQ-VEI01
+              initialize REG-VEI01
+           end-if
+
+           initialize REG-UNI15
+           move VEI01-UN-NEG to UNI15-CODIGO
+           read ARQ-UNI15 with no lock
+           if not valid-ARQ-UNI15
+              initialize REG-UNI15
+           end-if
+
+           move zeros to wrk-cod-emp 
+           if UNI15-EMP-PED-COMPRAS > 0
+              move UNI15-EMP-PED-COMPRAS to wrk-cod-emp
+           else
+              move 1 to wrk-cod-emp
+           end-if
+
+           move zeros to wrk-contagem-gd3
+
+           perform Limpa-Grid-T7
+      
+           modify t7-Ef-wrk-t7-cod-for value wrk-t7-cod-for
+           modify t7-Ef-wrk-t7-nom-for value wrk-t7-nom-for
+           modify t7-Ef-wrk-t7-nro-aut value wrk-t7-nro-aut
+
+           move zeros to wrk-total-pagar
+           perform until not valid-ARQ-IFP01 or
+                                         IFC01-CODIGO not = IFP01-CODIGO
+
+              if IFP01-ATRELA = 'S'
+                 initialize REG-T01-C074-6
+                            REG-PAG09
+   
+                 move wrk-cod-emp    to PAG09-CODEMP
+                 move wrk-t7-cod-for to PAG09-CODFOR
+                 move IFP01-NROTIT   to PAG09-NROTIT
+                 move IFP01-DESTIT   to PAG09-DESTIT
+                 read ARQ-PAG09 with no lock
+                 if valid-ARQ-PAG09
+                    add 1 to wrk-contagem-gd3
+      
+                    if wrk-contagem-gd3 = 1
+                       perform criar-temp-6
+                       if wrk-ok = "N"
+                          exit paragraph
+                       end-if
+                       modify t7-Pb-Gravar enabled false
+                    end-if
+                    
+                    perform until not valid-ARQ-PAG09                 or
+                                      wrk-cod-emp  not = PAG09-CODEMP or
+                                      IFP01-NROTIT not = PAG09-NROTIT or
+                                      IFP01-DESTIT not = PAG09-DESTIT
+                       if wrk-t7-cod-for = PAG09-CODFOR
+                          exit perform
+                       end-if
+      
+                       read ARQ-PAG09 next with no lock
+                    end-perform
+      
+                    move IFP01-NROTIT to T01-C074-6-NROTIT
+                    move IFP01-DESTIT to T01-C074-6-DESTIT
+                    move PAG09-DATVEC to T01-C074-6-DT-VEN
+                    move PAG09-VALTIT to T01-C074-6-VALTIT
+                    move PAG09-SALTIT to T01-C074-6-SALDO
+      
+                    add PAG09-VALTIT to wrk-total-pagar
+      
+                    write REG-T01-C074-6
+                    if not valid-T01-C074-6
+                       move 'Não foi possível gravar o arquivo' 
+                                                        to wrk-message-1
+                       string 'T01-C074-6. Status: ' STAT-T01-C074-6 
+                                                      into wrk-message-2
+                       perform mensagem
+                       move 'N' to wrk-ok
+                       exit paragraph
+                    end-if
+                 end-if
+              end-if
+
+              read ARQ-IFP01 next with no lock
+           end-perform
+
+           close T01-C074-6
+           open input T01-C074-6
+
+           initialize REG-T01-C074-6
+           start T01-C074-6 key is >= T01-C074-6-CHAVE
+           read T01-C074-6 next with no lock
+           
+           move zeros to wrk-total-pagar
+           perform until not valid-T01-C074-6
+              move T01-C074-6-NROTIT to Gd-1-Numero
+              move T01-C074-6-DESTIT to Gd-1-Desd
+              move T01-C074-6-DT-VEN to Gd-1-Dt-Venc
+              move T01-C074-6-VALTIT to Gd-1-Vl-Tit
+              move T01-C074-6-SALDO  to Gd-1-Saldo
+
+              add T01-C074-6-VALTIT  to wrk-total-pagar
+   
+              add 1 to wrk-linha-grid-t7
+   
+              modify t7-Gd-1, NUM-ROWS wrk-linha-grid-t7
+                            RECORD-TO-ADD t7-Gd-1-Record
+
+              read T01-C074-6 next with no lock
+           end-perform
+
+           if IFC01-DAT-VENCIMENTO = zeros
+              move T01-C074-6-DT-VEN to IFC01-DAT-VENCIMENTO
+
+              rewrite REG-IFC01
+              if not valid-ARQ-IFC01
+                 move 'Não foi possível regravar o arquivo' 
+                                                        to wrk-message-1
+                 string 'ARQ-IFC01. Status: ' STAT-ARQ-IFC01 
+                                                      into wrk-message-2
+                 perform mensagem
+
+                 initialize REG-IFP01
+                 move IFC01-CODIGO to IFP01-CODIGO
+                 start ARQ-IFP01 key is >= IFP01-CHAVE
+                 read ARQ-IFP01 next with no lock
+                 if not valid-ARQ-IFP01 or 
+                                         IFC01-CODIGO not = IFP01-CODIGO
+                    initialize REG-IFP01
+                    move 'Não foi possível localizar o registro'
+                                                        to wrk-message-1
+                    move 'para exclusão no arquivo ARQ-IFP01.'
+                                                        to wrk-message-2
+                    string 'Status: 'STAT-ARQ-IFP01   into wrk-message-3
+                    perform mensagem
+                    exit paragraph
+                 end-if
+
+                 perform until not valid-ARQ-IFP01 or 
+                                         IFC01-CODIGO not = IFP01-CODIGO
+
+                    delete ARQ-IFP01
+                    if not valid-ARQ-IFP01
+                       move 1 to  wrk-prgantnovo
+                       initialize wrk-texto-msg
+                       move "Erro na exclusão do arquivo ARQ-IFP01." 
+                                                        to wrk-message-1
+                       string "Status: " STAT-ARQ-IFP01
+                                                      into wrk-message-2
+      
+                       set wrk-error-type to true
+                       set wrk-ok-type    to true
+                       Call "mensagem" Using wrk-Message-Type
+                                             wrk-Response-Type
+                                             wrk-message-1
+                                             wrk-Message-2
+                                             wrk-Message-3
+                       on overflow perform call-error end-call
+                       Cancel "mensagem"  
+                       exit paragraph
+                    end-if
+
+                    read ARQ-IFP01 next with no lock
+                 end-perform
+
+                 modify t7-Pb-Gravar enabled true
+
+                 move zeros  to wrk-t7-cod-for
+                                wrk-t7-nro-aut
+
+                 move spaces to wrk-t7-nom-for
+
+                 display t7
+
+                 Close T01-C074-6
+                 Call 'C$DELETE' using DRV-T01-C074-6, 'I'
+
+                 perform Limpa-Grid-T7
+                 exit paragraph
+              end-if
+           end-if
+
+           move zeros  to wrk-ext-P01-C074-cod-emp
+                          wrk-ext-P01-C074-cod-for
+                          wrk-ext-P01-C074-val-nf
+                          wrk-ext-P01-C074-dat-cont
+                          wrk-ext-P01-C074-dat-emi
+                          wrk-ext-P01-C074-dat-comp
+                          wrk-ext-P01-C074-dat-ven
+                          wrk-ext-P01-C074-val-tit
+                          wrk-ext-P01-C074-val-bru
+                          wrk-ext-P01-C074-val-liq
+                          wrk-ext-P01-C074-ifc-cod
+      
+           move spaces to wrk-ext-P01-C074-vei
+
+           modify t7-Pb-Gravar enabled false
+
+           |Protocolo 54.781
+           Perform Atualiza-Pagamento
+           |Fim
+           .
+      *
+       t7-Pb-Excluir-Link.
+           if wrk-t7-cod-for > 0 and wrk-t7-nro-aut > 0
+              move 1 to wrk-prgantnovo
+              move "Deseja excluir o vinculo do Controle de" 
+                                                        to wrk-message-1
+              move "Multas com o Contas a Pagar?"       to wrk-message-2
+              set wrk-warning-type to true
+              set wrk-yes-no-type  to true
+              set wrk-default-2 to true
+              Call "mensagem" Using wrk-Message-Type
+                                    wrk-Response-Type 
+                                    wrk-message-1
+                                    wrk-Message-2
+                                    wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+                                    
+              if wrk-response = 1
+                 initialize REG-IFP01
+                 move IFC01-CODIGO to IFP01-CODIGO
+                 start ARQ-IFP01 key is >= IFP01-CHAVE
+                 read ARQ-IFP01 next with no lock
+                 if not valid-ARQ-IFP01 or 
+                                         IFC01-CODIGO not = IFP01-CODIGO
+                    initialize REG-IFP01
+                    move 'Não foi possível localizar o registro'
+                                                        to wrk-message-1
+                    move 'para exclusão no arquivo ARQ-IFP01.'
+                                                        to wrk-message-2
+                    string 'Status: 'STAT-ARQ-IFP01   into wrk-message-3
+                    perform mensagem
+                    exit paragraph
+                 end-if
+
+                 perform until not valid-ARQ-IFP01 or 
+                                         IFC01-CODIGO not = IFP01-CODIGO
+
+                    delete ARQ-IFP01
+                    if not valid-ARQ-IFP01
+                       move 1 to  wrk-prgantnovo
+                       initialize wrk-texto-msg
+                       move "Erro na exclusão do arquivo ARQ-IFP01." 
+                                                        to wrk-message-1
+                       string "Status: " STAT-ARQ-IFP01
+                                                      into wrk-message-2
+      
+                       set wrk-error-type to true
+                       set wrk-ok-type    to true
+                       Call "mensagem" Using wrk-Message-Type
+                                             wrk-Response-Type
+                                             wrk-message-1
+                                             wrk-Message-2
+                                             wrk-Message-3
+                       on overflow perform call-error end-call
+                       Cancel "mensagem"  
+                       exit paragraph
+                    end-if
+
+                    read ARQ-IFP01 next with no lock
+                 end-perform
+
+                 modify t7-Pb-Gravar enabled true
+
+                 move zeros  to wrk-t7-nro-aut
+
+                 display t7
+
+                 Close T01-C074-6
+                 Call 'C$DELETE' using DRV-T01-C074-6, 'I'
+
+                 perform Limpa-Grid-T7
+              end-if
+           else
+              move 'Não há nenhum vinculo do Controle de' 
+                                                        to wrk-message-1
+              move 'Multas com o Contas a Pagar para ser' 
+                                                        to wrk-message-2
+              move 'excluído.' to wrk-message-3
+              perform mensagem
+              exit paragraph
+           end-if
+
+           |Protocolo 54.781
+           Perform Atualiza-Pagamento
+           |Fim
+           .
+      *
+       t7-Gd-1-Ev-Msg-Begin-Entry.
+           Set Event-Action to Event-Action-Fail
+           .
+      *
+       t7-Gd-1-Ev-Msg-Goto-Cell.
+           modify t7-Gd-1, Start-X 1
+                                 X 8
+                           Start-Y event-data-2
+                                 Y event-data-2
+                           Region-Color 80
+           .
+      *
+       t7-Gd-1-Ev-Msg-Goto-Cell-Mouse.
+           perform t7-Gd-1-Ev-Msg-Goto-Cell
+           .
+      *
+       t7-Ex-Other.
+           Close T01-C074-6
+           Call 'C$DELETE' using DRV-T01-C074-6, 'I'
+           .
+           |Fim Protocolo 54.609
+
+           |Protocolo 54.666
+      *
+       t1-Ef-wrk-codigo-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Ef-wrk-codigo-Aft-Procedure.
+           if wrk-codigo > 0
+              initialize REG-IFC01
+              move wrk-codigo to IFC01-CODIGO
+              read ARQ-IFC01 with no lock
+              if not valid-ARQ-IFC01
+                 move 'Código não cadastrado.' to wrk-message-1
+                 perform mensagem
+                 inquire t1-Ef-wrk-codigo id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+           end-if
+           .
+           |Fim
+      *    Protocolo 54.781
+       Atualiza-Pagamento.
+           initialize REG-IFP01
+           move IFC01-CODIGO to IFP01-CODIGO
+           move low-value    to IFP01-PROGRESSIVO
+           start ARQ-IFP01 key is >= IFP01-CHAVE
+           read ARQ-IFP01 next with no lock
+           if valid-ARQ-IFP01 and IFC01-CODIGO = IFP01-CODIGO
+              if IFP01-AUTORIZACAO is not numeric or 
+                 IFP01-AUTORIZACAO = zeros
+                 move 'Nao'  to wrk-pago
+                 move spaces to wrk-dt-pgto
+              else
+                 initialize REG-VEI01
+                 move IFC01-VEICULO to VEI01-CODIGO
+                 read ARQ-VEI01 with no lock
+                 if not valid-ARQ-VEI01
+                    initialize REG-VEI01
+                 end-if
+      
+                 initialize REG-UNI15
+                 move VEI01-UN-NEG to UNI15-CODIGO
+                 read ARQ-UNI15 with no lock
+                 if not valid-ARQ-UNI15
+                    initialize REG-UNI15
+                 end-if
+
+                 initialize REG-PAG09
+                 if UNI15-EMP-PED-COMPRAS > 0
+                    move UNI15-EMP-PED-COMPRAS to Pag09-CODEMP
+                 else
+                    move 1 to Pag09-CODEMP
+                 end-if
+
+                 move IFC01-ORG-AUTUADOR to Pag09-CODFOR
+                 move IFP01-NROTIT       to Pag09-NROTIT
+                 move IFP01-DESTIT       to Pag09-DESTIT
+                 read ARQ-PAG09 with no lock
+                 if valid-ARQ-PAG09
+                    if Pag09-SALTIT <> 0
+                       move 'Nao'  to wrk-pago
+                       move spaces to wrk-dt-pgto 
+                    else
+                       move 'Sim' to wrk-pago
+
+                       initialize REG-BAI09
+                       move Pag09-CODEMP to Bai09-CODEMP
+                       move Pag09-CODFOR to Bai09-CODFOR
+                       move Pag09-NROTIT to Bai09-NROTIT
+                       move Pag09-DESTIT to Bai09-DESTIT
+                       move low-value    to Bai09-NUMERO
+                       start ARQ-BAI09 key is >= Bai09-CHAVE
+                       read ARQ-BAI09 next with no lock
+                       if valid-ARQ-BAI09
+                          string Bai09-DIAMOV '/'
+                                 Bai09-MESMOV '/'
+                                 Bai09-ANOMOV
+                                 into wrk-dt-pgto
+                       end-if
+                    end-if
+                 end-if
+              end-if
+           else
+              move spaces to wrk-pago
+                             wrk-dt-pgto
+           end-if
+
+           modify t7-Ef-wrk-pago    value wrk-pago
+           modify t7-Ef-wrk-dt-pgto value wrk-dt-pgto
+           .
+           |Fim
+      *
+       t1-Cb-wrk-usa-dtinfracao-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Ef-wrk-cod-infracao-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Ef-wrk-cod-infracao-Aft-Procedure.
+           if wrk-cod-infracao > 0
+              initialize REG-IFC99
+              move wrk-cod-infracao to IFC99-CODIGO
+              read ARQ-IFC99 with no lock
+              if not valid-ARQ-IFC99
+                 move 'Código não cadastrado.' to wrk-message-1
+                 perform mensagem
+                 inquire t1-Ef-wrk-cod-infracao id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+           end-if
+           .
+      *
+       ARQ-IFC99-Before-Open.
+           close ARQ-IFC99
+           open input ARQ-IFC99
+
+           if STAT-ARQ-IFC99 = '35'
+              close ARQ-IFC99
+              open output ARQ-IFC99
+           end-if
+
+           close ARQ-IFC99
+           .
+
+       
+      *
+       arq-usu-Write.
+           write reg-usu 
+           if not valid-arq-usu
+              display message box "Erro na gravação do Usuário: " 
+                 usu-codigo h"0a" "Status: " stat-arq-usu 
+                 icon mb-error-icon title "Erro" 
+           end-if                      
+           .
+      *
+       arq-usu-Rewrite.
+           rewrite reg-usu 
+           if not valid-arq-usu
+              display message box "Erro na regravação do Usuário: " 
+                 usu-codigo h"0a" "Status: " stat-arq-usu 
+                 icon mb-error-icon title "Erro" 
+           end-if                       
+           .
+      *
+       arq-usu-Delete-File-Record.
+           display message box "Confirma exclusão do Usuário?"
+              icon mb-warning-icon type mb-yes-no title "Atenção"
+              giving return-code
+           if return-code = 1
+              delete arq-usu
+              if not valid-arq-usu
+                 display message box "Erro na exclusão do Usuário: " 
+                    usu-codigo h"0a" "Status: " stat-arq-usu 
+                    icon mb-error-icon title "Erro" 
+              end-if
+           end-if                      
+           .
+      ** 
+      * call-error.
+      *     SET ENVIRONMENT "TRANSLATE_TO_ANSI" TO 0
+      *     initialize wrk-texto-msg
+      *     string "Programa ( " wrk-codprg " ) não encontrado !" 
+      *                              delimited by size into wrk-message-1
+      *     set wrk-warning-type to true
+      *     set wrk-ok-type      to true
+      *     call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+      *                       wrk-message-1, wrk-Message-2, wrk-Message-3
+      *     on overflow perform call-error end-call
+      *     cancel "mensagem"
+      *     .
+
+      *
+       arq-usu-prg-Write.
+           write reg-usu-prg
+           if not Valid-usu-prg
+              display message box "Erro na gravação dos Programas: " 
+                 usu-prg-codprg h"0a" "Status: " stat-usu-prg
+                 icon mb-error-icon title "Erro" 
+           end-if
+           .
+      *
+       arq-usu-prg-Rewrite.
+           rewrite reg-usu-prg
+           if not Valid-usu-prg
+              display message box "Erro na regravação do Programa: " 
+                 usu-prg-codprg h"0a" "Status: " stat-usu-prg
+                 icon mb-error-icon title "Erro" 
+           end-if           
+           .
+      *
+       arq-usu-prg-Delete-File-Record.
+           display message box "Confirma exclusão do Programa?"
+              icon mb-warning-icon type mb-yes-no title "Atenção"
+              giving return-code
+           if return-code = 1
+              delete arq-usu-prg
+              if not Valid-usu-prg
+                 display message box "Erro na exclusão do Programa: " 
+                 usu-prg-codprg h"0a" "Status: " stat-usu-prg
+                 icon mb-error-icon title "Erro" 
+              end-if
+           end-if                
+           .
+
+      *
+       arq-prg-write.
+           write reg-prg
+           if not valid-arq-prg
+              display message box "Erro na gravação do Programa: " 
+                 prg-codigo h"0a" "Status: " stat-arq-prg
+                 icon mb-error-icon title "Erro" 
+           else
+              display message box "Programa: " prg-codigo 
+                                  " gravado com sucesso"
+           end-if            
+           .
+      *
+       arq-prg-rewrite.
+           rewrite reg-prg 
+           if not valid-arq-prg
+              display message box "Erro na regravação do Programa: " 
+                 prg-codigo h"0a" "Status: " stat-arq-prg
+                 icon mb-error-icon title "Erro" 
+           else
+              display message box "Programa: " prg-codigo 
+                                  " regravado com sucesso"
+           end-if            
+           .
+      *
+       arq-prg-Delete-File-Record.
+           display message box "Confirma exclusão do Programa ?"
+              icon mb-warning-icon type mb-yes-no title "Atenção"
+              giving return-code
+           if return-code = 1
+              delete arq-prg
+              if not valid-arq-prg
+                 display message box "Erro na exclusão do Programa: " 
+                    prg-codigo h"0a" "Status: " stat-arq-prg
+                    icon mb-error-icon title "Erro" 
+              else
+              display message box "Programa: " prg-codigo 
+                                  " excluído com sucesso"
+              end-if
+           end-if                                 
+           .
+
+
+      *
+       arq-cid01-Write.
+           write REG-cid01
+           if not valid-arq-cid01
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              string 
+                 "Erro na gravação da Cidade: " 
+                      cid01-chave into wrk-message-1 
+              string "Status: " stat-arq-cid01 into wrk-message-2
+ 
+              set wrk-error-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+           end-if
+           .
+      *
+       arq-cid01-Rewrite.
+           rewrite REG-cid01
+           if not valid-arq-cid01
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              string 
+                 "Erro na regravação da Cidade: " 
+                      cid01-chave into wrk-message-1 
+              string "Status: " stat-arq-cid01 into wrk-message-2
+ 
+              set wrk-error-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+           end-if
+           .
+      *
+       arq-cid01-Delete-File-Record.
+           move "Confirma exclusão da Cidade?" 
+                                                       to wrk-message-1
+           set wrk-warning-type to true
+           set wrk-yes-no-type  to true
+           Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+           on overflow perform call-error end-call
+           Cancel "mensagem"
+           
+           if wrk-response = 1
+              delete arq-cid01
+              if not valid-arq-cid01
+                 string "Erro na exclusão da Cidade: " 
+                        cid01-chave into wrk-message-1 
+                 string "Status: " stat-arq-cid01 into wrk-message-2
+ 
+                 set wrk-error-type to true
+                 set wrk-ok-type      to true
+                 Call "mensagem" 
+                    Using wrk-Message-Type, wrk-Response-Type, 
+                          wrk-message-1, wrk-Message-2, wrk-Message-3
+                 on overflow perform call-error end-call
+                 Cancel "mensagem"
+              end-if
+           end-if
+           .
+
+      *
+       arq-uni15-Write.
+           write REG-uni15
+           if not valid-arq-uni15
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              string 
+                 "Erro na gravação do arq-uni15: " 
+                     uni15-codigo into wrk-message-1 
+              string "Status: " stat-arq-uni15 into wrk-message-2
+ 
+              set wrk-error-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+           .
+      *
+       arq-uni15-Rewrite.
+           rewrite REG-uni15
+           if not valid-arq-uni15
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              string 
+                 "Erro na regravação do arq-uni15: " 
+                      uni15-codigo into wrk-message-1 
+              string "Status: " stat-arq-uni15 into wrk-message-2
+ 
+              set wrk-error-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+           end-if
+           .
+      *
+       arq-uni15-Delete-File-Record.
+           move "Confirma exclusão do Registro?" 
+                                                       to wrk-message-1
+           set wrk-warning-type to true
+           set wrk-yes-no-type  to true
+           Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+           on overflow perform call-error end-call
+           Cancel "mensagem"
+           
+           if wrk-response = 1
+              delete arq-uni15
+              if not valid-arq-uni15
+                 string "Erro na exclusão do arq-uni15: " 
+                        uni15-codigo into wrk-message-1 
+                 string "Status: " stat-arq-uni15 into wrk-message-2
+ 
+                 set wrk-error-type to true
+                 set wrk-ok-type      to true
+                 Call "mensagem" 
+                    Using wrk-Message-Type, wrk-Response-Type, 
+                          wrk-message-1, wrk-Message-2, wrk-Message-3
+                 on overflow perform call-error end-call
+                 Cancel "mensagem"                
+              end-if
+           end-if
+           .
+
