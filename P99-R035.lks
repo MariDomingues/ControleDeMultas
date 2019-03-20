@@ -1,0 +1,7 @@
+      * P99-R035.lks
+      * P99-R035.lks is generated from T:\Transport\FONTES\TRABALHO\SISTEMA\P99-R035.Psf
+      * This is a generated file. DO NOT modify this file directly.
+       01 lnk-padrao.
+           05 lnk-acesso       PIC  x(01).
+           05 lnk-modulo       PIC  9(02).
+           05 lnk-usuario      PIC  9(05).

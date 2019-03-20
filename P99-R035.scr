@@ -1,0 +1,335 @@
+      * P99-R035.scr
+      * P99-R035.scr is generated from T:\Transport\FONTES\TRABALHO\SISTEMA\P99-R035.Psf
+      * This is a generated file. DO NOT modify this file directly.
+            
+       01 t1, 
+           EXCEPTION PROCEDURE t1-Exception-Proc.
+           03 t1-Fr-3, Frame, 
+              COL 2,10, LINE 1,90, LINES 4,80 CELLS, SIZE 46,40 CELLS, 
+              ENGRAVED, FONT IS Arial9, ID IS 13, 
+              TITLE "Saída", TITLE-POSITION 2, BACKGROUND-LOW.
+           03 t1-Rb-wrk-saida-1, Radio-Button, 
+              COL 4,60, LINE 3,90, LINES 1,50 CELLS, SIZE 5,30 CELLS, 
+              GROUP 1, GROUP-VALUE 1, ID IS 14, 
+              TITLE "Tela", VALUE wrk-saida, 
+              BEFORE PROCEDURE t1-Rb-wrk-saida-1-Bef-Procedure.
+           03 t1-Rb-wrk-saida-2, Radio-Button, 
+              COL 21,50, LINE 3,90, LINES 1,50 CELLS, SIZE 8,90 CELLS, 
+              GROUP 1, GROUP-VALUE 2, ID IS 15, 
+              TITLE "Impressora", VALUE wrk-saida, 
+              BEFORE PROCEDURE t1-Rb-wrk-saida-2-Bef-Procedure.
+           03 t1-Rb-wrk-saida-3, Radio-Button, 
+              COL 39,90, LINE 3,90, LINES 1,50 CELLS, SIZE 6,00 CELLS, 
+              GROUP 1, GROUP-VALUE 3, ID IS 16, 
+              TITLE "Excel", VALUE wrk-saida, 
+              BEFORE PROCEDURE t1-Rb-wrk-saida-3-Bef-Procedure.
+           03 t1-Fr-4, Frame, 
+              COL 2,10, LINE 7,60, LINES 5,80 CELLS, SIZE 46,40 CELLS, 
+              ENGRAVED, FONT IS Arial9, ID IS 17, 
+              TITLE "Tipo", TITLE-POSITION 2, BACKGROUND-LOW.
+           03 t1-Rb-wrk-tipo-1, Radio-Button, 
+              COL 8,90, LINE 10,20, LINES 1,60 CELLS, SIZE 7,90 CELLS, 
+              GROUP 2, GROUP-VALUE 1, ID IS 18, 
+              TITLE "Completo", VALUE wrk-tipo, 
+              BEFORE PROCEDURE t1-Rb-wrk-tipo-1-Bef-Procedure.
+           03 t1-Rb-wrk-tipo-2, Radio-Button, 
+              COL 33,10, LINE 10,20, LINES 1,60 CELLS, SIZE 8,60 CELLS, 
+              GROUP 2, GROUP-VALUE 2, ID IS 19, 
+              TITLE "Resumido", VALUE wrk-tipo, 
+              BEFORE PROCEDURE t1-Rb-wrk-tipo-2-Bef-Procedure.
+           03 t1-Fr-5, Frame, 
+              COL 2,10, LINE 14,30, LINES 9,00 CELLS, SIZE 46,40 CELLS, 
+              ENGRAVED, FONT IS Arial9, ID IS 20, 
+              TITLE "Situação", TITLE-POSITION 2, BACKGROUND-LOW.
+           03 t1-Cb-wrk-lancada, Check-Box, 
+              COL 3,80, LINE 16,50, LINES 1,80 CELLS, SIZE 7,70 CELLS, 
+              ID IS 21, 
+              TITLE "Lançada", VALUE wrk-lancada, 
+              BEFORE PROCEDURE t1-Cb-wrk-lancada-Bef-Procedure.
+           03 t1-Cb-wrk-em-recurso, Check-Box, 
+              COL 20,50, LINE 16,50, LINES 1,80 CELLS, SIZE 9,40 CELLS, 
+              ID IS 23, 
+              TITLE "Em Recurso", VALUE wrk-em-recurso, 
+              BEFORE PROCEDURE t1-Cb-wrk-em-recurso-Bef-Procedure.
+           03 t1-Cb-wrk-cancelada, Check-Box, 
+              COL 38,40, LINE 16,50, LINES 1,80 CELLS, SIZE 8,30 CELLS, 
+              ID IS 25, 
+              TITLE "Cancelada", VALUE wrk-cancelada, 
+              BEFORE PROCEDURE t1-Cb-wrk-cancelada-Bef-Procedure.
+           03 t1-Cb-wrk-aguardando, Check-Box, 
+              COL 3,80, LINE 18,90, LINES 1,80 CELLS, SIZE 9,40 CELLS, 
+              ID IS 22, 
+              TITLE "Aguardando", VALUE wrk-aguardando, 
+              BEFORE PROCEDURE t1-Cb-wrk-aguardando-Bef-Procedure.
+           03 t1-Cb-wrk-baixada, Check-Box, 
+              COL 20,50, LINE 18,90, LINES 1,80 CELLS, SIZE 6,50 CELLS, 
+              ID IS 24, 
+              TITLE "Baixada", VALUE wrk-baixada, 
+              BEFORE PROCEDURE t1-Cb-wrk-baixada-Bef-Procedure.
+           03 t1-Fr-6, Frame, 
+              COL 2,10, LINE 24,30, LINES 9,20 CELLS, SIZE 46,40 CELLS, 
+              ENGRAVED, FONT IS Arial9, ID IS 26, 
+              TITLE "Período", TITLE-POSITION 2, BACKGROUND-LOW.
+           03 t1-Rb-wrk-periodo-1, Radio-Button, 
+              COL 7,50, LINE 26,60, LINES 1,80 CELLS, SIZE 13,40 CELLS, 
+              GROUP 3, GROUP-VALUE 1, ID IS 28, 
+              TITLE "Data da Infração", VALUE wrk-periodo, 
+              BEFORE PROCEDURE t1-Rb-wrk-periodo-1-Bef-Procedure.
+           03 t1-Rb-wrk-periodo-2, Radio-Button, 
+              COL 29,70, LINE 26,60, LINES 1,80 CELLS, 
+              SIZE 13,40 CELLS, 
+              GROUP 3, GROUP-VALUE 2, ID IS 29, 
+              TITLE "Data Ult. Situação", VALUE wrk-periodo, 
+              BEFORE PROCEDURE t1-Rb-wrk-periodo-2-Bef-Procedure.
+           03 t1-La-1, Label, 
+              COL 7,40, LINE 29,60, LINES 1,60 CELLS, SIZE 3,40 CELLS, 
+              FONT IS Arial9, ID IS 30, RIGHT, LABEL-OFFSET 0, 
+              TITLE "Inicial:".
+           03 t1-Ef-wrk-dt-inicial, Entry-Field, 
+              COL 11,20, LINE 29,40, LINES 2,10 CELLS, SIZE 7,50 CELLS, 
+              3-D, UPPER, FONT IS Arial9, PIC 99/99/9999, ID IS 32, 
+              MAX-TEXT 10, VALUE wrk-dt-inicial, 
+              AFTER PROCEDURE t1-Ef-wrk-dt-inicial-Aft-Procedure, 
+              BEFORE PROCEDURE t1-Ef-wrk-dt-inicial-Bef-Procedure.
+           03 t1-La-2, Label, 
+              COL 29,90, LINE 29,60, LINES 1,60 CELLS, SIZE 3,40 CELLS, 
+              FONT IS Arial9, ID IS 31, RIGHT, LABEL-OFFSET 0, 
+              TITLE "Final:".
+           03 t1-Ef-wrk-dt-final, Entry-Field, 
+              COL 33,70, LINE 29,40, LINES 2,10 CELLS, SIZE 7,50 CELLS, 
+              3-D, UPPER, FONT IS Arial9, PIC 99/99/9999, ID IS 33, 
+              MAX-TEXT 10, VALUE wrk-dt-final, 
+              AFTER PROCEDURE t1-Ef-wrk-dt-final-Aft-Procedure, 
+              BEFORE PROCEDURE t1-Ef-wrk-dt-final-Bef-Procedure.
+           03 t1-Fr-7, Frame, 
+              COL 2,10, LINE 34,40, LINES 18,90 CELLS, 
+              SIZE 46,40 CELLS, 
+              ENGRAVED, FONT IS Arial9, ID IS 27, BACKGROUND-LOW.
+           03 t1-La-3, Label, 
+              COL 2,70, LINE 36,60, LINES 1,90 CELLS, SIZE 6,90 CELLS, 
+              FONT IS Arial9, ID IS 34, RIGHT, LABEL-OFFSET 0, 
+              TITLE "Motorista:".
+           03 t1-Ef-wrk-mot-cod, Entry-Field, 
+              COL 10,00, LINE 36,30, LINES 2,10 CELLS, SIZE 6,20 CELLS, 
+              3-D, UPPER, FONT IS Arial9, ID IS 37, MAX-TEXT 5, 
+              VALUE wrk-mot-cod, 
+              AFTER PROCEDURE t1-Ef-wrk-mot-cod-Aft-Procedure, 
+              BEFORE PROCEDURE t1-Ef-wrk-mot-cod-Bef-Procedure.
+           03 t1-Ef-wrk-mot-nom, Entry-Field, 
+              COL 16,60, LINE 36,30, LINES 2,10 CELLS, 
+              SIZE 29,50 CELLS, 
+              3-D, UPPER, ENABLED 0, FONT IS Arial9, ID IS 40, 
+              VALUE wrk-mot-nom.
+           03 t1-La-3a, Label, 
+              COL 2,70, LINE 39,40, LINES 1,90 CELLS, SIZE 6,90 CELLS, 
+              FONT IS Arial9, ID IS 35, RIGHT, LABEL-OFFSET 0, 
+              TITLE "Proprietário:".
+           03 t1-Ef-wrk-pro-cod, Entry-Field, 
+              COL 10,00, LINE 39,10, LINES 2,10 CELLS, SIZE 6,20 CELLS, 
+              3-D, UPPER, FONT IS Arial9, ID IS 42, MAX-TEXT 5, 
+              VALUE wrk-pro-cod, 
+              AFTER PROCEDURE t1-Ef-wrk-pro-cod-Aft-Procedure, 
+              BEFORE PROCEDURE t1-Ef-wrk-pro-cod-Bef-Procedure.
+           03 t1-Ef-wrk-pro-nom, Entry-Field, 
+              COL 16,60, LINE 39,10, LINES 2,10 CELLS, 
+              SIZE 29,50 CELLS, 
+              3-D, UPPER, ENABLED 0, FONT IS Arial9, ID IS 43, 
+              VALUE wrk-pro-nom.
+           03 t1-La-3b, Label, 
+              COL 2,70, LINE 42,10, LINES 1,90 CELLS, SIZE 6,90 CELLS, 
+              FONT IS Arial9, ID IS 36, RIGHT, LABEL-OFFSET 0, 
+              TITLE "Veículo:".
+           03 t1-Ef-wrk-vei-cod, Entry-Field, 
+              COL 10,00, LINE 41,90, LINES 2,10 CELLS, SIZE 6,20 CELLS, 
+              3-D, UPPER, FONT IS Arial9, ID IS 46, MAX-TEXT 7, 
+              VALUE wrk-vei-cod, 
+              AFTER PROCEDURE t1-Ef-wrk-vei-cod-Aft-Procedure, 
+              BEFORE PROCEDURE t1-Ef-wrk-vei-cod-Bef-Procedure.
+           03 t1-Ef-wrk-vei-nom, Entry-Field, 
+              COL 16,60, LINE 41,90, LINES 2,10 CELLS, 
+              SIZE 29,50 CELLS, 
+              3-D, UPPER, ENABLED 0, FONT IS Arial9, ID IS 47, 
+              VALUE wrk-vei-nom.
+           03 t1-Cb-wrk-assinada, Check-Box, 
+              COL 10,00, LINE 45,60, LINES 1,70 CELLS, 
+              SIZE 10,50 CELLS, 
+              ID IS 48, 
+              TITLE "Assinada", VALUE wrk-assinada, 
+              BEFORE PROCEDURE t1-Cb-wrk-assinada-Bef-Procedure.
+           03 t1-Cb-wrk-nao-assinada, Check-Box, 
+              COL 22,90, LINE 45,60, LINES 1,70 CELLS, 
+              SIZE 10,50 CELLS, 
+              ID IS 50, 
+              TITLE "Não Assinada", VALUE wrk-nao-assinada, 
+              BEFORE PROCEDURE t1-Cb-wrk-nao-assinada-Bef-Procedure.
+           03 t1-Cb-wrk-notificacao, Check-Box, 
+              COL 10,00, LINE 47,90, LINES 1,70 CELLS, 
+              SIZE 10,50 CELLS, 
+              ID IS 60, 
+              TITLE "Notificações", VALUE wrk-notificacao.
+           03 t1-Cb-wrk-multa, Check-Box, 
+              COL 22,90, LINE 47,90, LINES 1,70 CELLS, 
+              SIZE 10,50 CELLS, 
+              ID IS 61, 
+              TITLE "Multas", VALUE wrk-multa.
+           03 t1-Cb-wrk-sem-moto, Check-Box, 
+              COL 10,00, LINE 50,40, LINES 1,70 CELLS, 
+              SIZE 18,90 CELLS, 
+              ID IS 49, 
+              TITLE "Listar Infrações Sem Motorista", 
+              VALUE wrk-sem-moto, 
+              BEFORE PROCEDURE t1-Cb-wrk-sem-moto-Bef-Procedure.
+           03 t1-La-Aguarde, Label, 
+              COL 39,40, LINE 48,00, LINES 1,90 CELLS, SIZE 7,30 CELLS, 
+              FONT IS Arial11B, ID IS 59, RIGHT, LABEL-OFFSET 0, 
+              TITLE "Aguarde...", VISIBLE 0.
+           03 t1-Fr-8, Frame, 
+              COL 16,30, LINE 53,70, LINES 4,10 CELLS, 
+              SIZE 18,20 CELLS, 
+              ENGRAVED, FONT IS Arial9, ID IS 51, BACKGROUND-LOW.
+           03 t1-Pb-Ok, Push-Button, 
+              COL 16,50, LINE 54,60, LINES 3,00 CELLS, SIZE 8,90 CELLS, 
+              EXCEPTION-VALUE 1100, ID IS 57, SELF-ACT, 
+              TITLE "Ok".
+           03 t1-Pb-Cancelar, Push-Button, 
+              COL 25,50, LINE 54,60, LINES 3,00 CELLS, SIZE 8,90 CELLS, 
+              EXCEPTION-VALUE 1110, ID IS 58, SELF-ACT, 
+              TITLE "Cancelar".
+           03 t1-Fr-1, Frame, 
+              COL 1,70, LINE 54,00, LINES 4,10 CELLS, SIZE 3,80 CELLS, 
+              RAISED, ID IS 4, VISIBLE 0, BACKGROUND-LOW.
+           03 t1-Fr-2, Frame, 
+              COL 1,70, LINE 54,00, LINES 3,10 CELLS, SIZE 3,80 CELLS, 
+              ENGRAVED, ID IS 3, VISIBLE 0, BACKGROUND-LOW.
+           03 t1-Pb-grava, Push-Button, 
+              COL 2,30, LINE 54,00, LINES 22, SIZE 17, 
+              BITMAP-HANDLE Tripao2-bmp, BITMAP-NUMBER 1, UNFRAMED, 
+              SQUARE, 
+              EXCEPTION-VALUE 1000, FLAT, ID IS 5, SELF-ACT, 
+              TITLE "&Grava", VISIBLE 0, 
+              AFTER PROCEDURE t1-Pb-grava-Aft-Procedure, 
+              BEFORE PROCEDURE t1-Pb-grava-Bef-Procedure.
+           03 t1-Pb-desiste, Push-Button, 
+              COL 1,70, LINE 54,00, LINES 22, SIZE 30, 
+              BITMAP-HANDLE Tripao2-bmp, BITMAP-NUMBER 2, UNFRAMED, 
+              SQUARE, 
+              EXCEPTION-VALUE 27, FLAT, ID IS 12, SELF-ACT, 
+              TITLE "&Desiste", VISIBLE 0, 
+              AFTER PROCEDURE t1-Pb-desiste-Aft-Procedure, 
+              BEFORE PROCEDURE t1-Pb-desiste-Bef-Procedure.
+           03 t1-Pb-exclui, Push-Button, 
+              COL 1,70, LINE 54,00, LINES 22, SIZE 30, 
+              BITMAP-HANDLE Tripao2-bmp, BITMAP-NUMBER 3, UNFRAMED, 
+              SQUARE, 
+              EXCEPTION-VALUE 1001, FLAT, ID IS 41, SELF-ACT, 
+              TITLE "&Exclui", VISIBLE 0, 
+              AFTER PROCEDURE t1-Pb-exclui-Aft-Procedure, 
+              BEFORE PROCEDURE t1-Pb-exclui-Bef-Procedure.
+           03 t1-Pb-cancela, Push-Button, 
+              COL 1,80, LINE 54,00, LINES 22, SIZE 29, 
+              BITMAP-HANDLE Tripao2-bmp, BITMAP-NUMBER 4, UNFRAMED, 
+              SQUARE, 
+              EXCEPTION-VALUE 1002, FLAT, ID IS 10, SELF-ACT, 
+              TITLE "&Cancela", VISIBLE 0, 
+              AFTER PROCEDURE t1-Pb-cancela-Aft-Procedure, 
+              BEFORE PROCEDURE t1-Pb-cancela-Bef-Procedure.
+           03 t1-Pb-primeiro, Push-Button, 
+              COL 2,30, LINE 54,00, LINES 22, SIZE 21, 
+              BITMAP-HANDLE Tripao1-bmp, BITMAP-NUMBER 1, UNFRAMED, 
+              SQUARE, 
+              EXCEPTION-VALUE 1003, FLAT, ID IS 6, SELF-ACT, 
+              TITLE "Pr&imeiro", VISIBLE 0, 
+              AFTER PROCEDURE t1-Pb-primeiro-Aft-Procedure, 
+              BEFORE PROCEDURE t1-Pb-primeiro-Bef-Procedure.
+           03 t1-Pb-anterior, Push-Button, 
+              COL 2,00, LINE 54,00, LINES 22, SIZE 27, 
+              BITMAP-HANDLE Tripao1-bmp, BITMAP-NUMBER 2, UNFRAMED, 
+              SQUARE, 
+              EXCEPTION-VALUE 1004, FLAT, ID IS 7, SELF-ACT, 
+              TITLE "&Anterior", VISIBLE 0, 
+              AFTER PROCEDURE t1-Pb-anterior-Aft-Procedure, 
+              BEFORE PROCEDURE t1-Pb-anterior-Bef-Procedure.
+           03 t1-Pb-proximo, Push-Button, 
+              COL 2,20, LINE 54,00, LINES 22, SIZE 25, 
+              BITMAP-HANDLE Tripao1-bmp, BITMAP-NUMBER 3, UNFRAMED, 
+              SQUARE, 
+              EXCEPTION-VALUE 1005, FLAT, ID IS 8, SELF-ACT, 
+              TITLE "&Próximo", VISIBLE 0, 
+              AFTER PROCEDURE t1-Pb-proximo-Aft-Procedure, 
+              BEFORE PROCEDURE t1-Pb-proximo-Bef-Procedure.
+           03 t1-Pb-ultimo, Push-Button, 
+              COL 2,30, LINE 54,00, LINES 22, SIZE 22, 
+              BITMAP-HANDLE Tripao1-bmp, BITMAP-NUMBER 4, UNFRAMED, 
+              EXCEPTION-VALUE 1006, FLAT, ID IS 9, SELF-ACT, 
+              TITLE "&Ultimo", VISIBLE 0, 
+              AFTER PROCEDURE t1-Pb-ultimo-Aft-Procedure, 
+              BEFORE PROCEDURE t1-Pb-ultimo-Bef-Procedure.
+           03 t1-Pb-relatorio, Push-Button, 
+              COL 1,90, LINE 54,00, LINES 22, SIZE 28, 
+              BITMAP-HANDLE Tripao2-bmp, BITMAP-NUMBER 5, UNFRAMED, 
+              SQUARE, 
+              EXCEPTION-VALUE 1007, FLAT, ID IS 11, SELF-ACT, 
+              TITLE "&Relatório", VISIBLE 0, 
+              AFTER PROCEDURE t1-Pb-relatorio-Aft-Procedure, 
+              BEFORE PROCEDURE t1-Pb-relatorio-Bef-Procedure.
+           03 t2-Br-1a, Bar, 
+              COL 2,30, LINE 54,20, LINES 2,90 CELLS, 
+              COLOR IS 9, ID IS 39, VISIBLE 0, WIDTH 1.
+           03 t2-Br-1aa, Bar, 
+              COL 2,30, LINE 54,20, LINES 2,90 CELLS, 
+              COLOR IS 9, ID IS 44, VISIBLE 0, WIDTH 1.
+           03 t2-Br-1aaa, Bar, 
+              COL 2,30, LINE 54,20, LINES 2,90 CELLS, 
+              COLOR IS 9, ID IS 45, VISIBLE 0, WIDTH 1.
+           03 t2-Br-1aaaa, Bar, 
+              COL 2,30, LINE 54,20, LINES 2,90 CELLS, 
+              COLOR IS 9, ID IS 52, VISIBLE 0, WIDTH 1.
+           03 t2-Br-1aaaaa, Bar, 
+              COL 2,30, LINE 54,20, LINES 2,90 CELLS, 
+              COLOR IS 9, ID IS 53, VISIBLE 0, WIDTH 1.
+           03 t2-Br-1aaaaaa, Bar, 
+              COL 2,30, LINE 54,20, LINES 2,90 CELLS, 
+              COLOR IS 9, ID IS 54, VISIBLE 0, WIDTH 1.
+           03 t2-Br-1aaaaaaa, Bar, 
+              COL 2,30, LINE 54,20, LINES 2,90 CELLS, 
+              COLOR IS 9, ID IS 55, VISIBLE 0, WIDTH 1.
+           03 t2-Br-1aaaaaaaa, Bar, 
+              COL 3,90, LINE 54,00, LINES 2,90 CELLS, 
+              COLOR IS 9, ID IS 56, VISIBLE 0, WIDTH 1.
+       01 t1-Tb-1.
+           03 t1-Pb-pesquisa, Push-Button, 
+              COL 1,00, LINE 1,20, LINES 22, SIZE 81, 
+              BITMAP-HANDLE Tripao2-bmp, BITMAP-NUMBER 6, UNFRAMED, 
+              SQUARE, 
+              EXCEPTION-VALUE 3, FLAT, ID IS 1, SELF-ACT, 
+              TITLE "F3 - Pesquisa".
+           03 t1-Pb-inclui, Push-Button, 
+              COL 10,00, LINE 1,20, LINES 22, SIZE 81, 
+              BITMAP-HANDLE Tripao2-bmp, BITMAP-NUMBER 7, UNFRAMED, 
+              SQUARE, 
+              EXCEPTION-VALUE 6, FLAT, ID IS 2, SELF-ACT, 
+              TITLE "F6 - Inclui".
+           03 t2-Br-1ab, Bar, 
+              COL 9,90, LINE 1,20, LINES 2,90 CELLS, 
+              COLOR IS 9, ID IS 38, WIDTH 1.
+           03 t2-Br-1aba, Bar, 
+              COL 18,90, LINE 1,20, LINES 2,90 CELLS, 
+              COLOR IS 9, ID IS 74, WIDTH 1.
+           03 t2-Br-1abb, Bar, 
+              COL 46,00, LINE 1,20, LINES 2,90 CELLS, 
+              COLOR IS 9, ID IS 75, WIDTH 1.
+           03 t1-pb-help, Push-Button, 
+              COL 37,10, LINE 1,20, LINES 22, SIZE 81, 
+              BITMAP-HANDLE Tripao2-bmp, BITMAP-NUMBER 22, UNFRAMED, 
+              SQUARE, 
+              EXCEPTION-VALUE 1, FLAT, ID IS 76, SELF-ACT, 
+              TITLE "F1 - Help".
+           03 t1-pb-informacao, Push-Button, 
+              COL 46,10, LINE 1,20, LINES 22, SIZE 24, 
+              BITMAP-HANDLE informacao-bmp, BITMAP-NUMBER 1, UNFRAMED, 
+              SQUARE, 
+              EXCEPTION-VALUE 1008, FLAT, ID IS 77, SELF-ACT, 
+              TITLE "Informação do Programa".
+           03 t2-Br-1abba, Bar, 
+              COL 37,00, LINE 1,20, LINES 2,90 CELLS, 
+              COLOR IS 9, ID IS 78, WIDTH 1.

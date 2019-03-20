@@ -1,0 +1,26 @@
+      * P99-R036.lks
+      * P99-R036.lks is generated from T:\Transport\FONTES\TRABALHO\SISTEMA\P99-R036.Psf
+      * This is a generated file. DO NOT modify this file directly.
+       01 lnk-padrao.
+           05 lnk-acesso       PIC  x(01).
+           05 lnk-modulo       PIC  9(02).
+           05 lnk-usuario      PIC  9(05).
+       01 lnk-saida        PIC  9(01).
+       01 lnk-tipo         PIC  9(01).
+       01 lnk-lancada      PIC  9(01).
+       01 lnk-em-recurso   PIC  9(01).
+       01 lnk-cancelada    PIC  9(01).
+       01 lnk-aguardando   PIC  9(01).
+       01 lnk-baixada      PIC  9(01).
+       01 lnk-periodo      PIC  9(01).
+       01 lnk-dt-inicial   PIC  9(08).
+       01 lnk-dt-final     PIC  9(08).
+       01 lnk-mot          PIC  9(05).
+       01 lnk-pro          PIC  9(05).
+       01 lnk-vei          PIC  X(07).
+       01 lnk-assinada     PIC  9(01).
+       01 lnk-nao-assinada PIC  9(01).
+       01 lnk-sem-mot      PIC  9(01).
+       01 lnk-codigo       PIC  9(06).
+       01 lnk-notificacao  PIC  9(01).
+       01 lnk-multa        PIC  9(01).

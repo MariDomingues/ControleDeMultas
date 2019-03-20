@@ -1,0 +1,201 @@
+      * P99-R035.wrk
+      * P99-R035.wrk is generated from T:\Transport\FONTES\TRABALHO\SISTEMA\P99-R035.Psf
+      * This is a generated file. DO NOT modify this file directly. 
+                  
+       77 Key-Status IS SPECIAL-NAMES CRT STATUS PIC 9(4) VALUE 0.
+           88 Exit-Pushed VALUE 27.
+           88 Message-Received VALUE 95.
+           88 Event-Occurred VALUE 96.
+           88 Screen-No-Input-Field VALUE 97.
+           88 Screen-Time-Out VALUE 99.
+      * property-defined variable
+
+      * user-defined variable
+           COPY  "T:\Transport\FONTES\TRABALHO\ROTINAS\COPYLIB\wsist.wrk
+      -    "".
+       77 Small-Font
+                  USAGE IS HANDLE OF FONT SMALL-FONT.
+       77 t1-Handle
+                  USAGE IS HANDLE OF WINDOW.
+       77 Arial9
+                  USAGE IS HANDLE OF FONT.
+       77 Tripao2-bmp      PIC  S9(6)
+                  USAGE IS COMP-4
+                  VALUE IS 0.
+       77 Tripao1-bmp      PIC  S9(6)
+                  USAGE IS COMP-4
+                  VALUE IS 0.
+       77 informacao-bmp   PIC  S9(6)
+                  USAGE IS COMP-4
+                  VALUE IS 0.
+       77 t1-Tb-1-Handle
+                  USAGE IS HANDLE OF WINDOW.
+       77 drv-usu          PIC  X(50).
+       77 stat-arq-usu     PIC  X(02).
+           88 Valid-arq-usu VALUE IS "00" THRU "09". 
+       77 drv-usu-prg      PIC  X(50).
+       77 stat-usu-prg     PIC  X(2).
+           88 Valid-usu-prg VALUE IS "00" THRU "09". 
+       77 t1-St-1-Handle
+                  USAGE IS HANDLE OF STATUS-BAR.
+       77 Arial7B
+                  USAGE IS HANDLE OF FONT.
+       77 stat-arq-prg     PIC  X(2).
+           88 Valid-arq-prg VALUE IS "00" THRU "09". 
+       77 STAT-ARQ-LOG123  PIC  X(2).
+           88 Valid-ARQ-LOG123 VALUE IS "00" THRU "09". 
+       77 STAT-ARQ-LOG23   PIC  X(2).
+           88 Valid-ARQ-LOG23 VALUE IS "00" THRU "09". 
+       01 wrk-tempo        PIC  9(08).
+      *
+      *
+       01 wrk-programa-chamar          PIC  X(08).
+       01 wrk-chamaprog    PIC  X(12).
+       77 stat-arq-emp00   PIC  X(2).
+           88 Valid-arq-emp00 VALUE IS "00" THRU "09". 
+       01 reg-t1.
+           05 wrk-saida        PIC  9(01).
+           05 wrk-tipo         PIC  9(01).
+           05 wrk-lancada      PIC  9(01).
+           05 wrk-em-recurso   PIC  9(01).
+           05 wrk-cancelada    PIC  9(01).
+           05 wrk-aguardando   PIC  9(01).
+           05 wrk-baixada      PIC  9(01).
+           05 wrk-periodo      PIC  9(01).
+           05 wrk-dt-inicial   PIC  9(08).
+           05 wrk-dt-inicial-r REDEFINES wrk-dt-inicial.
+               10 wrk-dt-inicial-r-dia         PIC  9(02).
+               10 wrk-dt-inicial-r-mes         PIC  9(02).
+               10 wrk-dt-inicial-r-ano         PIC  9(04).
+           05 wrk-dt-inicial-inv           PIC  9(08).
+           05 wrk-dt-inicial-inv-r REDEFINES wrk-dt-inicial-inv.
+               10 wrk-dt-inicial-inv-r-ano     PIC  9(04).
+               10 wrk-dt-inicial-inv-r-mes     PIC  9(02).
+               10 wrk-dt-inicial-inv-r-dia     PIC  9(02).
+           05 wrk-dt-final     PIC  9(08).
+           05 wrk-dt-final-r REDEFINES wrk-dt-final.
+               10 wrk-dt-final-r-dia           PIC  9(02).
+               10 wrk-dt-final-r-mes           PIC  9(02).
+               10 wrk-dt-final-r-ano           PIC  9(04).
+           05 wrk-dt-final-inv PIC  9(08).
+           05 wrk-dt-final-inv-r REDEFINES wrk-dt-final-inv.
+               10 wrk-dt-final-inv-r-ano       PIC  9(04).
+               10 wrk-dt-final-inv-r-mes       PIC  9(02).
+               10 wrk-dt-final-inv-r-dia       PIC  9(02).
+           05 wrk-mot-cod      PIC  9(05).
+           05 wrk-mot-nom      PIC  X(40).
+           05 wrk-pro-cod      PIC  9(05).
+           05 wrk-pro-nom      PIC  X(40).
+           05 wrk-vei-cod      PIC  X(07).
+           05 wrk-vei-nom      PIC  X(20).
+           05 wrk-assinada     PIC  9(01).
+           05 wrk-nao-assinada PIC  9(01).
+           05 wrk-sem-moto     PIC  9(01).
+       77 stat-arq-mot01   PIC  X(2).
+           88 Valid-ARQ-MOT01 VALUE IS "00" THRU "09". 
+       77 STAT-ARQ-PRO01   PIC  X(2).
+           88 Valid-arq-pro01 VALUE IS "00" THRU "09". 
+       77 STAT-ARQ-VEI01   PIC  X(2).
+           88 Valid-arq-vei01 VALUE IS "00" THRU "09". 
+       01 wrk-data         PIC  9(08).
+       01 wrk-data-r REDEFINES wrk-data.
+           05 wrk-data-r-ano   PIC  9(04).
+           05 wrk-data-r-mes   PIC  9(02).
+           05 wrk-data-r-dia   PIC  9(02).
+       01 wrk-resultado    PIC  9(09).
+       01 wrk-resto        PIC  9(09).
+       01 wrk-valid-data   PIC  X(01).
+       01 wrk-lnk-saida    PIC  9(01).
+       01 wrk-lnk-tipo     PIC  9(01).
+       01 wrk-lnk-lancada  PIC  9(01).
+       01 wrk-lnk-em-recurso           PIC  9(01).
+       01 wrk-lnk-cancelada            PIC  9(01).
+       01 wrk-lnk-aguardando           PIC  9(01).
+       01 wrk-lnk-baixada  PIC  9(01).
+       01 wrk-lnk-periodo  PIC  9(01).
+       01 wrk-lnk-dt-inicial           PIC  9(08).
+       01 wrk-lnk-dt-final PIC  9(08).
+       01 wrk-lnk-mot      PIC  9(05).
+       01 wrk-lnk-pro      PIC  9(05).
+       01 wrk-lnk-vei      PIC  X(07).
+       01 wrk-lnk-assinada PIC  9(01).
+       01 wrk-lnk-nao-assinada         PIC  9(01).
+       01 wrk-lnk-sem-mot  PIC  9(01).
+       77 Arial11B
+                  USAGE IS HANDLE OF FONT.
+       01 wrk-lnk-situacao-p01-m155 EXTERNAL   PIC  9(01).
+       01 wrk-lnk-periodo-p01-m155 EXTERNAL   PIC  9(08).
+       01 wrk-lnk-mot-p01-m155 EXTERNAL   PIC  9(05).
+       01 wrk-lnk-pro-p01-m155 EXTERNAL   PIC  9(05).
+       01 wrk-lnk-vei-p01-m155 EXTERNAL   PIC  X(07).
+       01 wrk-lnk-assinada-p01-m155 EXTERNAL   PIC  9(01).
+       01 wrk-lnk-listar-mot-p01-m155 EXTERNAL   PIC  9(01).
+       01 wrk-lnk-ifc-codigo-p01-m155 EXTERNAL   PIC  9(06).
+       01 wrk-lnk-tipo-p01-m155 EXTERNAL   PIC  9(01).
+       77 wrk-notificacao  PIC  9
+                  VALUE IS 0.
+       77 wrk-multa        PIC  9
+                  VALUE IS 0.
+       01 wrk-lnk-notificacao          PIC  9(01).
+       01 wrk-lnk-multa    PIC  9(01).
+
+      * r1-RwDtTm-dataaa
+       01 r1-RwDtTm-dataaa-DATEBUF.
+           05 WRK-DATE      PIC 9(8).
+           05 WRK-DATE-DETAIL REDEFINES WRK-DATE.
+               10 WRK-YEAR        PIC 9(4).
+               10 WRK-MONTH       PIC 9(2).
+               10 WRK-DAY         PIC 9(2).
+           05 WRK-DATE-REF.
+               10 WRK-REF-DAY         PIC 9(2).
+               10 WRK-SEPERATOR-1     PIC  X   VALUE IS "/".
+               10 WRK-REF-MONTH       PIC 9(2).
+               10 WRK-SEPERATOR-2     PIC  X   VALUE IS "/".
+               10 WRK-REF-YEAR        PIC 9(4).
+           05 WRK-TIME      PIC 9(8).
+           05 WRK-TIME-DETAIL REDEFINES WRK-TIME.
+               10 WRK-HOUR         PIC  9(2).
+               10 WRK-MINUTE       PIC  9(2).
+               10 WRK-SECOND       PIC  9(2).
+               10 WRK-HS           PIC  9(2).
+      * r1-RwDtTm-horaaa
+       01 r1-RwDtTm-horaaa-DATEBUF.
+           05 WRK-DATE      PIC 9(8).
+           05 WRK-DATE-DETAIL REDEFINES WRK-DATE.
+               10 WRK-YEAR        PIC 9(4).
+               10 WRK-MONTH       PIC 9(2).
+               10 WRK-DAY         PIC 9(2).
+           05 WRK-TIME      PIC 9(8).
+           05 WRK-TIME-DETAIL REDEFINES WRK-TIME.
+               10 WRK-HOUR         PIC  9(2).
+               10 WRK-MINUTE       PIC  9(2).
+               10 WRK-SECOND       PIC  9(2).
+               10 WRK-HS           PIC  9(2).
+           05 WRK-TIME-REF.
+               10 WRK-REF-HOUR         PIC  9(2).
+               10 WRK-SEPERATOR-1      PIC  X   VALUE IS ":".
+               10 WRK-REF-MINUTE       PIC  9(2).
+               10 WRK-SEPERATOR-2      PIC  X   VALUE IS ":".
+               10 WRK-REF-SECOND       PIC  9(2).
+       
+       
+       77 r1-Dtl-1-BGCOLOR   PIC X(7)   VALUE  "#FFFFFF".
+       
+       
+      * GROUP : GroupBy buffer
+       01 r1-GROUPBY-BUF.
+           03 FILLER  PIC X.
+      * Do Print Routine Switch
+       77 r1-DOPRINTRTN-LOOP   PIC 9 VALUE 0.
+      * RPT for Section Page Control
+       01 r1-HEIGHT.
+           05 PAGE-HEIGHT   PIC 9(04) VALUE 1099.
+           05 PAGE-WIDTH    PIC 9(04) VALUE 759.
+           05 r1-PH-1-DEF-HEIGHT   PIC 9(4) VALUE 169.
+           05 r1-PH-1-HEIGHT       PIC 9(4) VALUE 169.
+           05 r1-Dtl-1-DEF-HEIGHT   PIC 9(4) VALUE 66.
+           05 r1-Dtl-1-HEIGHT       PIC 9(4) VALUE 66.
+           05 r1-PF-1-DEF-HEIGHT   PIC 9(4) VALUE 30.
+           05 r1-PF-1-HEIGHT       PIC 9(4) VALUE 30.
+
+       77 r1-CLEFTOFFSET PIC 9(6)  VALUE 0.

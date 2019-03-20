@@ -1,0 +1,4136 @@
+      * P99-R036.evt
+      * P99-R036.evt is generated from T:\Transport\FONTES\TRABALHO\SISTEMA\P99-R036.Psf
+      * This is a generated file. DO NOT modify this file directly.
+      
+      ***   start event editor code   ***
+      *
+       arq-usu-Before-Open.
+           move "\comp-3\ac-progr\programa\ARQ-USU.DAD" to drv-usu           
+           .
+      *
+       r1-RwEf-wrk-usuario-BeforePrint.
+           initialize reg-usu
+           move ext-codusu to usu-codigo
+           perform acu-ds-arq-usu-Read
+           if usu-login not = spaces
+              move usu-login to wrk-loginusuario
+           end-if           
+           .
+      *
+       r1-RwEf-wrk-pagina-BeforePrint.
+           move acu-pagenum to Wrk-Pagina            
+           .
+      *
+       call-error.
+           move 1 to  wrk-prgantnovo
+           initialize wrk-texto-msg
+           string "Programa ( " wrk-codprg " ) não encontrado !" 
+                                    delimited by size into wrk-message-1
+           set wrk-warning-type to true
+           set wrk-ok-type      to true
+           call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                             wrk-message-1, wrk-Message-2, wrk-Message-3
+           on overflow perform call-error end-call
+           cancel "mensagem"
+           .
+       
+       Inicio.
+           perform abre-arq 
+
+           perform copia-bmp
+
+           move zeros to wrk-progressivo
+                         wrk-total-pontos
+
+           accept wrk-data from date YYYYMMDD
+
+           move 71 to wrk-linhas
+
+           move "S"   to wrk-ok
+
+           initialize reg-emp01
+           move 1 to emp01-codigo
+           read ARQ-EMP01 with no lock 
+
+           initialize REG-IFC01
+           move low-value to IFC01-CODIGO
+           start ARQ-IFC01 key is >= IFC01-CHAVE
+           read ARQ-IFC01 next with no lock
+           if not valid-ARQ-IFC01
+              move "Não foi possível ler o arquivo ARQ-IFC01" 
+                                                     to wrk-message-1
+              string "Status: " STAT-ARQ-IFC01     into wrk-message-2
+              perform mensagem
+
+              perform fecha-arq
+              exit paragraph
+           end-if
+
+           if lnk-codigo = zeros or = spaces
+              perform until not valid-ARQ-IFC01
+                 move "S" to wrk-vai
+   
+                 initialize REG-IFS01
+                 move IFC01-CODIGO to IFS01-CODIGO
+                 move high-value   to IFS01-PROGRESSIVO
+                 start ARQ-IFS01 key is < IFS01-CHAVE
+                 read ARQ-IFS01 previous with no lock
+                 if not valid-ARQ-IFS01
+                    move "Não foi possível ler o arquivo ARQ-IFC01" 
+                                                        to wrk-message-1
+                    string "Status: " STAT-ARQ-IFC01  into wrk-message-2
+                    perform mensagem
+   
+                    perform fecha-arq
+                    exit paragraph
+                 end-if
+   
+                 move zeros to wrk-dt-ifc-ifs
+                               wrk-dt-ini
+                               wrk-dt-fin
+                 
+                 move lnk-dt-inicial(1:2) to wrk-dt-ini-r-dia
+                 move lnk-dt-inicial(3:2) to wrk-dt-ini-r-mes
+                 move lnk-dt-inicial(5:4) to wrk-dt-ini-r-ano
+   
+                 move lnk-dt-final(1:2)   to wrk-dt-fin-r-dia
+                 move lnk-dt-final(3:2)   to wrk-dt-fin-r-mes
+                 move lnk-dt-final(5:4)   to wrk-dt-fin-r-ano
+   
+                 if lnk-periodo = 1
+                    move IFC01-DATINFLACAO-R-DIA to wrk-dt-ifc-ifs-r-dia
+                    move IFC01-DATINFLACAO-R-MES to wrk-dt-ifc-ifs-r-mes
+                    move IFC01-DATINFLACAO-R-ANO to wrk-dt-ifc-ifs-r-ano
+   
+                    if wrk-dt-ifc-ifs < wrk-dt-ini or
+                       wrk-dt-ifc-ifs > wrk-dt-fin
+                       move "N" to wrk-vai
+                    end-if
+                 else
+                    move IFS01-DATSITUACAO-R-DIA to wrk-dt-ifc-ifs-r-dia
+                    move IFS01-DATSITUACAO-R-MES to wrk-dt-ifc-ifs-r-mes
+                    move IFS01-DATSITUACAO-R-ANO to wrk-dt-ifc-ifs-r-ano
+   
+                    if wrk-dt-ifc-ifs < wrk-dt-ini or
+                       wrk-dt-ifc-ifs > wrk-dt-fin
+                       move "N" to wrk-vai
+                    end-if 
+                 end-if
+   
+                 evaluate IFS01-TIPO also true
+                    when 1 also lnk-lancada    = 0
+                       move "N" to wrk-vai
+                    when 2 also lnk-em-recurso = 0
+                       move "N" to wrk-vai
+                    when 3 also lnk-cancelada  = 0
+                       move "N" to wrk-vai
+                    when 4 also lnk-aguardando = 0
+                       move "N" to wrk-vai
+                    when 5 also lnk-baixada    = 0
+                       move "N" to wrk-vai
+                 end-evaluate
+   
+                 if lnk-mot > 0 and IFC01-CONDUTOR not = lnk-mot
+                    move "N" to wrk-vai
+                 end-if
+   
+                 if lnk-pro > 0 and IFC01-PROPRIETARIO not = lnk-pro
+                    move "N" to wrk-vai
+                 end-if
+   
+                 if lnk-vei not = spaces and IFC01-VEICULO not = lnk-vei
+                    move "N" to wrk-vai
+                 end-if
+   
+                 if IFC01-ASSINADA = spaces
+                    move "N" to wrk-vai
+                 end-if
+   
+                 evaluate IFC01-ASSINADA also true
+                    when "N" also lnk-nao-assinada = 0
+                       move "N" to wrk-vai
+                    when "S" also lnk-assinada = 0
+                       move "N" to wrk-vai
+                 end-evaluate
+
+                 |Protocolo 54.601
+                 if IFC01-TIPO = spaces
+                    move "N" to wrk-vai
+                 end-if
+   
+                 evaluate IFC01-TIPO also true
+                    when 1 also lnk-notificacao = 0
+                       move "N" to wrk-vai
+                    when 2 also lnk-multa = 0
+                       move "N" to wrk-vai
+                 end-evaluate
+                 |Fim
+   
+                 if IFC01-CONDUTOR is not numeric
+                    move zeros to IFC01-CONDUTOR
+                 end-if
+   
+                 evaluate lnk-sem-mot also true
+                    when 0 also IFC01-CONDUTOR = zeros
+                       move "N" to wrk-vai
+                    when 1 also IFC01-CONDUTOR > 0 
+                       move "N" to wrk-vai
+                 end-evaluate
+   
+                 if wrk-vai = "S"
+                    perform Grava-Temp
+                    if wrk-ok = "N"
+                       perform fecha-arq
+                       exit paragraph
+                    end-if
+                 end-if
+   
+                 read ARQ-IFC01 next with no lock
+              end-perform
+           else
+              initialize REG-IFC01
+              move lnk-codigo to IFC01-CODIGO
+              read ARQ-IFC01 with no lock
+              if not valid-ARQ-IFC01
+                 initialize REG-IFC01
+              else
+                 perform Grava-Temp
+                 if wrk-ok = "N"
+                    perform fecha-arq
+                    exit paragraph
+                 end-if
+              end-if
+           end-if
+
+           if wrk-progressivo = zeros
+              move "Nenhum registro a ser exibido." to wrk-message-1
+              perform mensagem
+              perform fecha-arq
+              exit paragraph
+           end-if
+           
+           if lnk-tipo = 1 |Completo
+              |FormPrint/Excel/Impressora
+              Evaluate lnk-saida 
+                 When 1 thru 2 |FormPrint - Tela ou Impressora
+                    initialize REG-T99-R036
+                    move low-value to T99-R036-PROGRESSIVO
+                    start T99-R036 key is >= T99-R036-CHAVE
+                    read T99-R036 next with no lock
+                    if not valid-T99-R036
+                       initialize REG-T99-R036
+                    end-if
+
+                    move zeros to wrk-progressivo
+                    move "S"   to wrk-ok
+                    perform until not valid-T99-R036
+                       add 1 to wrk-progressivo
+                       if wrk-progressivo = 1
+                          perform Criar-Temp-2
+                          if wrk-ok = "N"
+                             exit paragraph
+                          end-if
+                       end-if
+                       |Grava o segundo temporário
+                       move wrk-progressivo   to T99-R036-2-PROGRESSIVO
+                       move T99-R036-PROPRIETARIO 
+                                              to T99-R036-2-PROPRIETARIO
+                       move T99-R036-CODIGO   to T99-R036-2-CODIGO
+                       move T99-R036-COD-CONDUTOR 
+                                              to T99-R036-2-COD-CONDUTOR
+                       move T99-R036-AUTO     to T99-R036-2-AUTO
+                       move T99-R036-CODINFRACAO  
+                                              to T99-R036-2-CODINFRACAO
+                       move T99-R036-PONTOS   to T99-R036-2-PONTOS
+
+                       write REG-T99-R036-2
+                       if not valid-T99-R036
+                          move "Não foi possível gravar o arquivo" 
+                                                        to wrk-message-1
+                          string "temporário T99-R036-2. Status: " 
+                                  STAT-T99-R036-2 into wrk-message-2
+                          perform mensagem
+                          exit paragraph
+                       end-if
+      
+                       read T99-R036 next with no lock
+                    end-perform 
+
+                    initialize REG-T99-R036
+                    move low-value to T99-R036-COD-CONDUTOR
+                    move low-value to T99-R036-AUTO
+                    move low-value to T99-R036-CODINFRACAO
+                    start T99-R036 key is >= CHAVE-T99-R036-FORMPRINT
+                    read T99-R036 next with no lock
+                    if not valid-T99-R036
+                       initialize REG-T99-R036
+                    end-if
+
+                    move zeros  to wrk-codigo-ifc
+                    move spaces to wrk-auto-ifc
+
+                    perform until not valid-T99-R036
+                       move zeros to wrk-cod-condutor
+                                     wrk-qtd-auto
+                       |Chama o FormPrint de acordo com a quantidade de
+                       |motoristas diferentes
+                       if T99-R036-COD-CONDUTOR not = wrk-codigo-ifc
+                          initialize REG-T99-R036-2
+                          move T99-R036-COD-CONDUTOR 
+                                              to T99-R036-2-COD-CONDUTOR
+                          start T99-R036-2 
+                                     key is >= CHAVE-T99-R036-2-CONDUTOR
+                          read T99-R036-2 next with no lock
+                          if not valid-T99-R036-2
+                             initialize REG-T99-R036-2
+                          end-if
+
+                          |Conta a quantidade de auto de um condutor 
+                          |especifico
+                          perform until not valid-T99-R036-2
+                             if T99-R036-COD-CONDUTOR
+                                           = T99-R036-2-COD-CONDUTOR and
+                                wrk-cod-condutor not = T99-R036-2-CODIGO
+                                add 1 to wrk-qtd-auto
+                             end-if
+      
+                             move T99-R036-2-CODIGO to wrk-cod-condutor
+      
+                             read T99-R036-2 next with no lock
+                          end-perform   
+
+                          perform rot01 thru rot03
+
+                          if wrk-ok = '*'
+                             exit perform
+                          end-if
+                       end-if                                            
+                       move T99-R036-COD-CONDUTOR to wrk-codigo-ifc
+      
+                       read T99-R036 next with no lock
+                    end-perform
+                 When 3 |Excel
+                    initialize REG-T99-R036
+                    move low-value to T99-R036-COD-CONDUTOR
+                    start T99-R036 key is >= CHAVE-T99-R036-CONDUTOR
+                    read T99-R036 next with no lock
+      
+                    move zeros to wrk-num-reg
+      
+                    perform until not valid-T99-R036
+                       perform Linha-Relatorio-Excel-C
+      
+                       read T99-R036 next with no lock
+                    end-perform
+
+                    Close T99-R036
+      
+                    Modify hexcelapp @visible = 1
+                    Destroy hexcelapp hexcelwkb hexcelwks 
+                            hrange hcharts    
+              End-Evaluate
+           else |Resumido
+              |WinRel/Excel/Impressora
+              initialize REG-T99-R036
+              move low-value to T99-R036-COD-CONDUTOR
+              move low-value to T99-R036-DATA
+              move low-value to T99-R036-HORA
+              start T99-R036 key is >= CHAVE-T99-R036-COND-DAT
+              read T99-R036 next with no lock
+
+              move zeros to wrk-num-reg
+
+              perform until not valid-T99-R036
+                 evaluate lnk-saida
+                    when 1 thru 2
+                       perform Linha-Relatorio-Txt-R
+                    when 3
+                       perform Linha-Relatorio-Excel-R
+                 end-evaluate
+
+                 read T99-R036 next with no lock
+                 if not valid-T99-R036
+                    perform Total-Txt-R
+                 end-if
+              end-perform
+
+              Evaluate lnk-saida
+                 When 1 |Tela - Chama o WinRel
+                    Close Arq-Txt
+                    Close T99-R036
+   
+                    move 100 to wrk-tamanho
+   
+                    Perform Until drv-arq-txt(wrk-tamanho:1) NOT = ' '
+                       Subtract 1 from wrk-tamanho
+                    End-Perform
+   
+                    move Spaces to wrk-comando
+                    String 'WINREL2.EXE ' 
+                           drv-arq-txt(1:wrk-tamanho)
+                           ', L, Courier New, 07, S' Into wrk-comando
+                    Call 'C$RUN' Using wrk-comando  
+                 When 2 |Impressora
+                    Close Arq-Txt
+                    Close T99-R036
+                 When 3 |Excel
+                    Close T99-R036
+      
+                    Modify hexcelapp @visible = 1
+                    Destroy hexcelapp hexcelwkb hexcelwks 
+                            hrange hcharts    
+              End-Evaluate
+           end-if
+
+           move zeros to wrk-num-reg
+                         wrk-linhas
+           
+           perform fecha-arq
+           .
+
+       Mensagem.
+           move 1 to  wrk-prgantnovo
+           set wrk-warning-type to true
+           set wrk-ok-type      to true
+           Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                         wrk-message-1, wrk-Message-2, wrk-Message-3
+           on overflow perform call-error end-call
+           Cancel "mensagem"
+           .
+
+       Abre-arq.
+           close ARQ-IFC01
+           open input ARQ-IFC01
+
+           close ARQ-IFC99
+           open input ARQ-IFC99
+ 
+           close ARQ-IFI01
+           open input ARQ-IFI01
+         
+           close ARQ-IFR01
+           open input ARQ-IFR01
+
+           close ARQ-IFM01
+           open input ARQ-IFM01
+
+           close ARQ-IFS01
+           open input ARQ-IFS01
+
+           close ARQ-IFT01
+           open input ARQ-IFT01
+
+           close ARQ-EMP01
+           open input ARQ-EMP01
+
+           close ARQ-MOT01
+           open input ARQ-MOT01
+
+           close ARQ-CID01
+           open input ARQ-CID01  
+
+           close ARQ-PRO01
+           open input ARQ-PRO01
+           .
+
+       Fecha-arq.
+           close ARQ-IFC01
+
+           close ARQ-IFC99
+
+           close ARQ-IFI01
+
+           close ARQ-IFR01
+
+           close ARQ-IFM01
+
+           close ARQ-IFS01
+
+           close ARQ-IFT01
+
+           close ARQ-EMP01
+
+           close ARQ-MOT01
+
+           close ARQ-CID01
+
+           close ARQ-PRO01
+
+           Close T99-R036
+           Call 'C$DELETE' using DRV-T99-R036, 'I'
+           .
+       
+       Copia-bmp.
+           Copy 'T:\Fpac32ps\Qprbmp.cpy'.
+           .
+
+       Grava-Temp.
+           add 1 to wrk-progressivo
+           if wrk-progressivo = 1
+              perform Criar-Temp
+              if wrk-ok = "N"
+                 exit paragraph
+              end-if
+           end-if
+
+           initialize REG-T99-R036
+           move wrk-progressivo to T99-R036-PROGRESSIVO
+
+           if IFC01-CONDUTOR > 0
+              move IFC01-CONDUTOR to T99-R036-COD-CONDUTOR
+           else
+              move 99999          to T99-R036-COD-CONDUTOR
+           end-if
+
+           if lnk-periodo = 1
+              move IFC01-DATINFLACAO  to T99-R036-DATA
+              move IFC01-HORINFLACAO  to T99-R036-HORA
+           else
+              move IFS01-DATSITUACAO  to T99-R036-DATA
+              move IFS01-HORSITUACAO  to T99-R036-HORA
+           end-if
+           move IFC01-CODIGO          to T99-R036-CODIGO
+           move IFC01-PROPRIETARIO    to T99-R036-PROPRIETARIO
+           move IFC01-VEICULO         to T99-R036-VEICULO
+           move IFC01-AUTINFLACAO     to T99-R036-INFRACAO
+           move IFC01-LOCINFLACAO     to T99-R036-LOCAL
+           move IFC01-MUNINFLACAO     to T99-R036-MUNICIPIO
+           move IFC01-AUTINFLACAO     to T99-R036-AUTO
+           |Protocolo 54.601
+           move IFC01-AUTINFLACAO-ANT to T99-R036-INF-ANTERIOR
+           |Fim
+
+           initialize REG-IFI01
+           move IFC01-CODIGO to IFI01-CODIGO
+           move low-value   to IFI01-CODINFLACAO
+           start ARQ-IFI01 key is >= IFI01-CHAVE
+           read ARQ-IFI01 next with no lock
+           if valid-ARQ-IFI01 and IFC01-CODIGO = IFI01-CODIGO
+              perform until not valid-ARQ-IFI01 or 
+                                         IFC01-CODIGO not = IFI01-CODIGO
+                 initialize REG-IFC99
+                 move IFI01-CODINFLACAO to IFC99-CODIGO
+                 read ARQ-IFC99 with no lock
+                 if valid-ARQ-IFC99
+                    move IFC99-DESCRICAO   to T99-R036-DESCRICAO
+                    move IFI01-PONTOS      to T99-R036-PONTOS
+                    move IFI01-CODINFLACAO to T99-R036-CODINFRACAO
+
+                    write REG-T99-R036
+                    add 1 to wrk-progressivo
+                    move wrk-progressivo to T99-R036-PROGRESSIVO 
+      
+                    if IFC01-CONDUTOR > 0
+                       move IFC01-CONDUTOR to T99-R036-COD-CONDUTOR
+                    else
+                       move 99999          to T99-R036-COD-CONDUTOR
+                    end-if
+         
+                    if lnk-periodo = 1
+                       move IFC01-DATINFLACAO  to T99-R036-DATA
+                       move IFC01-HORINFLACAO  to T99-R036-HORA
+                    else
+                       move IFS01-DATSITUACAO  to T99-R036-DATA
+                       move IFS01-HORSITUACAO  to T99-R036-HORA
+                    end-if
+                    move IFC01-CODIGO          to T99-R036-CODIGO
+                    move IFC01-PROPRIETARIO    to T99-R036-PROPRIETARIO
+                    move IFC01-VEICULO         to T99-R036-VEICULO
+                    move IFC01-AUTINFLACAO     to T99-R036-INFRACAO
+                    move IFC01-LOCINFLACAO     to T99-R036-LOCAL
+                    move IFC01-MUNINFLACAO     to T99-R036-MUNICIPIO
+                    move IFC01-AUTINFLACAO     to T99-R036-AUTO
+                    |Protocolo 54.601
+                    move IFC01-AUTINFLACAO-ANT to T99-R036-INF-ANTERIOR
+                    |Fim
+                 end-if
+   
+                 read ARQ-IFI01 next with no lock
+              end-perform
+           else
+              write REG-T99-R036
+              if not valid-T99-R036
+                 move "Não foi possível gravar o arquivo"  
+                                                        to wrk-message-1
+                 string "temporário T99-R036. Status: " STAT-T99-R036 
+                                                      into wrk-message-2
+                 perform mensagem
+                 move "N" to wrk-ok
+                 exit paragraph
+              end-if
+           end-if
+           .
+
+       Criar-Temp.
+           Close T99-R036
+           Call 'C$DELETE' Using DRV-T99-R036, 'I'
+
+           Close T99-R036
+           move Spaces to DRV-T99-R036
+
+           move zeros to wrk-hora-atual
+           Accept wrk-hora-atual From Time
+
+           String '\Comp-3\Temp\T99-R036-' 
+                  ext-codusu '-' wrk-hora-atual(1:8) '.dad'
+                  into DRV-T99-R036
+
+           Open Output T99-R036
+           Close       T99-R036
+           Open I-O    T99-R036
+
+           if NOT Valid-T99-R036
+              move 'Não foi possível criar o arquivo' to wrk-message-1
+              string 'temporário T99-R036. Status: ' Stat-T99-R036
+              into wrk-message-2
+              perform mensagem
+              move "N" to wrk-ok
+              exit paragraph 
+           End-if
+           .
+
+       Linha-Relatorio-Txt-R.
+           Add 1 to wrk-num-reg
+
+           if wrk-num-reg = 1
+              Perform Criar-Txt-R
+              if wrk-ok = 'N'
+                 Exit Paragraph
+              End-if
+           End-if
+
+           if wrk-linhas > 70
+              Perform Cabecalho-Txt
+           End-if
+
+           Perform Montar-Reg-Relatorio-R
+
+           Add 1 to wrk-linhas
+           .
+
+       Criar-Txt-R.
+           Open Output Arq-Txt
+           Close       Arq-Txt
+           Open Extend Arq-Txt
+
+           move Spaces to drv-arq-txt
+
+           move Zeros to wrk-hora-atual
+           Accept wrk-hora-atual From Time
+
+           if lnk-saida = 1
+              String '\Comp-3\Temp\P99-R036-Resumido-' 
+                     ext-codusu '-' wrk-data
+                     wrk-hora-atual'.txt' into drv-arq-txt
+           end-if
+
+           if lnk-saida = 2
+              move 'PRINTER' to drv-arq-txt
+           end-if
+
+           Open Output Arq-Txt
+
+           if NOT Valid-Arq-Txt
+              move 'Não foi possível criar o arquivo' to wrk-message-1
+              string 'do relatório. Status: ' Stat-Arq-Txt
+                     into wrk-message-2
+              Perform Mensagem
+
+              move 'N' to wrk-ok
+           End-if
+           .
+
+
+       Cabecalho-Txt.
+           if wrk-num-reg = 1
+              move 1 to wrk-num-pag
+           Else
+              Add 1 to wrk-num-pag
+           End-if
+
+           initialize Reg-Txt
+           String 'P99-R035 - Relatorio de Infracoes por Veiculo/Motori'
+                  'sta/Proprietario                                    '
+                  '                                                    '
+                  '  Pagina: '
+                  wrk-num-pag into Txt-Linha
+
+           if wrk-num-pag = 1
+              Write Reg-Txt After 0
+           Else
+              Write Reg-Txt After Page
+           End-if
+
+           initialize Reg-Txt
+           String 'Empresa: ' emp01-nome
+                  '                                                    '
+                  '                                                    '
+                  '     Data  : ' wrk-data-r-dia '/'
+                                 wrk-data-r-mes '/'
+                                 wrk-data-r-ano(3:2)
+                  into Txt-Linha
+           Write Reg-Txt After 1
+
+           initialize Reg-Txt
+           String 'Periodo: ' 
+                  lnk-dt-inicial(1:2) '/'
+                  lnk-dt-inicial(3:2) '/'
+                  lnk-dt-inicial(7:2) ' a '
+                  lnk-dt-final(1:2) '/'
+                  lnk-dt-final(3:2) '/'
+                  lnk-dt-final(7:2) 
+                  '                                                    '
+                  '                                                    '
+                  '                          Hora  : '
+                  wrk-hora-atual(1:2) ':' wrk-hora-atual(3:2)
+                  into Txt-Linha
+           Write Reg-Txt After 1
+
+           initialize Reg-Txt
+           String '----------------------------------------------------'
+                  '----------------------------------------------------'
+                  '----------------------------------------------------'
+                  '-------------------' into Txt-Linha
+           Write Reg-Txt After 1
+
+           initialize Reg-Txt
+           String 'Data     Hora  Veiculo Infracao             Descri'
+                  'cao da Infracao                    Local            '
+                  '                        Municipio                   '
+                  '             Pontos'
+                  into Txt-Linha
+
+           Write Reg-Txt After 1
+
+           initialize Reg-Txt
+           String '----------------------------------------------------'
+                  '----------------------------------------------------'
+                  '----------------------------------------------------'
+                  '-------------------' into Txt-Linha
+           Write Reg-Txt After 1
+
+           move 7 to wrk-linhas
+           . 
+
+       Montar-Reg-Relatorio-R.
+           initialize wrk-reg-relatorio-r
+
+           if T99-R036-COD-CONDUTOR NOT = wrk-condultor(11:5)
+              if wrk-linhas not = 7
+                 perform Total-Txt-R
+                 initialize Reg-Txt
+                 Write Reg-Txt After 1
+              end-if
+              
+              if T99-R036-COD-CONDUTOR = 99999
+                 string 'Condutor: ' T99-R036-COD-CONDUTOR 
+                        ' - Sem Condutor' 
+                        into wrk-condultor
+              else
+                 initialize reg-mot01
+                 move T99-R036-COD-CONDUTOR to mot01-CODIGO
+                 read ARQ-MOT01 with no lock
+                 if not valid-ARQ-MOT01
+                    initialize reg-mot01
+                 end-if                 
+
+                 string 'Condutor: ' T99-R036-COD-CONDUTOR ' - '
+                        mot01-NOME into wrk-condultor
+              end-if
+
+              if lnk-saida = 1 OR 2
+                 initialize Reg-Txt
+                 Write Reg-Txt From wrk-condultor After 1
+
+                 add 1 to wrk-linhas
+              End-if
+           End-if
+
+           String T99-R036-DATA-R-DIA '/'
+                  T99-R036-DATA-R-MES '/'
+                  T99-R036-DATA-R-ANO(3:2) 
+                  into wrk-data-rel
+
+           String T99-R036-HORA(1:2) ':'
+                  T99-R036-HORA(3:2) 
+                  into wrk-hora
+
+           Move T99-R036-VEICULO   to wrk-veiculo
+           Move T99-R036-INFRACAO  to wrk-infracao
+           Move T99-R036-DESCRICAO to wrk-descricao
+           Move T99-R036-LOCAL     to wrk-local
+
+           initialize REG-CID01
+           move T99-R036-MUNICIPIO to CID01-CODIGO
+           read arq-cid01 with no lock
+           if not valid-arq-cid01
+              initialize REG-CID01
+           end-if
+
+           Move CID01-CIDADE    to wrk-municipio
+           Move T99-R036-PONTOS to wrk-pontos
+           
+           if lnk-saida = 1 OR 2
+              initialize Reg-Txt
+              Write Reg-Txt From wrk-reg-relatorio-r After 1
+           End-if
+
+           | Acumular para o total geral
+           Add T99-R036-PONTOS to wrk-total-pontos
+           .
+
+       Total-Txt-R.
+           move spaces to wrk-total
+           move wrk-total-pontos to wrk-masc-pontos
+           string 'Total:                                              '
+                  '                                                    '
+                  '                                                    '
+                  '    ' wrk-masc-pontos into wrk-total
+                         |
+           initialize Reg-Txt
+           Write Reg-Txt From wrk-total After 1
+
+           move zeros to wrk-total-pontos
+           .
+
+       Linha-Relatorio-Excel-R.
+           Add 1 to wrk-num-reg
+
+           if wrk-num-reg = 1
+              Perform Criar-Excel-R
+           End-if
+
+           Add 1 to wrk-linhas
+
+           Perform Reg-Para-Excel-R
+           .
+
+       Reg-Para-Excel-R.
+           |Protocolo 54.653
+           Inquire hexcelwks @cells::@item(wrk-linhas, 1) = hrange
+           Modify hrange     @value = T99-R036-CODIGO
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+           |Fim
+
+           if T99-R036-COD-CONDUTOR = 99999
+              move spaces to wrk-string-80
+              string T99-R036-COD-CONDUTOR ' - Sem Condutor' 
+                     into wrk-string-80
+
+              Inquire hexcelwks @cells::@item(wrk-linhas, 2) = hrange
+              Modify hrange     @value = wrk-string-80
+              Modify hrange     @Font::ColorIndex = 0
+              Modify hrange     @Font::Name       = "Arial"
+              Modify hrange     @Font::Size       = 10
+              Destroy hrange
+           else
+              initialize reg-mot01
+              move T99-R036-COD-CONDUTOR to mot01-CODIGO
+              read ARQ-MOT01 with no lock
+              if not valid-ARQ-MOT01
+                 initialize reg-mot01
+              end-if
+
+              move spaces to wrk-string-80
+              string T99-R036-COD-CONDUTOR ' - ' mot01-NOME
+                     into wrk-string-80
+
+              Inquire hexcelwks @cells::@item(wrk-linhas, 2) = hrange
+              Modify hrange     @value = wrk-string-80
+              Modify hrange     @Font::ColorIndex = 0
+              Modify hrange     @Font::Name       = "Arial"
+              Modify hrange     @Font::Size       = 10
+              Destroy hrange
+           end-if
+
+           move Spaces to wrk-string-10
+           String T99-R036-DATA-R-DIA '.'
+                  T99-R036-DATA-R-MES '.'
+                  T99-R036-DATA-R-ANO 
+                  into wrk-string-10
+           
+           Inquire hexcelwks @cells::@item(wrk-linhas, 3) = hrange
+           Modify hrange     @value = wrk-string-10
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           move Spaces to wrk-string-10
+           String T99-R036-HORA(1:2) '.'
+                  T99-R036-HORA(3:2)
+                  into wrk-string-10
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 4) = hrange
+           Modify hrange     @value = wrk-string-10
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 5) = hrange
+           Modify hrange     @value = T99-R036-VEICULO
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 6) = hrange
+           Modify hrange     @value = T99-R036-INFRACAO
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 7) = hrange
+           Modify hrange     @value = T99-R036-DESCRICAO
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 8) = hrange
+           Modify hrange     @value = T99-R036-LOCAL
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           initialize REG-CID01
+           move T99-R036-MUNICIPIO to CID01-CODIGO
+           read arq-cid01 with no lock
+           if not valid-arq-cid01
+              initialize REG-CID01
+           end-if
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 9) = hrange
+           Modify hrange     @value = CID01-CIDADE
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+             
+           Inquire hexcelwks @cells::@item(wrk-linhas, 10) = hrange
+           Modify hrange     @value = T99-R036-PONTOS
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           |Protocolo 54.601
+           Inquire hexcelwks @cells::@item(wrk-linhas, 11) = hrange
+           Modify hrange     @value = T99-R036-INF-ANTERIOR
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+           |Fim
+
+           |Protocolo 54.781
+           move spaces to wrk-pago
+                          wrk-dt-pgto
+                          wrk-NroAut
+
+           initialize REG-IFC01
+           move T99-R036-CODIGO to IFC01-CODIGO
+           read ARQ-IFC01 with no lock
+           
+           initialize REG-IFP01
+           move IFC01-CODIGO to IFP01-CODIGO
+           move low-value    to IFP01-PROGRESSIVO
+           start ARQ-IFP01 key is >= IFP01-CHAVE
+           read ARQ-IFP01 next with no lock
+           if valid-ARQ-IFP01 and IFC01-CODIGO = IFP01-CODIGO
+              if IFP01-AUTORIZACAO is not numeric or 
+                 IFP01-AUTORIZACAO = zeros
+                 move 'Não'  to wrk-pago
+                 move spaces to wrk-dt-pgto
+                                wrk-NroAut
+              else
+                 move IFP01-AUTORIZACAO to wrk-NroAut
+
+                 initialize REG-VEI01
+                 move IFC01-VEICULO to VEI01-CODIGO
+                 read ARQ-VEI01 with no lock
+                 if not valid-ARQ-VEI01
+                    initialize REG-VEI01
+                 end-if
+      
+                 initialize REG-UNI15
+                 move VEI01-UN-NEG to UNI15-CODIGO
+                 read ARQ-UNI15 with no lock
+                 if not valid-ARQ-UNI15
+                    initialize REG-UNI15
+                 end-if
+
+                 initialize REG-PAG09
+                 if UNI15-EMP-PED-COMPRAS > 0
+                    move UNI15-EMP-PED-COMPRAS to Pag09-CODEMP
+                 else
+                    move 1 to Pag09-CODEMP
+                 end-if
+
+                 move IFC01-ORG-AUTUADOR to Pag09-CODFOR
+                 move IFP01-NROTIT       to Pag09-NROTIT
+                 move IFP01-DESTIT       to Pag09-DESTIT
+                 read ARQ-PAG09 with no lock
+                 if valid-ARQ-PAG09
+                    if Pag09-SALTIT <> 0
+                       move 'Não'  to wrk-pago
+                       move spaces to wrk-dt-pgto 
+                    else
+                       move 'Sim' to wrk-pago
+
+                       initialize REG-BAI09
+                       move Pag09-CODEMP to Bai09-CODEMP
+                       move Pag09-CODFOR to Bai09-CODFOR
+                       move Pag09-NROTIT to Bai09-NROTIT
+                       move Pag09-DESTIT to Bai09-DESTIT
+                       move low-value    to Bai09-NUMERO
+                       start ARQ-BAI09 key is >= Bai09-CHAVE
+                       read ARQ-BAI09 next with no lock
+                       if valid-ARQ-BAI09
+                          string Bai09-DIAMOV '.'
+                                 Bai09-MESMOV '.'
+                                 Bai09-ANOMOV(3:2)
+                                 into wrk-dt-pgto
+                       end-if
+                    end-if
+                 end-if
+              end-if
+           else
+              move spaces to wrk-pago
+                             wrk-dt-pgto
+           end-if
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 12) = hrange
+           Modify hrange     @value = wrk-NroAut
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 13) = hrange
+           Modify hrange     @value = wrk-pago
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 14) = hrange
+           Modify hrange     @value = wrk-dt-pgto
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Destroy hrange
+           |Fim
+           .
+
+       Criar-Excel-R.
+           Create  application of excel
+                   handle in hexcelapp
+           Modify  hexcelapp     @SheetsInNewWorkBook = 3
+           Modify  hexcelapp     Workbooks::add()
+                   giving hexcelwkb
+           Inquire hexcelwkb     Worksheets::item(1) in hexcelwks
+           Modify  hexcelwks     @Name = "Infrações"
+
+           move 1 to wrk-linhas
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 1) = hrange
+           Modify hrange @value = 
+           "P99-R035 - Infrações por Veículo/Motorista/Proprietário"
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Modify hrange     @Font::Bold       = 1
+           Destroy hrange
+
+           Add 1 to wrk-linhas
+
+           Perform Cab-Excel-R
+           .
+
+       Cab-Excel-R.
+           Inquire hexcelwks @cells::@item(wrk-linhas, 1) = hrange
+           Modify hrange     @value = "Empresa:"
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 2) = hrange
+           Modify hrange     @value = emp01-nome
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 13) = hrange
+           Modify hrange     @value = 'Data:'
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           move Spaces to wrk-string-10
+           String wrk-data-r-dia '.'
+                  wrk-data-r-mes '.'
+                  wrk-data-r-ano(3:2)
+                  into wrk-string-10
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 14) = hrange
+           Modify hrange     @value = wrk-string-10
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           Add 1 to wrk-linhas
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 1) = hrange
+           Modify hrange     @value = 'Período:'
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           move Spaces to wrk-string-10
+           String lnk-dt-inicial(1:2) '.'
+                  lnk-dt-inicial(3:2) '.'
+                  lnk-dt-inicial(7:2) 
+                  into wrk-string-10           
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 2) = hrange
+           Modify hrange     @value = wrk-string-10
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange       
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 3) = hrange
+           Modify hrange     @value = 'a'
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           move Spaces to wrk-string-10
+           String lnk-dt-final(1:2) '.'
+                  lnk-dt-final(3:2) '.'
+                  lnk-dt-final(7:2) 
+                  into wrk-string-10           
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 4) = hrange
+           Modify hrange     @value = wrk-string-10
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 13) = hrange
+           Modify hrange     @value = 'Hora:'
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           move zeros to wrk-hora-atual
+           Accept wrk-hora-atual From Time
+
+           move Spaces to wrk-string-10
+           String wrk-hora-atual(1:2) '.'
+                  wrk-hora-atual(3:2)
+                  into wrk-string-10
+
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 14) = hrange
+           Modify hrange     @value = wrk-string-10
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           Add 2 to wrk-linhas
+
+           |Protocolo 54.653
+           Inquire hexcelwks @cells::@item(wrk-linhas, 1) = hrange
+           Modify hrange     @value = 'Código'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 10
+           Destroy hrange
+           |Fim
+                              
+           Inquire hexcelwks @cells::@item(wrk-linhas, 2) = hrange
+           Modify hrange     @value = 'Código Condutor'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 48
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 3) = hrange
+           Modify hrange     @value = 'Data'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 4) = hrange
+           Modify hrange     @value = 'Hora'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 9
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 5) = hrange
+           Modify hrange     @value = 'Veículo'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 9
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 6) = hrange
+           Modify hrange     @value = 'Infração'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 21
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 7) = hrange
+           Modify hrange     @value = 'Descrição da Infração'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 42
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 8) = hrange
+           Modify hrange     @value = 'Local'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 42
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 9) = hrange
+           Modify hrange     @value = 'Município'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 42
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 10) = hrange
+           Modify hrange     @value = 'Pontos'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 8
+           Destroy hrange
+
+           |Protocolo 54.601
+           Inquire hexcelwks @cells::@item(wrk-linhas, 11) = hrange
+           Modify hrange     @value = 'Inf. Anterior'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 30
+           Destroy hrange
+           |Fim
+
+           |Protocolo 54.781
+           Inquire hexcelwks @cells::@item(wrk-linhas, 12) = hrange
+           Modify hrange     @value = 'Autorização'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 12
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 13) = hrange
+           Modify hrange     @value = 'Pago'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 6
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 14) = hrange
+           Modify hrange     @value = 'Data Pagamento'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 16
+           Destroy hrange
+           |Fim
+           .
+
+       Linha-Relatorio-Excel-C.
+           Add 1 to wrk-num-reg
+
+           if wrk-num-reg = 1
+              Perform Criar-Excel-C
+           End-if
+
+           Add 1 to wrk-linhas
+
+           Perform Reg-Para-Excel-C
+           .
+
+       Reg-Para-Excel-C.
+           |Protocolo 54.653
+           Inquire hexcelwks @cells::@item(wrk-linhas, 1) = hrange
+           Modify  hrange     @value = T99-R036-CODIGO
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Destroy hrange
+           |Fim
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 2) = hrange
+           Modify  hrange     @value = T99-R036-COD-CONDUTOR
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Destroy hrange
+           
+           if T99-R036-COD-CONDUTOR not = 99999
+              initialize reg-mot01
+              move T99-R036-COD-CONDUTOR to mot01-CODIGO
+              read ARQ-MOT01 with no lock
+              if not valid-ARQ-MOT01
+                 initialize reg-mot01
+              end-if
+              
+              Inquire hexcelwks @cells::@item(wrk-linhas, 3) = hrange
+              Modify  hrange     @value = mot01-NOME
+              Modify  hrange     @Font::ColorIndex = 0
+              Modify  hrange     @Font::Name       = "Arial"
+              Modify  hrange     @Font::Size       = 10
+              Destroy hrange
+           else
+              move spaces to wrk-string-80
+              move "Sem Condutor" to wrk-string-80
+
+              Inquire hexcelwks @cells::@item(wrk-linhas, 3) = hrange
+              Modify  hrange     @value = wrk-string-80
+              Modify  hrange     @Font::ColorIndex = 0
+              Modify  hrange     @Font::Name       = "Arial"
+              Modify  hrange     @Font::Size       = 10
+              Destroy hrange
+           end-if
+
+           if mot01-CPF > 0 
+              move spaces to WrK-string-20
+              String mot01-CPF(1:3) '.'
+                     mot01-CPF(4:3) '.'
+                     mot01-CPF(7:3) '-'
+                     mot01-CPF(10:2) 
+                     into WrK-string-20
+
+              Inquire hexcelwks @cells::@item(wrk-linhas, 4) = hrange
+              Modify  hrange     @value = WrK-string-20
+              Modify  hrange     @Font::ColorIndex = 0
+              Modify  hrange     @Font::Name       = "Arial"
+              Modify  hrange     @Font::Size       = 10
+              Destroy hrange
+           else
+              Inquire hexcelwks @cells::@item(wrk-linhas, 4) = hrange
+              Modify  hrange     @value = spaces
+              Modify  hrange     @Font::ColorIndex = 0
+              Modify  hrange     @Font::Name       = "Arial"
+              Modify  hrange     @Font::Size       = 10
+              Destroy hrange
+           end-if
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 5) = hrange
+           Modify  hrange     @value = mot01-RG
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 6) = hrange
+           Modify  hrange     @value = T99-R036-PROPRIETARIO
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Destroy hrange
+
+           initialize REG-PRO01
+           move T99-R036-PROPRIETARIO to Pro01-CODIGO
+           read arq-pro01 with no lock
+           if not valid-arq-pro01
+              initialize REG-PRO01
+           end-if
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 7) = hrange
+           Modify  hrange     @value = Pro01-NOME
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Destroy hrange
+
+           if Pro01-CGC > 0
+              move spaces to Wrk-string-20
+              String Pro01-CGC(1:2) '.'
+                     Pro01-CGC(3:3) '.'
+                     Pro01-CGC(6:3) '/'
+                     Pro01-CGC(9:4) '-'
+                     Pro01-CGC(13:2) into Wrk-string-20
+
+              Inquire hexcelwks @cells::@item(wrk-linhas, 8) = hrange
+              Modify  hrange     @value = Wrk-string-20
+              Modify  hrange     @Font::ColorIndex = 0
+              Modify  hrange     @Font::Name       = "Arial"
+              Modify  hrange     @Font::Size       = 10
+              Destroy hrange
+           else
+              Inquire hexcelwks @cells::@item(wrk-linhas, 8) = hrange
+              Modify  hrange     @value = spaces
+              Modify  hrange     @Font::ColorIndex = 0
+              Modify  hrange     @Font::Name       = "Arial"
+              Modify  hrange     @Font::Size       = 10
+              Destroy hrange
+           end-if
+
+           initialize REG-IFC01
+           move T99-R036-CODIGO to IFC01-CODIGO
+           read ARQ-IFC01 with no lock
+           if not valid-ARQ-IFC01
+              initialize REG-IFC01
+           end-if
+
+           |Protocolo 54.653
+           move spaces to wrk-string-41
+           string "'" IFC01-AUTINFLACAO into wrk-string-41
+           Inquire hexcelwks @cells::@item(wrk-linhas, 9) = hrange
+           Modify  hrange     @value = wrk-string-41
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Destroy hrange
+           |Fim
+
+           if IFC01-DATINFLACAO > 0
+              move spaces to wrk-string-10
+              string IFC01-DATINFLACAO-R-DIA '.'
+                     IFC01-DATINFLACAO-R-MES '.'
+                     IFC01-DATINFLACAO-R-ANO(3:2) 
+                     into wrk-string-10 
+           else
+              move spaces to wrk-string-10
+           end-if
+             
+           Inquire hexcelwks @cells::@item(wrk-linhas, 10) = hrange
+           Modify  hrange     @value = wrk-string-10
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Destroy hrange
+
+           if IFC01-HORINFLACAO > 0
+              move spaces to wrk-string-10
+              string IFC01-HORINFLACAO(1:2) '.'
+                     IFC01-HORINFLACAO(3:2) 
+                     into wrk-string-10 
+           else
+              move spaces to wrk-string-10
+           end-if
+             
+           Inquire hexcelwks @cells::@item(wrk-linhas, 11) = hrange
+           Modify  hrange     @value = wrk-string-10
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 12) = hrange
+           Modify  hrange     @value = IFC01-LOCINFLACAO
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Destroy hrange
+
+           initialize REG-CID01
+           move IFC01-MUNINFLACAO to CID01-CODIGO
+           read arq-cid01 with no lock
+           if not valid-arq-cid01
+              initialize REG-CID01
+           end-if
+           
+           Inquire hexcelwks @cells::@item(wrk-linhas, 13) = hrange
+           Modify  hrange     @value = CID01-CIDADE
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 14) = hrange
+           Modify  hrange     @value = CID01-ESTADO
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Destroy hrange
+
+           move spaces to wrk-string-10
+           if IFC01-ASSINADA = "S"
+              move "Sim" to wrk-string-10
+           else
+              move "Não" to wrk-string-10
+           end-if
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 15) = hrange
+           Modify  hrange     @value = wrk-string-10
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Destroy hrange
+
+           initialize REG-IFC99
+           move T99-R036-CODINFRACAO to IFC99-CODIGO
+           read ARQ-IFC99 with no lock
+           if not valid-ARQ-IFC99
+              initialize REG-IFC99
+           end-if
+
+           initialize REG-IFI01
+           move T99-R036-CODIGO      to IFI01-CODIGO
+           move T99-R036-CODINFRACAO to IFI01-CODINFLACAO
+           read ARQ-IFI01 with no lock
+           if not valid-ARQ-IFI01
+              initialize REG-IFI01
+           end-if
+
+           if T99-R036-CODINFRACAO > 0
+              move 1     to wrk-x
+              move zeros to wrk-y
+   
+              perform until T99-R036-CODINFRACAO(wrk-x:1) not = 0
+                 add 1 to wrk-x
+              end-perform
+              
+              compute wrk-y = 7 - wrk-x
+   
+              move spaces to wrk-string-80
+              string T99-R036-CODINFRACAO(wrk-x:wrk-y) ' - '
+                     IFC99-DESCRICAO 
+                     into wrk-string-80
+           else
+              move spaces to wrk-string-80
+           end-if
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 16) = hrange
+           Modify  hrange     @value = wrk-string-80
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Destroy hrange
+
+           move spaces to wrk-string-10
+           evaluate IFI01-GRAU
+              when 1
+                 move 'Leve'       to wrk-string-10
+              when 2
+                 move 'Média'      to wrk-string-10
+              when 3
+                 move 'Grave'      to wrk-string-10
+              when 4
+                 move 'Gravíssima' to wrk-string-10
+           end-evaluate
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 17) = hrange
+           Modify  hrange     @value = wrk-string-10
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 18) = hrange
+           Modify  hrange     @value = IFI01-LIMREGULAMENTADO
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Modify  hrange     @NumberFormat ("##0,00")
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 19) = hrange
+           Modify  hrange     @value = IFI01-VALCONSIDERADO
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Modify  hrange     @NumberFormat ("##0,00")
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 20) = hrange
+           Modify  hrange     @value = IFI01-MEDREALIZADA
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Modify  hrange     @NumberFormat ("##0,00")
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 21) = hrange
+           Modify  hrange     @value = IFI01-PONTOS
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 22) = hrange
+           Modify  hrange     @value = IFI01-VALOR
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Modify  hrange     @NumberFormat ("########0,00")
+           Destroy hrange
+
+           initialize REG-IFS01
+           move T99-R036-CODIGO to IFS01-CODIGO
+           move high-value      to IFS01-PROGRESSIVO
+           start ARQ-IFS01 key is < IFS01-CHAVE
+           read ARQ-IFS01 previous with no lock
+           if not valid-ARQ-IFS01 or T99-R036-CODIGO not = IFS01-CODIGO
+              initialize REG-IFS01
+           end-if
+
+           move spaces to wrk-string-10
+           evaluate IFS01-TIPO
+              when 1
+                 move 'Lançada'    to wrk-string-10
+              when 2
+                 move 'Em Recurso' to wrk-string-10
+              when 3
+                 move 'Cancelada'  to wrk-string-10
+              when 4
+                 move 'Aguardando' to wrk-string-10
+              when 5
+                 move 'Baixada'    to wrk-string-10
+           end-evaluate
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 23) = hrange
+           Modify  hrange     @value = wrk-string-10
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Destroy hrange
+
+           if IFS01-DATSITUACAO > 0
+              move spaces to wrk-string-10
+              string IFS01-DATSITUACAO-R-DIA '.'
+                     IFS01-DATSITUACAO-R-MES '.'
+                     IFS01-DATSITUACAO-R-ANO(3:2) 
+                     into wrk-string-10
+           else
+              move spaces to wrk-string-10
+           end-if
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 24) = hrange
+           Modify  hrange     @value = wrk-string-10
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Destroy hrange
+
+           if IFS01-HORSITUACAO > 0
+              move spaces to wrk-string-10
+              string IFS01-HORSITUACAO(1:2) '.'
+                     IFS01-HORSITUACAO(3:2) 
+                     into wrk-string-10
+           else
+              move spaces to wrk-string-10
+           end-if
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 25) = hrange
+           Modify  hrange     @value = wrk-string-10
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Destroy hrange
+
+           move spaces to wrk-string-80
+           if IFS01-OBSERVACAO1 not = spaces
+              move IFS01-OBSERVACAO1 to wrk-string-80
+           else
+              if IFS01-OBSERVACAO2 not = spaces
+                 move IFS01-OBSERVACAO2 to wrk-string-80
+              else
+                 if IFS01-OBSERVACAO3 not = spaces
+                    move IFS01-OBSERVACAO3 to wrk-string-80
+                 else
+                    if IFS01-OBSERVACAO4 not = spaces
+                       move IFS01-OBSERVACAO4 to wrk-string-80
+                    else
+                       if IFS01-OBSERVACAO5 not = spaces
+                          move IFS01-OBSERVACAO5 to wrk-string-80
+                       else
+                          move spaces to wrk-string-80
+                       end-if
+                    end-if
+                 end-if
+              end-if
+           end-if
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 26) = hrange
+           Modify  hrange     @value = wrk-string-80
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Destroy hrange
+
+           |Protocolo 54.601
+           Inquire hexcelwks @cells::@item(wrk-linhas, 27) = hrange
+           Modify  hrange     @value = IFC01-AUTINFLACAO-ANT
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Destroy hrange
+           |Fim
+
+           |Protocolo 54.653
+           if IFC01-TIPO = 1
+              Inquire hexcelwks @cells::@item(wrk-linhas, 28) = hrange
+              Modify  hrange     @value = 'Notificação'
+              Modify  hrange     @Font::ColorIndex = 0
+              Modify  hrange     @Font::Name       = "Arial"
+              Modify  hrange     @Font::Size       = 10
+              Destroy hrange
+           else
+              Inquire hexcelwks @cells::@item(wrk-linhas, 28) = hrange
+              Modify  hrange     @value = 'Multa'
+              Modify  hrange     @Font::ColorIndex = 0
+              Modify  hrange     @Font::Name       = "Arial"
+              Modify  hrange     @Font::Size       = 10
+              Destroy hrange
+           end-if
+           |Fim
+
+           |Protocolo 54.656
+           move spaces to Wrk-string-20
+
+           evaluate IFI01-RESPONSABILIDADE
+              when 1
+                 move 'Condutor' to Wrk-string-20
+              when 2
+                 move 'Empresa' to Wrk-string-20
+              when 3
+                 move 'Proprietário' to Wrk-string-20
+           end-evaluate
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 29) = hrange
+           Modify  hrange     @value = Wrk-string-20
+           Modify  hrange     @Font::ColorIndex = 0
+           Modify  hrange     @Font::Name       = "Arial"
+           Modify  hrange     @Font::Size       = 10
+           Destroy hrange
+           |Fim
+
+           |Protocolo 54.781
+           Perform Atualiza-Pagamento
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 30) = hrange
+           Modify hrange     @value = wrk-NroAut
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 31) = hrange
+           Modify hrange     @value = wrk-pago
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 32) = hrange
+           Modify hrange     @value = wrk-dt-pgto
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Destroy hrange
+           |Fim
+           .
+
+       Criar-Excel-C.
+           Create  application of excel
+                   handle in hexcelapp
+           Modify  hexcelapp     @SheetsInNewWorkBook = 3
+           Modify  hexcelapp     Workbooks::add()
+                   giving hexcelwkb
+           Inquire hexcelwkb     Worksheets::item(1) in hexcelwks
+           Modify  hexcelwks     @Name = "Infrações"
+
+           move 1 to wrk-linhas
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 1) = hrange
+           Modify hrange @value = 
+           "P99-R035 - Infrações por Veículo/Motorista/Proprietário"
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Modify hrange     @Font::Bold       = 1
+           Destroy hrange
+
+           Add 1 to wrk-linhas
+
+           Perform Cab-Excel-C
+           .
+
+       Cab-Excel-C.
+           Inquire hexcelwks @cells::@item(wrk-linhas, 1) = hrange
+           Modify hrange     @value = "Empresa:"
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 2) = hrange
+           Modify hrange     @value = emp01-nome
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 31) = hrange
+           Modify hrange     @value = 'Data:'
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           move Spaces to wrk-string-10
+           String wrk-data-r-dia '.'
+                  wrk-data-r-mes '.'
+                  wrk-data-r-ano(3:2)
+                  into wrk-string-10
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 32) = hrange
+           Modify hrange     @value = wrk-string-10
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           Add 1 to wrk-linhas
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 1) = hrange
+           Modify hrange     @value = 'Período:'
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           move Spaces to wrk-string-10
+           String lnk-dt-inicial(1:2) '.'
+                  lnk-dt-inicial(3:2) '.'
+                  lnk-dt-inicial(7:2) 
+                  into wrk-string-10           
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 2) = hrange
+           Modify hrange     @value = wrk-string-10
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange       
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 3) = hrange
+           Modify hrange     @value = 'a'
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           move Spaces to wrk-string-10
+           String lnk-dt-final(1:2) '.'
+                  lnk-dt-final(3:2) '.'
+                  lnk-dt-final(7:2) 
+                  into wrk-string-10           
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 4) = hrange
+           Modify hrange     @value = wrk-string-10
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 31) = hrange
+           Modify hrange     @value = 'Hora:'
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           move zeros to wrk-hora-atual
+           Accept wrk-hora-atual From Time
+
+           move Spaces to wrk-string-10
+           String wrk-hora-atual(1:2) '.'
+                  wrk-hora-atual(3:2)
+                  into wrk-string-10
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 32) = hrange
+           Modify hrange     @value = wrk-string-10
+           Modify hrange     @Font::ColorIndex = 0
+           Modify hrange     @Font::Name       = "Arial"
+           Modify hrange     @Font::Size       = 10
+           Destroy hrange
+
+           Add 2 to wrk-linhas
+           
+           |Protocolo 54.653
+           Inquire hexcelwks @cells::@item(wrk-linhas, 1) = hrange
+           Modify hrange     @value = 'Código'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 10
+           Destroy hrange
+           |Fim
+       
+           Inquire hexcelwks @cells::@item(wrk-linhas, 2) = hrange
+           Modify hrange     @value = 'Código Condutor'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 16
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 3) = hrange
+           Modify hrange     @value = 'Nome Condutor'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 30
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 4) = hrange
+           Modify hrange     @value = 'CPF'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 14
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 5) = hrange
+           Modify hrange     @value = 'RG'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 15
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 6) = hrange
+           Modify hrange     @value = 'Código Proprietário'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 19
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 7) = hrange
+           Modify hrange     @value = 'Nome Proprietário'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 30
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 8) = hrange
+           Modify hrange     @value = 'CNPJ'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 17
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 9) = hrange
+           Modify hrange     @value = 'Auto Infração'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 30
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 10) = hrange
+           Modify hrange     @value = 'Data'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 8
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 11) = hrange
+           Modify hrange     @value = 'Hora'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 8
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 12) = hrange
+           Modify hrange     @value = 'Local'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 30
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 13) = hrange
+           Modify hrange     @value = 'Cidade'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 30
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 14) = hrange
+           Modify hrange     @value = 'UF'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 4
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 15) = hrange
+           Modify hrange     @value = 'Assinada'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 9
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 16) = hrange
+           Modify hrange     @value = 'Descrição'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 30
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 17) = hrange
+           Modify hrange     @value = 'Grau'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 18) = hrange
+           Modify hrange     @value = 'Regulamentado'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 15
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 19) = hrange
+           Modify hrange     @value = 'Considerado'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 12
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 20) = hrange
+           Modify hrange     @value = 'Realizado'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 10
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 21) = hrange
+           Modify hrange     @value = 'Pontos'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 7
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 22) = hrange
+           Modify hrange     @value = 'Valor'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 8
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 23) = hrange
+           Modify hrange     @value = 'Situação'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 11
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 24) = hrange
+           Modify hrange     @value = 'Data'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 8
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 25) = hrange
+           Modify hrange     @value = 'Hora'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 7
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 26) = hrange
+           Modify hrange     @value = 'Observação'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 30
+           Destroy hrange
+
+           |Protocolo 54.601
+           Inquire hexcelwks @cells::@item(wrk-linhas, 27) = hrange
+           Modify hrange     @value = 'Inf. Anterior'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 30
+           Destroy hrange
+           |Fim
+
+           |Protocolo 54.653
+           Inquire hexcelwks @cells::@item(wrk-linhas, 28) = hrange
+           Modify hrange     @value = 'Tipo'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 10
+           Destroy hrange
+           |Fim
+
+           |Protocolo 54.656
+           Inquire hexcelwks @cells::@item(wrk-linhas, 29) = hrange
+           Modify hrange     @value = 'Responsabilidade'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 17
+           Destroy hrange
+           |Fim
+
+           |Protocolo 54.781
+           Inquire hexcelwks @cells::@item(wrk-linhas, 30) = hrange
+           Modify hrange     @value = 'Autorização'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 12
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 31) = hrange
+           Modify hrange     @value = 'Pago'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 6
+           Destroy hrange
+
+           Inquire hexcelwks @cells::@item(wrk-linhas, 32) = hrange
+           Modify hrange     @value = 'Data Pagamento'
+           Modify hrange     @Font::ColorIndex   = 0
+           Modify hrange     @Font::Name         = "Arial"
+           Modify hrange     @Font::Size         = 10
+           Modify hrange     @Font::Bold         = 1
+           Modify hrange     @cells::ColumnWidth = 16
+           Destroy hrange
+           |Fim
+           .
+
+       Linha-Relatorio-Txt-C.
+           Add 1 to wrk-num-reg
+
+           if wrk-num-reg = 1
+              Perform Criar-Txt-C
+              if wrk-ok = 'N'
+                 Exit Paragraph
+              End-if
+           End-if
+
+           if wrk-linhas > 70
+              Perform Cabecalho-Txt-C
+           End-if
+
+           Perform Montar-Reg-Relatorio-C
+
+           Add 1 to wrk-linhas
+           .
+
+       Criar-Txt-C.
+           Close Arq-Txt
+
+           move Spaces to drv-arq-txt
+
+           move Zeros to wrk-hora-atual
+           Accept wrk-hora-atual From Time
+
+           String '\Comp-3\Temp\P99-R036-Completo-' ext-codusu '-' 
+                  wrk-data wrk-hora-atual'.txt' into drv-arq-txt
+      *     move Par01-Lpt to drv-arq-txt
+
+           Open Output Arq-Txt
+           Close       Arq-Txt
+           Open Extend Arq-Txt
+
+           if NOT Valid-Arq-Txt
+              move 'Não foi possível criar o arquivo' to wrk-message-1
+              string 'do relatório. Status: ' Stat-Arq-Txt
+                     into wrk-message-2
+              Perform Mensagem
+
+              move 'N' to wrk-ok
+           End-if
+           .
+
+
+       Cabecalho-Txt-C.
+           if wrk-num-reg = 1
+              move 1 to wrk-num-pag
+           Else
+              Add 1 to wrk-num-pag
+           End-if
+
+           initialize Reg-Txt
+           String 'P99-R035 - Relatorio de Infracoes por Veiculo/Motori'
+                  'sta/Proprietario                                    '
+                  '                                                    '
+                  '                                                    '
+                  '                                                    '
+                  '                                                    '
+                  '                                                    '
+                  '                                 Pagina: '
+                  wrk-num-pag into Txt-Linha
+
+           if wrk-num-pag = 1
+              Write Reg-Txt After 0
+           Else
+              Write Reg-Txt After Page
+           End-if
+
+           initialize Reg-Txt
+           String 'Empresa: ' emp01-nome
+                  '                                                    '
+                  '                                                    '
+                  '                                                    '
+                  '                                                    '
+                  '                                                    '
+                  '                                                    '
+                  '                                    Data  : ' 
+                  wrk-data-r-dia '/'
+                  wrk-data-r-mes '/'
+                  wrk-data-r-ano(3:2)
+                  into Txt-Linha
+           Write Reg-Txt After 1
+
+           initialize Reg-Txt
+           String 'Periodo: ' 
+                  lnk-dt-inicial(1:2) '/'
+                  lnk-dt-inicial(3:2) '/'
+                  lnk-dt-inicial(7:2) ' a '
+                  lnk-dt-final(1:2) '/'
+                  lnk-dt-final(3:2) '/'
+                  lnk-dt-final(7:2) 
+                  '                                                    '
+                  '                                                    '
+                  '                                                    '
+                  '                                                    '
+                  '                                                    '
+                  '                                                    '
+                  '                                                    '
+                  '     Hora  : '
+                  wrk-hora-atual(1:2) ':' wrk-hora-atual(3:2)
+                  into Txt-Linha
+           Write Reg-Txt After 1
+
+           initialize Reg-Txt
+           String '----------------------------------------------------'
+                  '----------------------------------------------------'
+                  '----------------------------------------------------'
+                  '----------------------------------------------------'
+                  '----------------------------------------------------'
+                  '----------------------------------------------------'
+                  '----------------------------------------------------' 
+                  '--------------------------------------------------'
+                  into Txt-Linha
+           Write Reg-Txt After 1
+
+           initialize Reg-Txt
+           String 'Codigo Condutor Nome Condutor                  CPF  '
+                  '          '
+                  'RG         Codigo Proprietario Nome Proprietario    '
+                  '          '
+                  'CNPJ           Auto Infracao                  Data  '
+                  '   '
+                  'Hora  Local                          Cidade         '
+                  '                '
+                  'UF Assinada Descricao                      Grau     '
+                  '  '
+                  'Regulamentado Considerado Realizado Pontos Valor    '
+                  '    '
+                  'Situacao    Data     Hora  Observacao'
+                  into Txt-Linha
+
+           Write Reg-Txt After 1
+
+           initialize Reg-Txt
+           String '----------------------------------------------------'
+                  '----------------------------------------------------'
+                  '----------------------------------------------------'
+                  '----------------------------------------------------'
+                  '----------------------------------------------------'
+                  '----------------------------------------------------'
+                  '----------------------------------------------------' 
+                  '--------------------------------------------------'
+                  into Txt-Linha
+           Write Reg-Txt After 1
+
+           move 7 to wrk-linhas
+           . 
+
+       Montar-Reg-Relatorio-C.
+           initialize wrk-reg-relatorio-c 
+           
+           move T99-R036-COD-CONDUTOR to wrk-cod-mot
+           if T99-R036-COD-CONDUTOR = 99999
+              move 'Sem Condutor' to wrk-nom-mot
+           else
+              initialize reg-mot01
+              move T99-R036-COD-CONDUTOR to mot01-CODIGO
+              read ARQ-MOT01 with no lock
+              if not valid-ARQ-MOT01
+                 initialize reg-mot01
+              end-if
+              move mot01-NOME to wrk-nom-mot
+              move mot01-CPF  to wrk-cpf
+              move mot01-RG   to wrk-rg
+           end-if
+
+           initialize REG-IFC01
+           move T99-R036-CODIGO to IFC01-CODIGO
+           read ARQ-IFC01 with no lock
+           if not valid-ARQ-IFC01
+              initialize REG-IFC01
+           end-if
+
+           initialize REG-PRO01
+           move IFC01-PROPRIETARIO to Pro01-CODIGO
+                                      wrk-cod-pro
+           read arq-pro01 with no lock
+           if not valid-arq-pro01
+              initialize REG-PRO01
+           end-if
+           move Pro01-NOME        to wrk-nom-pro
+           if Pro01-CGC > 0
+              move Pro01-CGC      to wrk-cnpj
+           else
+              move spaces         to wrk-cnpj
+           end-if
+           move IFC01-AUTINFLACAO to wrk-aut-inf
+
+           String IFC01-DATINFLACAO-R-DIA '/'
+                  IFC01-DATINFLACAO-R-MES '/'
+                  IFC01-DATINFLACAO-R-ANO(3:2) 
+                  into wrk-dat-inf
+
+           String IFC01-HORINFLACAO(1:2) ':'
+                  IFC01-HORINFLACAO(3:2) 
+                  into wrk-hor-inf
+
+           Move IFC01-LOCINFLACAO  to wrk-local-c
+
+           initialize REG-CID01
+           move T99-R036-MUNICIPIO to CID01-CODIGO
+           read arq-cid01 with no lock
+           if not valid-arq-cid01
+              initialize REG-CID01
+           end-if
+           move CID01-CIDADE       to wrk-cidade
+           move CID01-ESTADO       to wrk-uf
+           
+           if IFC01-ASSINADA = "S"
+              move "Sim" to wrk-assinada
+           else
+              move "Não" to wrk-assinada
+           end-if
+
+           initialize REG-IFC99
+           move T99-R036-CODINFRACAO to IFC99-CODIGO
+           read ARQ-IFC99 with no lock
+           if not valid-ARQ-IFC99
+              initialize REG-IFC99
+           end-if
+
+           if T99-R036-CODINFRACAO > 0
+              move 1     to wrk-x
+              move zeros to wrk-y
+   
+              perform until T99-R036-CODINFRACAO(wrk-x:1) not = 0
+                 add 1 to wrk-x
+              end-perform
+              
+              compute wrk-y = 7 - wrk-x
+
+              string T99-R036-CODINFRACAO(wrk-x:wrk-y) ' - '
+                     IFC99-DESCRICAO 
+                     into wrk-descricao-c
+           end-if
+
+           initialize REG-IFI01
+           move T99-R036-CODIGO      to IFI01-CODIGO
+           move T99-R036-CODINFRACAO to IFI01-CODINFLACAO
+           read ARQ-IFI01 with no lock
+           if not valid-ARQ-IFI01
+              initialize REG-IFI01
+           end-if
+           
+           evaluate IFI01-GRAU
+              when 1
+                 move 'Leve'       to wrk-grau
+              when 2
+                 move 'Média'      to wrk-grau
+              when 3
+                 move 'Grave'      to wrk-grau
+              when 4
+                 move 'Gravíssima' to wrk-grau
+           end-evaluate
+
+           move spaces to wrk-string-10
+                          wrk-conta
+           if IFI01-LIMREGULAMENTADO > 0
+              move 1 to wrk-x
+                        wrk-y
+   
+              perform until wrk-x > 5
+                 if IFI01-LIMREGULAMENTADO(wrk-x:1) = 0 
+                                                 and wrk-conta not = "N"
+                    move space to wrk-string-10(wrk-y:1)
+                 else
+                    move IFI01-LIMREGULAMENTADO(wrk-x:1) 
+                                               to wrk-string-10(wrk-y:1)
+                    move "N" to wrk-conta
+                 end-if
+
+                 if wrk-x = 3
+                    add 1 to wrk-y
+                    move ',' to wrk-string-10(wrk-y:1)
+                    add 1 to wrk-x
+                             wrk-y
+                 else
+                    add 1 to wrk-x
+                             wrk-y
+                 end-if
+              end-perform
+           end-if
+           move wrk-string-10 to wrk-regulamentado
+
+           move spaces to wrk-string-10
+                          wrk-conta 
+           if IFI01-VALCONSIDERADO > 0
+              move 1 to wrk-x
+                        wrk-y
+   
+              perform until wrk-x > 5
+                 if IFI01-VALCONSIDERADO(wrk-x:1) = 0 
+                                                 and wrk-conta not = "N"
+                    move space to wrk-string-10(wrk-y:1)
+                 else
+                    move IFI01-VALCONSIDERADO(wrk-x:1) 
+                                               to wrk-string-10(wrk-y:1)
+                    move "N" to wrk-conta
+                 end-if
+
+                 if wrk-x = 3
+                    add 1 to wrk-y
+                    move ',' to wrk-string-10(wrk-y:1)
+                    add 1 to wrk-x
+                             wrk-y
+                 else
+                    add 1 to wrk-x
+                             wrk-y
+                 end-if
+              end-perform
+           end-if
+           move wrk-string-10 to wrk-considerado
+
+           move spaces to wrk-string-10
+                          wrk-conta
+           if IFI01-MEDREALIZADA > 0
+              move 1 to wrk-x
+                        wrk-y
+   
+              perform until wrk-x > 5
+                 if IFI01-MEDREALIZADA(wrk-x:1) = 0 
+                                                 and wrk-conta not = "N"
+                    move space to wrk-string-10(wrk-y:1)
+                 else
+                    move IFI01-MEDREALIZADA(wrk-x:1) 
+                                               to wrk-string-10(wrk-y:1)
+                    move "N" to wrk-conta
+                 end-if
+
+                 if wrk-x = 3
+                    add 1 to wrk-y
+                    move ',' to wrk-string-10(wrk-y:1)
+                    add 1 to wrk-x
+                             wrk-y
+                 else
+                    add 1 to wrk-x
+                             wrk-y
+                 end-if
+              end-perform
+           end-if
+           move wrk-string-10 to wrk-realizado
+
+           move spaces to wrk-string-12
+                          wrk-conta
+           if IFI01-VALOR > 0
+              move 1 to wrk-x
+                        wrk-y
+   
+              perform until wrk-x > 11
+                 if IFI01-VALOR(wrk-x:1) = 0 and wrk-conta not = "N"
+                    move space to wrk-string-12(wrk-y:1)
+                 else
+                    move IFI01-VALOR(wrk-x:1) to wrk-string-12(wrk-y:1)
+                    move "N" to wrk-conta
+                 end-if
+
+                 if wrk-x = 9
+                    add 1 to wrk-y
+                    move ',' to wrk-string-12(wrk-y:1)
+                    add 1 to wrk-x
+                             wrk-y
+                 else
+                    add 1 to wrk-x
+                             wrk-y
+                 end-if
+              end-perform
+           end-if
+           move wrk-string-12 to wrk-valor
+
+           if IFI01-PONTOS > 0
+              move IFI01-PONTOS  to wrk-pontos-c
+           else
+              move spaces        to wrk-pontos-c
+           end-if
+
+           initialize REG-IFS01
+           move T99-R036-CODIGO to IFS01-CODIGO
+           move high-value      to IFS01-PROGRESSIVO
+           start ARQ-IFS01 key is < IFS01-CHAVE
+           read ARQ-IFS01 previous with no lock
+           if not valid-ARQ-IFS01 or T99-R036-CODIGO not = IFS01-CODIGO
+              initialize REG-IFS01
+           end-if
+
+           evaluate IFS01-TIPO
+              when 1
+                 move 'Lançada'    to wrk-situacao
+              when 2
+                 move 'Em Recurso' to wrk-situacao
+              when 3
+                 move 'Cancelada'  to wrk-situacao
+              when 4
+                 move 'Aguardando' to wrk-situacao
+              when 5
+                 move 'Baixada'    to wrk-situacao
+           end-evaluate
+
+           if IFS01-DATSITUACAO > 0
+              String IFS01-DATSITUACAO-R-DIA'/'
+                     IFS01-DATSITUACAO-R-MES'/'
+                     IFS01-DATSITUACAO-R-ANO
+                     into wrk-dat-sit
+           else
+              move spaces to wrk-dat-sit
+           end-if
+
+           if IFS01-HORSITUACAO > 0
+              String IFS01-HORSITUACAO(1:2) ':'
+                     IFS01-HORSITUACAO(3:2) 
+                     into wrk-hor-sit
+           else
+              move spaces to wrk-hor-sit
+           end-if
+           move IFS01-OBSERVACAO1 to wrk-obs
+
+           initialize Reg-Txt
+           Write Reg-Txt From wrk-reg-relatorio-c After 1
+           .
+
+       Rot01.
+           initialize REG-EMP00
+           move 1 to EMP00-CODIGO
+           read arq-emp00 with no lock
+           if not valid-arq-emp00
+              initialize REG-EMP00
+           end-if
+
+           initialize reg-emp01
+           move 1 to emp01-codigo
+           read ARQ-EMP01 with no lock
+           if not valid-ARQ-EMP01
+              initialize reg-emp01
+           end-if
+
+           initialize reg-mot01
+           move T99-R036-COD-CONDUTOR to mot01-CODIGO
+           read ARQ-MOT01 with no lock
+           if not valid-ARQ-MOT01
+              initialize reg-mot01
+           end-if
+
+           initialize REG-PRO01
+           move T99-R036-PROPRIETARIO to Pro01-CODIGO
+           read arq-pro01 with no lock
+           if not valid-arq-pro01
+              initialize REG-PRO01
+           end-if
+           
+           initialize REG-IFC01
+           move T99-R036-CODIGO to IFC01-CODIGO
+           read ARQ-IFC01 with no lock
+           if not valid-ARQ-IFC01
+              initialize REG-IFC01
+           end-if
+
+           initialize REG-IFS01
+           move T99-R036-CODIGO to IFS01-CODIGO
+           move high-value      to IFS01-PROGRESSIVO
+           start ARQ-IFS01 key is < IFS01-CHAVE
+           read ARQ-IFS01 previous with no lock
+           if not valid-ARQ-IFS01 or T99-R036-CODIGO not = IFS01-CODIGO
+              initialize REG-IFS01
+           end-if
+
+           if wrk-qtd-auto > 1
+              perform Preenche-INFR1
+           else
+              perform Preenche-INFR2
+           end-if
+
+           if wrk-ok = "*"
+              Move 'Erro na configuração do FormPrint!' 
+                                         to wrk-message-1
+              perform mensagem
+              go to rot03
+           end-if
+           .
+
+       Rot02.
+           perform Rot-Form-Print-4
+           .
+
+       Rot03.
+           exit paragraph
+           .
+
+       Preenche-INFR1.
+           move emp01-endereco     to INFR1-EMP-ENDERECO
+           move emp01-bairro       to INFR1-EMP-BAIRRO
+           move emp01-cidade       to INFR1-EMP-CIDADE
+           move emp01-estado       to INFR1-EMP-ESTADO
+           move emp01-cep          to INFR1-EMP-CEP
+           move EMP00-MAIL-EMISSOR to INFR1-EMP-EMAIL
+           move emp01-fone         to INFR1-EMP-FONE
+           move emp01-fax          to INFR1-EMP-FAX
+           move emp01-cgc          to INFR1-EMP-CGC
+           move emp01-inscricao    to INFR1-EMP-INSCRICAO
+
+           if T99-R036-COD-CONDUTOR not = 99999
+              move mot01-NOME       to INFR1-MOT-NOME
+              move mot01-ENDERE     to INFR1-MOT-ENDERECO
+              if mot01-CEP > 0
+                 move mot01-CEP     to INFR1-MOT-CEP 
+              end-if
+              if mot01-CPF > 0
+                 move mot01-CPF     to INFR1-MOT-CPF
+              end-if
+              move mot01-BAIRRO     to INFR1-MOT-BAIRRO
+              if mot01-NROCNH > 0
+                 move mot01-NROCNH  to INFR1-MOT-CNH
+              end-if
+              move mot01-RG         to INFR1-MOT-RG
+              move mot01-MUNICI     to INFR1-MOT-CIDADE
+              move mot01-ESTCNH     to INFR1-MOT-UF-CNH
+              move mot01-OrgErg     to INFR1-MOT-ORG-EXP
+              move mot01-uf-exp-rg  to INFR1-MOT-UF-EXP
+              move mot01-ESTADO     to INFR1-MOT-UF
+              move mot01-FONE       to INFR1-MOT-TELEFONE
+           else
+              move 'Sem Condutor'   to INFR1-MOT-NOME
+           end-if
+
+           move Pro01-NOME          to INFR1-PRO-NOME
+           move Pro01-ENDERE        to INFR1-PRO-ENDERECO
+           if Pro01-CEP > 0
+              move Pro01-CEP        to INFR1-PRO-CEP
+           end-if
+           if Pro01-CGC > 0
+              move Pro01-CGC        to INFR1-PRO-CGC
+           end-if
+           move Pro01-BAIRRO        to INFR1-PRO-BAIRRO
+           move Pro01-MUNICI        to INFR1-PRO-CIDADE
+           move Pro01-ESTADO        to INFR1-PRO-UF
+           move Pro01-FONE          to INFR1-PRO-TELEFONE
+
+           initialize REG-T99-R036-2
+           move T99-R036-COD-CONDUTOR to T99-R036-2-COD-CONDUTOR
+           start T99-R036-2 key is >= CHAVE-T99-R036-2-CONDUTOR
+           read T99-R036-2 next with no lock
+
+           move spaces to wrk-auto-ifc
+           perform until not valid-T99-R036-2 or
+                     T99-R036-COD-CONDUTOR not = T99-R036-2-COD-CONDUTOR
+              if T99-R036-2-AUTO not = wrk-auto-ifc
+                 if INFR1-AUTINF1-NUMERO = spaces
+                    perform Auto-1
+                    perform Infra-1
+                 else
+                    if INFR1-AUTINF2-NUMERO = spaces
+                       perform Auto-2
+                       perform Infra-2
+
+                       perform Rot-Form-Print-1
+                       if wrk-ok not = "*"
+                          perform Rot-Form-Print-2
+                       end-if
+                  
+                       if wrk-ok = "*"
+                          exit paragraph
+                       end-if
+
+                       perform Rot-Form-Print-3-INFR1
+                       perform Rot-Limpa-Corpo-INFR1
+
+                       if lnk-saida = 2
+                          perform Rot-Form-Print-4
+                       end-if
+                    end-if
+                 end-if
+              end-if
+
+              move T99-R036-2-AUTO to wrk-auto-ifc
+
+              read T99-R036-2 next with no lock
+           end-perform
+           
+           if INFR1-AUTINF1-NUMERO not = spaces and 
+                                           INFR1-AUTINF2-NUMERO = spaces
+              perform Rot-Form-Print-1
+              if wrk-ok not = "*"
+                 perform Rot-Form-Print-2
+              end-if
+         
+              if wrk-ok = "*"
+                 exit paragraph
+              end-if
+              perform Rot-Form-Print-3-INFR1
+              if lnk-saida = 2
+                 perform Rot-Form-Print-4
+              end-if
+           end-if
+           perform Rot-Limpa-Corpo-INFR1
+           .
+
+       Preenche-INFR2.
+           move emp01-endereco     to INFR2-EMP-ENDERECO 
+           move emp01-bairro       to INFR2-EMP-BAIRRO
+           move emp01-cidade       to INFR2-EMP-CIDADE
+           move emp01-estado       to INFR2-EMP-ESTADO
+           move emp01-cep          to INFR2-EMP-CEP
+           move EMP00-MAIL-EMISSOR to INFR2-EMP-EMAIL 
+           move emp01-fone         to INFR2-EMP-FONE 
+           move emp01-fax          to INFR2-EMP-FAX
+           move emp01-cgc          to INFR2-EMP-CGC
+           move emp01-inscricao    to INFR2-EMP-INSCRICAO
+
+           if T99-R036-COD-CONDUTOR not = 99999
+              move mot01-NOME         to INFR2-MOT-NOME
+              move mot01-ENDERE       to INFR2-MOT-ENDERECO
+              if mot01-CEP > 0
+                 move mot01-CEP       to INFR2-MOT-CEP
+              end-if
+              if mot01-CPF > 0
+                 move mot01-CPF       to INFR2-MOT-CPF
+              end-if
+              move mot01-BAIRRO       to INFR2-MOT-BAIRRO
+              if mot01-NROCNH > 0
+                 move mot01-NROCNH    to INFR2-MOT-CNH
+              end-if
+              move mot01-RG           to INFR2-MOT-RG
+              move mot01-MUNICI       to INFR2-MOT-CIDADE
+              move mot01-ESTCNH       to INFR2-MOT-UF-CNH
+              move mot01-OrgErg       to INFR2-MOT-ORG-EXP
+              move mot01-uf-exp-rg    to INFR2-MOT-UF-EXP
+              move mot01-ESTADO       to INFR2-MOT-UF
+              move mot01-FONE         to INFR2-MOT-TELEFONE
+           else
+              move 'Sem Condutor'     to INFR2-MOT-NOME
+           end-if
+
+           move Pro01-NOME         to INFR2-PRO-NOME
+           move Pro01-ENDERE       to INFR2-PRO-ENDERECO
+           if Pro01-CEP > 0
+              move Pro01-CEP       to INFR2-PRO-CEP
+           end-if
+           if Pro01-CGC > 0
+              move Pro01-CGC       to INFR2-PRO-CGC
+           end-if
+           move Pro01-BAIRRO       to INFR2-PRO-BAIRRO
+           move Pro01-MUNICI       to INFR2-PRO-CIDADE
+           move Pro01-ESTADO       to INFR2-PRO-UF
+           move Pro01-FONE         to INFR2-PRO-TELEFONE
+
+           move IFC01-AUTINFLACAO  to INFR2-AUTINF-NUMERO
+           move IFC01-LOCINFLACAO  to INFR2-AUTINF-LOCAL
+           move IFC01-ORGINFLACAO  to INFR2-AUTINF-ORGAO
+           if IFC01-DATINFLACAO > 0
+              string IFC01-DATINFLACAO-R-DIA      '/'
+                     IFC01-DATINFLACAO-R-MES      '/'
+                     IFC01-DATINFLACAO-R-ANO(3:2)
+                     into INFR2-AUTINF-DATA
+           end-if
+           if IFC01-HORINFLACAO > 0
+              string IFC01-HORINFLACAO(1:2) ':'
+                     IFC01-HORINFLACAO(3:2)
+                     into INFR2-AUTINF-HORA
+           end-if
+           
+           if IFC01-ASSINADA = 'S'
+              move 'Sim' to INFR2-AUTINF-ASSINADA 
+           else
+              move 'Não' to INFR2-AUTINF-ASSINADA
+           end-if
+
+           initialize REG-CID01
+           move IFC01-MUNINFLACAO to CID01-CODIGO
+           read arq-cid01 with no lock
+           if not valid-arq-cid01
+              initialize REG-CID01
+           end-if
+           move CID01-CIDADE to INFR2-AUTINF-CIDADE
+           move CID01-ESTADO to INFR2-AUTINF-UF
+
+           if IFS01-DATSITUACAO > 0
+              string IFS01-DATSITUACAO-R-DIA '/'
+                     IFS01-DATSITUACAO-R-MES '/'
+                     IFS01-DATSITUACAO-R-ANO(3:2)
+                     into INFR2-SIT-DATA
+           end-if
+
+           if IFS01-HORSITUACAO > 0
+              string IFS01-HORSITUACAO(1:2) ':'
+                     IFS01-HORSITUACAO(3:2)
+                     into INFR2-SIT-HORA
+           end-if
+
+           evaluate IFS01-TIPO
+              when 1
+                 move 'Lançada'    to INFR2-SIT-TIPO
+              when 2
+                 move 'Em Recurso' to INFR2-SIT-TIPO
+              when 3
+                 move 'Cancelada'  to INFR2-SIT-TIPO
+              when 4
+                 move 'Aguardando' to INFR2-SIT-TIPO
+              when 5
+                 move 'Baixada'    to INFR2-SIT-TIPO
+           end-evaluate
+
+           move IFS01-OBSERVACAO1 to INFR2-SIT-OBS1
+           move IFS01-OBSERVACAO2 to INFR2-SIT-OBS2
+           move IFS01-OBSERVACAO3 to INFR2-SIT-OBS3
+      
+           |repetição - infração cometida
+           initialize REG-IFI01
+           move T99-R036-CODIGO to IFI01-CODIGO
+           move low-value       to IFI01-CODINFLACAO
+           start ARQ-IFI01 key is >= IFI01-CHAVE
+           read ARQ-IFI01 next with no lock
+           if not valid-ARQ-IFI01 or T99-R036-CODIGO not = IFI01-CODIGO
+              initialize REG-IFI01
+           end-if
+      
+           move zeros to wrk-contador
+                         wrk-total-pontos
+                         wrk-total-valor
+           move 1     to wrk-contador
+           perform until not valid-ARQ-IFI01 or 
+                                      T99-R036-CODIGO not = IFI01-CODIGO
+              if wrk-contador > 46
+                 exit perform
+              end-if
+      
+              initialize REG-IFC99
+              move IFI01-CODINFLACAO to IFC99-CODIGO
+              read ARQ-IFC99 with no lock
+              if not valid-ARQ-IFC99
+                 initialize REG-IFC99
+              end-if
+              move IFC99-DESCRICAO to INFR2-DESCRICAO(wrk-contador)
+      
+              |Regulamentado
+              move spaces to wrk-string-10
+                             wrk-conta
+              if IFI01-LIMREGULAMENTADO > 0
+                 move 1 to wrk-x
+                           wrk-y
+      
+                 perform until wrk-x > 5
+                    if IFI01-LIMREGULAMENTADO(wrk-x:1) = 0 
+                                                 and wrk-conta not = "N"
+                       move space to wrk-string-10(wrk-y:1)
+                    else
+                       move IFI01-LIMREGULAMENTADO(wrk-x:1) 
+                                               to wrk-string-10(wrk-y:1)
+                       move "N" to wrk-conta
+                    end-if
+      
+                    if wrk-x = 3
+                       add 1 to wrk-y
+                       move ',' to wrk-string-10(wrk-y:1)
+                       add 1 to wrk-x
+                                wrk-y
+                    else
+                       add 1 to wrk-x
+                                wrk-y
+                    end-if
+                 end-perform
+              end-if
+              move wrk-string-10 to INFR2-REGULAMENTADO(wrk-contador)
+      
+              |Considerado
+              move spaces to wrk-string-10
+                             wrk-conta 
+              if IFI01-VALCONSIDERADO > 0
+                 move 1 to wrk-x
+                           wrk-y
+      
+                 perform until wrk-x > 5
+                    if IFI01-VALCONSIDERADO(wrk-x:1) = 0 
+                                                 and wrk-conta not = "N"
+                       move space to wrk-string-10(wrk-y:1)
+                    else
+                       move IFI01-VALCONSIDERADO(wrk-x:1) 
+                                               to wrk-string-10(wrk-y:1)
+                       move "N" to wrk-conta
+                    end-if
+      
+                    if wrk-x = 3
+                       add 1 to wrk-y
+                       move ',' to wrk-string-10(wrk-y:1)
+                       add 1 to wrk-x
+                                wrk-y
+                    else
+                       add 1 to wrk-x
+                                wrk-y
+                    end-if
+                 end-perform
+              end-if
+              move wrk-string-10 to INFR2-CONSIDERADO(wrk-contador)
+      
+              |Realizado
+              move spaces to wrk-string-10
+                             wrk-conta
+              if IFI01-MEDREALIZADA > 0
+                 move 1 to wrk-x
+                           wrk-y
+      
+                 perform until wrk-x > 5
+                    if IFI01-MEDREALIZADA(wrk-x:1) = 0 
+                                                 and wrk-conta not = "N"
+                       move space to wrk-string-10(wrk-y:1)
+                    else
+                       move IFI01-MEDREALIZADA(wrk-x:1) 
+                                               to wrk-string-10(wrk-y:1)
+                       move "N" to wrk-conta
+                    end-if
+      
+                    if wrk-x = 3
+                       add 1 to wrk-y
+                       move ',' to wrk-string-10(wrk-y:1)
+                       add 1 to wrk-x
+                                wrk-y
+                    else
+                       add 1 to wrk-x
+                                wrk-y
+                    end-if
+                 end-perform
+              end-if
+              move wrk-string-10 to INFR2-REALIZADO(wrk-contador)
+      
+              evaluate IFI01-GRAU
+                 when 1
+                    move 'Leve'       to INFR2-GRAU(wrk-contador) 
+                 when 2
+                    move 'Média'      to INFR2-GRAU(wrk-contador)
+                 when 3
+                    move 'Grave'      to INFR2-GRAU(wrk-contador)
+                 when 4
+                    move 'Gravíssima' to INFR2-GRAU(wrk-contador)
+              end-evaluate
+      
+              if IFI01-PONTOS > 0
+                 move IFI01-PONTOS to INFR2-PONTOS(wrk-contador)
+              end-if
+              add  IFI01-PONTOS to wrk-total-pontos
+      
+              |Valor
+              move spaces to wrk-string-12
+                             wrk-conta
+              if IFI01-VALOR > 0
+                 move 1 to wrk-x
+                           wrk-y
+      
+                 perform until wrk-x > 11
+                    if IFI01-VALOR(wrk-x:1) = 0 and wrk-conta not = "N"
+                       move space to wrk-string-12(wrk-y:1)
+                    else
+                       move IFI01-VALOR(wrk-x:1) 
+                                               to wrk-string-12(wrk-y:1)
+                       move "N" to wrk-conta
+                    end-if
+      
+                    if wrk-x = 9
+                       add 1 to wrk-y
+                       move ',' to wrk-string-12(wrk-y:1)
+                       add 1 to wrk-x
+                                wrk-y
+                    else
+                       add 1 to wrk-x
+                                wrk-y
+                    end-if
+                 end-perform
+              end-if
+              move wrk-string-12 to INFR2-VALOR(wrk-contador)
+              add  IFI01-VALOR   to wrk-total-valor
+              add  1             to wrk-contador
+      
+              read ARQ-IFI01 next with no lock
+           end-perform 
+
+           if wrk-total-pontos > 0
+              move zeros            to wrk-resultado
+              move wrk-total-pontos to wrk-string-10
+              move 1                to wrk-x
+  
+              perform until wrk-string-10(wrk-x:1) not = 0 
+                 add 1 to wrk-x
+              end-perform
+
+              compute wrk-resultado = 10 - wrk-x
+
+              move wrk-string-10(wrk-x:wrk-resultado) 
+                                                   to INFR2-TOTAL-PONTOS
+           end-if
+
+           if wrk-total-valor > 0
+              string wrk-total-valor(1:9)','
+                     wrk-total-valor(10:2) 
+                     into INFR2-TOTAL-VALOR
+
+              move 1 to wrk-x
+              perform until INFR2-TOTAL-VALOR(wrk-x:1) not = 0
+                 move spaces to INFR2-TOTAL-VALOR(wrk-x:1)
+                 add 1 to wrk-x
+              end-perform
+           end-if
+
+           perform Rot-Form-Print-1
+           if wrk-ok not = "*"
+              perform Rot-Form-Print-2
+           end-if
+      
+           if wrk-ok = "*"
+              exit paragraph
+           end-if
+           perform Rot-Form-Print-3-INFR2
+           perform Rot-Limpa-Corpo-INFR2
+           .
+
+
+       Rot-Form-Print-1.
+           |Quando o form print é chamado para a tela, ele pode ser
+           |executado varias vezes(form print 1, 2 e 3), ja quando é 
+           |para a impressora o form print 1 e 2 só podem ser executados
+           |uma unica vez, ja o 3 pode ser chamado varias vezes.
+           Move Low-Value       to Qpr-Init-Area
+           Move 'n'             to Qpr-Method
+           Move '\COMP-3\AC-PROGR\ACUCOBOL\P99-R035.PAN' to Qpr-File
+           Call 'QPR' Using Qpr-Init Qpr-Init-Area
+ 
+           If Qpr-Qi-Ret not = 0
+              Move '*'  to wrk-ok
+           End-If
+           .
+
+       Rot-Form-Print-2.
+           |Seleciona impressora
+           Move Low-Value       to Qpr-Area
+           Move 'Document 1'    to Qpr-Doc-Name
+
+           if lnk-saida = 1
+              Move 'd'           to Qpr-Dialog
+              Set Qpr-Do-Preview to True
+           else
+              Move 'y'          to Qpr-Dialog
+           end-if
+
+           Set Qpr-A4           to True
+ 
+           Call 'QPR' Using Qpr-Select-Printer-Ex Qpr-Area.
+ 
+           If Qpr-Ret-Code not = 0
+              Move '*'  to wrk-ok
+           End-If
+           .
+
+       Rot-Form-Print-3-INFR1.
+           |Imprime
+           Move Low-Value to INFR1-Colrs
+           Move Low-Value to INFR1-Types
+           Move 'INFR1'   to INFR1-Next-Panel
+
+           Perform Cleanup-Qprbmp
+
+           Move 'INFR1' to Qprbmp-Panel
+           Move 1       to Qprbmp-Id
+
+           string emp01-cgc(1:8)'.bmp' into Qprbmp-Name
+
+           Perform Set-Qprbmp
+      
+           Call 'QPR' Using Qpr-Print-Page INFR1-CONVERSE-DATA
+           .
+
+       Rot-Form-Print-3-INFR2.
+           |Imprime
+           Move Low-Value to INFR2-Colrs
+           Move Low-Value to INFR2-Types
+           Move 'INFR2'   to INFR2-Next-Panel
+
+           Perform Cleanup-Qprbmp
+
+           Move 'INFR2' to Qprbmp-Panel
+           Move 1       to Qprbmp-Id
+
+           string emp01-cgc(1:8)'.bmp' into Qprbmp-Name
+
+           Perform Set-Qprbmp
+      
+           Call 'QPR' Using Qpr-Print-Page INFR2-CONVERSE-DATA
+           .
+             
+       Rot-Limpa-Corpo-INFR1.
+           Move 1 to wrk-contador
+           Perform Until wrk-contador > 14 
+              move Spaces to INFR1-DESCRICAO1(wrk-contador)
+                             INFR1-REGULAMENTADO1(wrk-contador)
+                             INFR1-CONSIDERADO1(wrk-contador)
+                             INFR1-REALIZADO1(wrk-contador)
+                             INFR1-GRAU1(wrk-contador)
+                             INFR1-PONTOS1(wrk-contador)
+                             INFR1-VALOR1(wrk-contador)
+                             INFR1-TOTAL1-PONTOS
+                             INFR1-TOTAL1-VALOR
+                             INFR1-DESCRICAO2(wrk-contador)
+                             INFR1-REGULAMENTADO2(wrk-contador)
+                             INFR1-CONSIDERADO2(wrk-contador)
+                             INFR1-REALIZADO2(wrk-contador)
+                             INFR1-GRAU2(wrk-contador)
+                             INFR1-PONTOS2(wrk-contador)
+                             INFR1-VALOR2(wrk-contador)
+                             INFR1-TOTAL2-PONTOS
+                             INFR1-TOTAL2-VALOR
+
+              Add 1 to wrk-contador
+           End-Perform
+           move spaces to INFR1-AUTINF1-NUMERO
+                          INFR1-AUTINF1-LOCAL
+                          INFR1-AUTINF1-ORGAO
+                          INFR1-AUTINF1-DATA
+                          INFR1-AUTINF1-HORA
+                          INFR1-AUTINF1-ASSINADA 
+                          INFR1-AUTINF1-CIDADE
+                          INFR1-AUTINF1-UF
+                          INFR1-SIT1-DATA
+                          INFR1-SIT1-HORA
+                          INFR1-SIT1-TIPO
+                          INFR1-SIT1-OBS1
+                          INFR1-SIT1-OBS2
+                          INFR1-SIT1-OBS3
+                          INFR1-AUTINF2-NUMERO
+                          INFR1-AUTINF2-LOCAL
+                          INFR1-AUTINF2-ORGAO
+                          INFR1-AUTINF2-DATA
+                          INFR1-AUTINF2-HORA
+                          INFR1-AUTINF2-ASSINADA 
+                          INFR1-AUTINF2-CIDADE
+                          INFR1-AUTINF2-UF
+                          INFR1-SIT2-DATA
+                          INFR1-SIT2-HORA
+                          INFR1-SIT2-TIPO
+                          INFR1-SIT2-OBS1
+                          INFR1-SIT2-OBS2
+                          INFR1-SIT2-OBS3 
+           .
+
+       Rot-Limpa-Corpo-INFR2.
+           Move 1 to wrk-contador
+           Perform Until wrk-contador > 46 
+              move Spaces to INFR2-DESCRICAO(wrk-contador)
+                             INFR2-REGULAMENTADO(wrk-contador)
+                             INFR2-CONSIDERADO(wrk-contador)
+                             INFR2-REALIZADO(wrk-contador)
+                             INFR2-GRAU(wrk-contador)
+                             INFR2-PONTOS(wrk-contador)
+                             INFR2-VALOR(wrk-contador)
+                             INFR2-TOTAL-PONTOS
+                             INFR2-TOTAL-VALOR
+
+              Add 1 to wrk-contador
+           End-Perform
+           .
+        
+       Rot-Form-Print-4.
+           |Finaliza
+           Call 'QPR'  Using Qpr-End-Print Qpr-Null-Parm
+           .       
+
+       Criar-Temp-2.
+           Close T99-R036-2
+           Call 'C$DELETE' Using DRV-T99-R036-2, 'I'
+
+           Close T99-R036-2
+           move Spaces to DRV-T99-R036-2
+
+           move zeros to wrk-hora-atual
+           Accept wrk-hora-atual From Time
+
+           String '\Comp-3\Temp\T99-R036-2-' 
+                  ext-codusu '-' wrk-hora-atual(1:8) '.dad'
+                  into DRV-T99-R036-2
+
+           Open Output T99-R036-2
+           Close       T99-R036-2
+           Open I-O    T99-R036-2
+
+           if NOT Valid-T99-R036-2
+              move 'Não foi possível criar o arquivo' to wrk-message-1
+              string 'temporário T99-R036. Status: ' Stat-T99-R036-2
+              into wrk-message-2
+              perform mensagem
+              move "N" to wrk-ok
+              exit paragraph 
+           End-if
+           .
+
+       Auto-1.
+           initialize REG-IFC01
+           move T99-R036-2-CODIGO to IFC01-CODIGO
+           read ARQ-IFC01 with no lock
+           if not valid-ARQ-IFC01
+              initialize REG-IFC01
+           end-if
+
+           move IFC01-AUTINFLACAO to INFR1-AUTINF1-NUMERO
+           move IFC01-LOCINFLACAO to INFR1-AUTINF1-LOCAL
+           move IFC01-ORGINFLACAO to INFR1-AUTINF1-ORGAO
+           if IFC01-DATINFLACAO > 0
+              string IFC01-DATINFLACAO-R-DIA      '/'
+                     IFC01-DATINFLACAO-R-MES      '/'
+                     IFC01-DATINFLACAO-R-ANO(3:2)
+                     into INFR1-AUTINF1-DATA
+           end-if
+           if IFC01-HORINFLACAO > 0
+              string IFC01-HORINFLACAO(1:2) ':'
+                     IFC01-HORINFLACAO(3:2)
+                     into INFR1-AUTINF1-HORA
+           end-if
+
+           if IFC01-ASSINADA = 'S'
+              move 'Sim' to INFR1-AUTINF1-ASSINADA 
+           else
+              move 'Não' to INFR1-AUTINF1-ASSINADA
+           end-if
+
+           initialize REG-CID01
+           move IFC01-MUNINFLACAO to CID01-CODIGO
+           read arq-cid01 with no lock
+           if not valid-arq-cid01
+              initialize REG-CID01
+           end-if
+           move CID01-CIDADE to INFR1-AUTINF1-CIDADE
+           move CID01-ESTADO to INFR1-AUTINF1-UF
+
+           initialize REG-IFS01
+           move T99-R036-2-CODIGO to IFS01-CODIGO
+           move high-value        to IFS01-PROGRESSIVO
+           start ARQ-IFS01 key is < IFS01-CHAVE
+           read ARQ-IFS01 previous with no lock
+           if not valid-ARQ-IFS01 or 
+                                    T99-R036-2-CODIGO not = IFS01-CODIGO
+              initialize REG-IFS01
+           end-if
+
+           if IFS01-DATSITUACAO > 0
+              string IFS01-DATSITUACAO-R-DIA '/'
+                     IFS01-DATSITUACAO-R-MES '/'
+                     IFS01-DATSITUACAO-R-ANO(3:2)
+                     into INFR1-SIT1-DATA
+           end-if
+
+           if IFS01-HORSITUACAO > 0
+              string IFS01-HORSITUACAO(1:2) ':'
+                     IFS01-HORSITUACAO(3:2)
+                     into INFR1-SIT1-HORA
+           end-if
+
+           evaluate IFS01-TIPO
+              when 1
+                 move 'Lançada'    to INFR1-SIT1-TIPO
+              when 2
+                 move 'Em Recurso' to INFR1-SIT1-TIPO
+              when 3
+                 move 'Cancelada'  to INFR1-SIT1-TIPO
+              when 4
+                 move 'Aguardando' to INFR1-SIT1-TIPO
+              when 5
+                 move 'Baixada'    to INFR1-SIT1-TIPO
+           end-evaluate
+
+           move IFS01-OBSERVACAO1 to INFR1-SIT1-OBS1
+           move IFS01-OBSERVACAO2 to INFR1-SIT1-OBS2
+           move IFS01-OBSERVACAO3 to INFR1-SIT1-OBS3
+           .
+
+       Auto-2.
+           initialize REG-IFC01
+           move T99-R036-2-CODIGO to IFC01-CODIGO
+           read ARQ-IFC01 with no lock
+           if not valid-ARQ-IFC01
+              initialize REG-IFC01
+           end-if
+
+           move IFC01-AUTINFLACAO   to INFR1-AUTINF2-NUMERO
+           move IFC01-LOCINFLACAO   to INFR1-AUTINF2-LOCAL
+           move IFC01-ORGINFLACAO   to INFR1-AUTINF2-ORGAO
+           if IFC01-DATINFLACAO > 0
+              string IFC01-DATINFLACAO-R-DIA      '/'
+                     IFC01-DATINFLACAO-R-MES      '/'
+                     IFC01-DATINFLACAO-R-ANO(3:2)
+                     into INFR1-AUTINF2-DATA
+           end-if
+           if IFC01-HORINFLACAO > 0
+              string IFC01-HORINFLACAO(1:2) ':'
+                     IFC01-HORINFLACAO(3:2)
+                     into INFR1-AUTINF2-HORA
+           end-if
+
+           if IFC01-ASSINADA = 'S'
+              move 'Sim' to INFR1-AUTINF2-ASSINADA 
+           else
+              move 'Não' to INFR1-AUTINF2-ASSINADA
+           end-if
+
+           initialize REG-CID01
+           move IFC01-MUNINFLACAO to CID01-CODIGO
+           read arq-cid01 with no lock
+           if not valid-arq-cid01
+              initialize REG-CID01
+           end-if
+           move CID01-CIDADE to INFR1-AUTINF2-CIDADE
+           move CID01-ESTADO to INFR1-AUTINF2-UF
+
+           initialize REG-IFS01
+           move T99-R036-2-CODIGO to IFS01-CODIGO
+           move high-value      to IFS01-PROGRESSIVO
+           start ARQ-IFS01 key is < IFS01-CHAVE
+           read ARQ-IFS01 previous with no lock
+           if not valid-ARQ-IFS01 or 
+                                    T99-R036-2-CODIGO not = IFS01-CODIGO
+              initialize REG-IFS01
+           end-if
+
+           if IFS01-DATSITUACAO > 0
+              string IFS01-DATSITUACAO-R-DIA '/'
+                     IFS01-DATSITUACAO-R-MES '/'
+                     IFS01-DATSITUACAO-R-ANO(3:2)
+                     into INFR1-SIT2-DATA
+           end-if
+
+           if IFS01-HORSITUACAO > 0
+              string IFS01-HORSITUACAO(1:2) ':'
+                     IFS01-HORSITUACAO(3:2)
+                     into INFR1-SIT2-HORA
+           end-if
+
+           evaluate IFS01-TIPO
+              when 1
+                 move 'Lançada'    to INFR1-SIT2-TIPO
+              when 2
+                 move 'Em Recurso' to INFR1-SIT2-TIPO
+              when 3
+                 move 'Cancelada'  to INFR1-SIT2-TIPO
+              when 4
+                 move 'Aguardando' to INFR1-SIT2-TIPO
+              when 5
+                 move 'Baixada'    to INFR1-SIT2-TIPO
+           end-evaluate
+
+           move IFS01-OBSERVACAO1 to INFR1-SIT2-OBS1
+           move IFS01-OBSERVACAO2 to INFR1-SIT2-OBS2
+           move IFS01-OBSERVACAO3 to INFR1-SIT2-OBS3
+           .
+
+       Infra-1.
+           |repetição - infração cometida
+           initialize REG-IFI01
+           move T99-R036-2-CODIGO to IFI01-CODIGO
+           move low-value         to IFI01-CODINFLACAO
+           start ARQ-IFI01 key is >= IFI01-CHAVE
+           read ARQ-IFI01 next with no lock
+           if not valid-ARQ-IFI01 or 
+                                    T99-R036-2-CODIGO not = IFI01-CODIGO
+              initialize REG-IFI01
+           end-if
+      
+           move zeros to wrk-contador
+                         wrk-total-pontos
+                         wrk-total-valor
+           move 1     to wrk-contador
+           perform until not valid-ARQ-IFI01 or 
+                                    T99-R036-2-CODIGO not = IFI01-CODIGO
+              if wrk-contador > 14
+                 exit perform
+              end-if
+      
+              initialize REG-IFC99
+              move IFI01-CODINFLACAO to IFC99-CODIGO
+              read ARQ-IFC99 with no lock
+              if not valid-ARQ-IFC99
+                 initialize REG-IFC99
+              end-if
+              move IFC99-DESCRICAO to INFR1-DESCRICAO1(wrk-contador)
+      
+              |Regulamentado
+              move spaces to wrk-string-10
+                             wrk-conta
+              if IFI01-LIMREGULAMENTADO > 0
+                 move 1 to wrk-x
+                           wrk-y
+      
+                 perform until wrk-x > 5
+                    if IFI01-LIMREGULAMENTADO(wrk-x:1) = 0 
+                                                 and wrk-conta not = "N"
+                       move space to wrk-string-10(wrk-y:1)
+                    else
+                       move IFI01-LIMREGULAMENTADO(wrk-x:1) 
+                                               to wrk-string-10(wrk-y:1)
+                       move "N" to wrk-conta
+                    end-if
+      
+                    if wrk-x = 3
+                       add 1 to wrk-y
+                       move ',' to wrk-string-10(wrk-y:1)
+                       add 1 to wrk-x
+                                wrk-y
+                    else
+                       add 1 to wrk-x
+                                wrk-y
+                    end-if
+                 end-perform
+              end-if
+              move wrk-string-10 to INFR1-REGULAMENTADO1(wrk-contador)
+      
+              |Considerado
+              move spaces to wrk-string-10
+                             wrk-conta 
+              if IFI01-VALCONSIDERADO > 0
+                 move 1 to wrk-x
+                           wrk-y
+      
+                 perform until wrk-x > 5
+                    if IFI01-VALCONSIDERADO(wrk-x:1) = 0 
+                                                 and wrk-conta not = "N"
+                       move space to wrk-string-10(wrk-y:1)
+                    else
+                       move IFI01-VALCONSIDERADO(wrk-x:1) 
+                                               to wrk-string-10(wrk-y:1)
+                       move "N" to wrk-conta
+                    end-if
+      
+                    if wrk-x = 3
+                       add 1 to wrk-y
+                       move ',' to wrk-string-10(wrk-y:1)
+                       add 1 to wrk-x
+                                wrk-y
+                    else
+                       add 1 to wrk-x
+                                wrk-y
+                    end-if
+                 end-perform
+              end-if
+              move wrk-string-10 to INFR1-CONSIDERADO1(wrk-contador)
+      
+              |Realizado
+              move spaces to wrk-string-10
+                             wrk-conta
+              if IFI01-MEDREALIZADA > 0
+                 move 1 to wrk-x
+                           wrk-y
+      
+                 perform until wrk-x > 5
+                    if IFI01-MEDREALIZADA(wrk-x:1) = 0 
+                                                 and wrk-conta not = "N"
+                       move space to wrk-string-10(wrk-y:1)
+                    else
+                       move IFI01-MEDREALIZADA(wrk-x:1) 
+                                               to wrk-string-10(wrk-y:1)
+                       move "N" to wrk-conta
+                    end-if
+      
+                    if wrk-x = 3
+                       add 1 to wrk-y
+                       move ',' to wrk-string-10(wrk-y:1)
+                       add 1 to wrk-x
+                                wrk-y
+                    else
+                       add 1 to wrk-x
+                                wrk-y
+                    end-if
+                 end-perform
+              end-if
+              move wrk-string-10 to INFR1-REALIZADO1(wrk-contador)
+      
+              evaluate IFI01-GRAU
+                 when 1
+                    move 'Leve'       to INFR1-GRAU1(wrk-contador) 
+                 when 2
+                    move 'Média'      to INFR1-GRAU1(wrk-contador)
+                 when 3
+                    move 'Grave'      to INFR1-GRAU1(wrk-contador)
+                 when 4
+                    move 'Gravíssima' to INFR1-GRAU1(wrk-contador)
+              end-evaluate
+      
+              if IFI01-PONTOS > 0
+                 move IFI01-PONTOS to INFR1-PONTOS1(wrk-contador)
+              end-if
+              add  IFI01-PONTOS to wrk-total-pontos
+      
+              |Valor
+              move spaces to wrk-string-12
+                             wrk-conta
+              if IFI01-VALOR > 0
+                 move 1 to wrk-x
+                           wrk-y
+      
+                 perform until wrk-x > 11
+                    if IFI01-VALOR(wrk-x:1) = 0 and wrk-conta not = "N"
+                       move space to wrk-string-12(wrk-y:1)
+                    else
+                       move IFI01-VALOR(wrk-x:1) 
+                                               to wrk-string-12(wrk-y:1)
+                       move "N" to wrk-conta
+                    end-if
+      
+                    if wrk-x = 9
+                       add 1 to wrk-y
+                       move ',' to wrk-string-12(wrk-y:1)
+                       add 1 to wrk-x
+                                wrk-y
+                    else
+                       add 1 to wrk-x
+                                wrk-y
+                    end-if
+                 end-perform
+              end-if
+              move wrk-string-12 to INFR1-VALOR1(wrk-contador)
+              add  IFI01-VALOR   to wrk-total-valor
+              add  1             to wrk-contador
+      
+
+              read ARQ-IFI01 next with no lock
+           end-perform
+
+           if wrk-total-pontos > 0
+              move zeros            to wrk-resultado
+              move wrk-total-pontos to wrk-string-10
+              move 1                to wrk-x
+  
+              perform until wrk-string-10(wrk-x:1) not = 0 
+                 add 1 to wrk-x
+              end-perform
+
+              compute wrk-resultado = 10 - wrk-x
+
+              move wrk-string-10(wrk-x:wrk-resultado) 
+                                      to INFR1-TOTAL1-PONTOS
+           end-if
+
+           if wrk-total-valor > 0
+              string wrk-total-valor(1:9)','
+                     wrk-total-valor(10:2) 
+                     into INFR1-TOTAL1-VALOR
+
+              move 1 to wrk-x
+              perform until INFR1-TOTAL1-VALOR(wrk-x:1) not = 0
+                 move spaces to INFR1-TOTAL1-VALOR(wrk-x:1)
+                 add 1 to wrk-x
+              end-perform
+           end-if
+           .
+
+       Infra-2.
+           |repetição - infração cometida
+           initialize REG-IFI01
+           move T99-R036-2-CODIGO to IFI01-CODIGO
+           move low-value       to IFI01-CODINFLACAO
+           start ARQ-IFI01 key is >= IFI01-CHAVE
+           read ARQ-IFI01 next with no lock
+           if not valid-ARQ-IFI01 or 
+                                    T99-R036-2-CODIGO not = IFI01-CODIGO
+              initialize REG-IFI01
+           end-if
+      
+           move zeros to wrk-contador
+                         wrk-total-pontos
+                         wrk-total-valor
+           move 1     to wrk-contador
+           perform until not valid-ARQ-IFI01 or 
+                                    T99-R036-2-CODIGO not = IFI01-CODIGO
+              if wrk-contador > 14
+                 exit perform
+              end-if
+      
+              initialize REG-IFC99
+              move IFI01-CODINFLACAO to IFC99-CODIGO
+              read ARQ-IFC99 with no lock
+              if not valid-ARQ-IFC99
+                 initialize REG-IFC99
+              end-if
+              move IFC99-DESCRICAO to INFR1-DESCRICAO2(wrk-contador)
+      
+              |Regulamentado
+              move spaces to wrk-string-10
+                             wrk-conta
+              if IFI01-LIMREGULAMENTADO > 0
+                 move 1 to wrk-x
+                           wrk-y
+      
+                 perform until wrk-x > 5
+                    if IFI01-LIMREGULAMENTADO(wrk-x:1) = 0 
+                                                 and wrk-conta not = "N"
+                       move space to wrk-string-10(wrk-y:1)
+                    else
+                       move IFI01-LIMREGULAMENTADO(wrk-x:1) 
+                                               to wrk-string-10(wrk-y:1)
+                       move "N" to wrk-conta
+                    end-if
+      
+                    if wrk-x = 3
+                       add 1 to wrk-y
+                       move ',' to wrk-string-10(wrk-y:1)
+                       add 1 to wrk-x
+                                wrk-y
+                    else
+                       add 1 to wrk-x
+                                wrk-y
+                    end-if
+                 end-perform
+              end-if
+              move wrk-string-10 to INFR1-REGULAMENTADO2(wrk-contador)
+      
+              |Considerado
+              move spaces to wrk-string-10
+                             wrk-conta 
+              if IFI01-VALCONSIDERADO > 0
+                 move 1 to wrk-x
+                           wrk-y
+      
+                 perform until wrk-x > 5
+                    if IFI01-VALCONSIDERADO(wrk-x:1) = 0 
+                                                 and wrk-conta not = "N"
+                       move space to wrk-string-10(wrk-y:1)
+                    else
+                       move IFI01-VALCONSIDERADO(wrk-x:1) 
+                                               to wrk-string-10(wrk-y:1)
+                       move "N" to wrk-conta
+                    end-if
+      
+                    if wrk-x = 3
+                       add 1 to wrk-y
+                       move ',' to wrk-string-10(wrk-y:1)
+                       add 1 to wrk-x
+                                wrk-y
+                    else
+                       add 1 to wrk-x
+                                wrk-y
+                    end-if
+                 end-perform
+              end-if
+              move wrk-string-10 to INFR1-CONSIDERADO2(wrk-contador)
+      
+              |Realizado
+              move spaces to wrk-string-10
+                             wrk-conta
+              if IFI01-MEDREALIZADA > 0
+                 move 1 to wrk-x
+                           wrk-y
+      
+                 perform until wrk-x > 5
+                    if IFI01-MEDREALIZADA(wrk-x:1) = 0 
+                                                 and wrk-conta not = "N"
+                       move space to wrk-string-10(wrk-y:1)
+                    else
+                       move IFI01-MEDREALIZADA(wrk-x:1) 
+                                               to wrk-string-10(wrk-y:1)
+                       move "N" to wrk-conta
+                    end-if
+      
+                    if wrk-x = 3
+                       add 1 to wrk-y
+                       move ',' to wrk-string-10(wrk-y:1)
+                       add 1 to wrk-x
+                                wrk-y
+                    else
+                       add 1 to wrk-x
+                                wrk-y
+                    end-if
+                 end-perform
+              end-if
+              move wrk-string-10 to INFR1-REALIZADO2(wrk-contador)
+      
+              evaluate IFI01-GRAU
+                 when 1
+                    move 'Leve'       to INFR1-GRAU2(wrk-contador) 
+                 when 2
+                    move 'Média'      to INFR1-GRAU2(wrk-contador)
+                 when 3
+                    move 'Grave'      to INFR1-GRAU2(wrk-contador)
+                 when 4
+                    move 'Gravíssima' to INFR1-GRAU2(wrk-contador)
+              end-evaluate
+      
+              if IFI01-PONTOS > 0
+                 move IFI01-PONTOS to INFR1-PONTOS2(wrk-contador)
+              end-if
+              add  IFI01-PONTOS to wrk-total-pontos
+      
+              |Valor
+              move spaces to wrk-string-12
+                             wrk-conta
+              if IFI01-VALOR > 0
+                 move 1 to wrk-x
+                           wrk-y
+      
+                 perform until wrk-x > 11
+                    if IFI01-VALOR(wrk-x:1) = 0 and wrk-conta not = "N"
+                       move space to wrk-string-12(wrk-y:1)
+                    else
+                       move IFI01-VALOR(wrk-x:1) 
+                                               to wrk-string-12(wrk-y:1)
+                       move "N" to wrk-conta
+                    end-if
+      
+                    if wrk-x = 9
+                       add 1 to wrk-y
+                       move ',' to wrk-string-12(wrk-y:1)
+                       add 1 to wrk-x
+                                wrk-y
+                    else
+                       add 1 to wrk-x
+                                wrk-y
+                    end-if
+                 end-perform
+              end-if
+              move wrk-string-12 to INFR1-VALOR2(wrk-contador)
+              add  IFI01-VALOR   to wrk-total-valor
+              add  1             to wrk-contador
+      
+              read ARQ-IFI01 next with no lock
+           end-perform
+
+           if wrk-total-pontos > 0
+              move zeros            to wrk-resultado
+              move wrk-total-pontos to wrk-string-10
+              move 1                to wrk-x
+  
+              perform until wrk-string-10(wrk-x:1) not = 0 
+                 add 1 to wrk-x
+              end-perform
+
+              compute wrk-resultado = 10 - wrk-x
+
+              move wrk-string-10(wrk-x:wrk-resultado) 
+                                      to INFR1-TOTAL2-PONTOS
+           end-if
+
+           if wrk-total-valor > 0
+              string wrk-total-valor(1:9)','
+                     wrk-total-valor(10:2) 
+                     into INFR1-TOTAL2-VALOR
+
+              move 1 to wrk-x
+              perform until INFR1-TOTAL2-VALOR(wrk-x:1) not = 0
+                 move spaces to INFR1-TOTAL2-VALOR(wrk-x:1)
+                 add 1 to wrk-x
+              end-perform
+           end-if
+           .
+      *    Protocolo 54.781
+       Atualiza-Pagamento.
+           move spaces to wrk-pago
+                          wrk-dt-pgto
+                          wrk-NroAut
+
+           initialize REG-IFP01
+           move IFC01-CODIGO to IFP01-CODIGO
+           move low-value    to IFP01-PROGRESSIVO
+           start ARQ-IFP01 key is >= IFP01-CHAVE
+           read ARQ-IFP01 next with no lock
+           if valid-ARQ-IFP01 and IFC01-CODIGO = IFP01-CODIGO
+              if IFP01-AUTORIZACAO is not numeric or 
+                 IFP01-AUTORIZACAO = zeros
+                 move 'Não'  to wrk-pago
+                 move spaces to wrk-dt-pgto
+                                wrk-NroAut
+              else
+                 move IFP01-AUTORIZACAO to wrk-NroAut
+
+                 initialize REG-VEI01
+                 move IFC01-VEICULO to VEI01-CODIGO
+                 read ARQ-VEI01 with no lock
+                 if not valid-ARQ-VEI01
+                    initialize REG-VEI01
+                 end-if
+      
+                 initialize REG-UNI15
+                 move VEI01-UN-NEG to UNI15-CODIGO
+                 read ARQ-UNI15 with no lock
+                 if not valid-ARQ-UNI15
+                    initialize REG-UNI15
+                 end-if
+
+                 initialize REG-PAG09
+                 if UNI15-EMP-PED-COMPRAS > 0
+                    move UNI15-EMP-PED-COMPRAS to Pag09-CODEMP
+                 else
+                    move 1 to Pag09-CODEMP
+                 end-if
+
+                 move IFC01-ORG-AUTUADOR to Pag09-CODFOR
+                 move IFP01-NROTIT       to Pag09-NROTIT
+                 move IFP01-DESTIT       to Pag09-DESTIT
+                 read ARQ-PAG09 with no lock
+                 if valid-ARQ-PAG09
+                    if Pag09-SALTIT <> 0
+                       move 'Não'  to wrk-pago
+                       move spaces to wrk-dt-pgto 
+                    else
+                       move 'Sim' to wrk-pago
+
+                       initialize REG-BAI09
+                       move Pag09-CODEMP to Bai09-CODEMP
+                       move Pag09-CODFOR to Bai09-CODFOR
+                       move Pag09-NROTIT to Bai09-NROTIT
+                       move Pag09-DESTIT to Bai09-DESTIT
+                       move low-value    to Bai09-NUMERO
+                       start ARQ-BAI09 key is >= Bai09-CHAVE
+                       read ARQ-BAI09 next with no lock
+                       if valid-ARQ-BAI09
+                          string Bai09-DIAMOV '.'
+                                 Bai09-MESMOV '.'
+                                 Bai09-ANOMOV(3:2)
+                                 into wrk-dt-pgto
+                       end-if
+                    end-if
+                 end-if
+              end-if
+           else
+              move spaces to wrk-pago
+                             wrk-dt-pgto
+           end-if
+           .
+           |Fim
+
+       
+      *
+       arq-usu-Write.
+           write reg-usu 
+           if not valid-arq-usu
+              display message box "Erro na gravação do Usuário: " 
+                 usu-codigo h"0a" "Status: " stat-arq-usu 
+                 icon mb-error-icon title "Erro" 
+           end-if                      
+           .
+      *
+       arq-usu-Rewrite.
+           rewrite reg-usu 
+           if not valid-arq-usu
+              display message box "Erro na regravação do Usuário: " 
+                 usu-codigo h"0a" "Status: " stat-arq-usu 
+                 icon mb-error-icon title "Erro" 
+           end-if                       
+           .
+      *
+       arq-usu-Delete-File-Record.
+           display message box "Confirma exclusão do Usuário?"
+              icon mb-warning-icon type mb-yes-no title "Atenção"
+              giving return-code
+           if return-code = 1
+              delete arq-usu
+              if not valid-arq-usu
+                 display message box "Erro na exclusão do Usuário: " 
+                    usu-codigo h"0a" "Status: " stat-arq-usu 
+                    icon mb-error-icon title "Erro" 
+              end-if
+           end-if                      
+           .
+      ** 
+      * call-error.
+      *     SET ENVIRONMENT "TRANSLATE_TO_ANSI" TO 0
+      *     initialize wrk-texto-msg
+      *     string "Programa ( " wrk-codprg " ) não encontrado !" 
+      *                              delimited by size into wrk-message-1
+      *     set wrk-warning-type to true
+      *     set wrk-ok-type      to true
+      *     call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+      *                       wrk-message-1, wrk-Message-2, wrk-Message-3
+      *     on overflow perform call-error end-call
+      *     cancel "mensagem"
+      *     .
+
+      *
+       arq-cid01-Write.
+           write REG-cid01
+           if not valid-arq-cid01
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              string 
+                 "Erro na gravação da Cidade: " 
+                      cid01-chave into wrk-message-1 
+              string "Status: " stat-arq-cid01 into wrk-message-2
+ 
+              set wrk-error-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+           end-if
+           .
+      *
+       arq-cid01-Rewrite.
+           rewrite REG-cid01
+           if not valid-arq-cid01
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              string 
+                 "Erro na regravação da Cidade: " 
+                      cid01-chave into wrk-message-1 
+              string "Status: " stat-arq-cid01 into wrk-message-2
+ 
+              set wrk-error-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+           end-if
+           .
+      *
+       arq-cid01-Delete-File-Record.
+           move "Confirma exclusão da Cidade?" 
+                                                       to wrk-message-1
+           set wrk-warning-type to true
+           set wrk-yes-no-type  to true
+           Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+           on overflow perform call-error end-call
+           Cancel "mensagem"
+           
+           if wrk-response = 1
+              delete arq-cid01
+              if not valid-arq-cid01
+                 string "Erro na exclusão da Cidade: " 
+                        cid01-chave into wrk-message-1 
+                 string "Status: " stat-arq-cid01 into wrk-message-2
+ 
+                 set wrk-error-type to true
+                 set wrk-ok-type      to true
+                 Call "mensagem" 
+                    Using wrk-Message-Type, wrk-Response-Type, 
+                          wrk-message-1, wrk-Message-2, wrk-Message-3
+                 on overflow perform call-error end-call
+                 Cancel "mensagem"
+              end-if
+           end-if
+           .
+
+      *
+       ARQ-par01-Write.
+           write reg-par01
+           if not valid-ARQ-par01
+              display message box "Erro na gravação do Registro: " 
+                 par01-CHAVE h"0a" "Status: " stat-ARQ-par01
+                 icon mb-error-icon title "Erro" 
+           end-if  
+           .
+      *
+       ARQ-par01-Rewrite.
+           rewrite reg-par01 
+           if not valid-ARQ-par01
+              display message box "Erro na regravação do Registro: " 
+                 par01-CHAVE h"0a" "Status: " stat-ARQ-par01
+                 icon mb-error-icon title "Erro" 
+           end-if
+           .
+      *
+       ARQ-par01-Delete-File-Record.
+            display message box "Confirma exclusão do Registro?"
+              icon mb-warning-icon type mb-yes-no title "Atenção"
+              giving return-code
+           if return-code = 1
+              delete ARQ-par01
+              if not valid-ARQ-par01
+                 display message box "Erro na exclusão do Registro: " 
+                    par01-CHAVE h"0a" "Status: " stat-ARQ-par01
+                    icon mb-error-icon title "Erro" 
+              end-if
+           end-if 
+           .
+
+
+      *
+       arq-uni15-Write.
+           write REG-uni15
+           if not valid-arq-uni15
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              string 
+                 "Erro na gravação do arq-uni15: " 
+                     uni15-codigo into wrk-message-1 
+              string "Status: " stat-arq-uni15 into wrk-message-2
+ 
+              set wrk-error-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+           .
+      *
+       arq-uni15-Rewrite.
+           rewrite REG-uni15
+           if not valid-arq-uni15
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              string 
+                 "Erro na regravação do arq-uni15: " 
+                      uni15-codigo into wrk-message-1 
+              string "Status: " stat-arq-uni15 into wrk-message-2
+ 
+              set wrk-error-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+           end-if
+           .
+      *
+       arq-uni15-Delete-File-Record.
+           move "Confirma exclusão do Registro?" 
+                                                       to wrk-message-1
+           set wrk-warning-type to true
+           set wrk-yes-no-type  to true
+           Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+           on overflow perform call-error end-call
+           Cancel "mensagem"
+           
+           if wrk-response = 1
+              delete arq-uni15
+              if not valid-arq-uni15
+                 string "Erro na exclusão do arq-uni15: " 
+                        uni15-codigo into wrk-message-1 
+                 string "Status: " stat-arq-uni15 into wrk-message-2
+ 
+                 set wrk-error-type to true
+                 set wrk-ok-type      to true
+                 Call "mensagem" 
+                    Using wrk-Message-Type, wrk-Response-Type, 
+                          wrk-message-1, wrk-Message-2, wrk-Message-3
+                 on overflow perform call-error end-call
+                 Cancel "mensagem"                
+              end-if
+           end-if
+           .
+

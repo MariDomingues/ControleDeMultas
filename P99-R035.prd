@@ -1,0 +1,476 @@
+      * P99-R035.prd
+      * P99-R035.prd is generated from T:\Transport\FONTES\TRABALHO\SISTEMA\P99-R035.Psf
+      * This is a generated file. DO NOT modify this file directly.      
+
+       Acu-Initial-Routine.
+      *    Before-Init
+      * get system information
+           ACCEPT System-Information FROM System-Info
+      * get terminal information
+           ACCEPT Terminal-Abilities FROM Terminal-Info
+      * set font
+           PERFORM Acu-Init-Font
+      * load bitmap
+           PERFORM Acu-Init-Bmp
+      * open file
+           PERFORM Acu-Open-Files
+      *    After-Init
+           .
+
+       Acu-Init-Font.
+      * font setting
+           INITIALIZE WFONT-DATA Arial9
+           MOVE 9 TO WFONT-SIZE
+           MOVE "Arial" TO WFONT-NAME
+           SET WFCHARSET-DEFAULT TO TRUE
+           SET WFONT-BOLD TO FALSE
+           SET WFONT-ITALIC TO FALSE
+           SET WFONT-UNDERLINE TO FALSE
+           SET WFONT-STRIKEOUT TO FALSE
+           SET WFFAMILY-DONT-CARE TO TRUE
+           SET WFONT-FIXED-PITCH TO FALSE
+           CALL "W$FONT" USING WFONT-GET-FONT, Arial9, WFONT-DATA
+           INITIALIZE WFONT-DATA Arial11B
+           MOVE 11 TO WFONT-SIZE
+           MOVE "Arial" TO WFONT-NAME
+           SET WFCHARSET-DEFAULT TO TRUE
+           SET WFONT-BOLD TO TRUE
+           SET WFONT-ITALIC TO FALSE
+           SET WFONT-UNDERLINE TO FALSE
+           SET WFONT-STRIKEOUT TO FALSE
+           SET WFFAMILY-DONT-CARE TO TRUE
+           SET WFONT-FIXED-PITCH TO FALSE
+           CALL "W$FONT" USING WFONT-GET-FONT, Arial11B, WFONT-DATA
+           INITIALIZE WFONT-DATA Arial7B
+           MOVE 7 TO WFONT-SIZE
+           MOVE "Arial" TO WFONT-NAME
+           SET WFCHARSET-DEFAULT TO TRUE
+           SET WFONT-BOLD TO TRUE
+           SET WFONT-ITALIC TO FALSE
+           SET WFONT-UNDERLINE TO FALSE
+           SET WFONT-STRIKEOUT TO FALSE
+           SET WFFAMILY-DONT-CARE TO TRUE
+           SET WFONT-FIXED-PITCH TO FALSE
+           CALL "W$FONT" USING WFONT-GET-FONT, Arial7B, WFONT-DATA
+           .
+
+       Acu-Init-Bmp.
+      * bitmap loading
+           COPY RESOURCE "\Comp-3\Ac-Progr\Acucobol\Tripao2.bmp".
+           CALL "W$BITMAP" USING WBITMAP-LOAD "Tripao2.bmp", GIVING 
+              Tripao2-bmp
+           COPY RESOURCE "\Comp-3\Ac-Progr\Acucobol\informacao.bmp".
+           CALL "W$BITMAP" USING WBITMAP-LOAD "informacao.bmp", GIVING 
+              informacao-bmp
+           COPY RESOURCE "\Comp-3\Ac-Progr\Acucobol\Tripao1.bmp".
+           CALL "W$BITMAP" USING WBITMAP-LOAD "Tripao1.bmp", GIVING 
+              Tripao1-bmp
+           .
+
+       Acu-Exit-Rtn.
+           PERFORM Acu-Close-Files
+      *    After-Program
+           EXIT PROGRAM
+           STOP RUN
+           .
+
+       Acu-Open-Files.
+      *    Before-Open
+           PERFORM Acu-Open-arq-usu
+           PERFORM Acu-Open-arq-usu-prg
+           PERFORM Acu-Open-arq-prg
+           PERFORM Acu-Open-arq-emp00
+           PERFORM Acu-Open-ARQ-MOT01
+           PERFORM Acu-Open-arq-pro01
+           PERFORM Acu-Open-arq-vei01
+      *    After-Open
+           .
+
+       Acu-Open-arq-usu.
+           PERFORM arq-usu-Before-Open
+           OPEN INPUT arq-usu 
+           IF NOT stat-arq-usu(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-arq-usu-prg.
+           PERFORM arq-usu-prg-Before-Open
+           OPEN INPUT arq-usu-prg 
+           IF NOT stat-usu-prg(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-arq-prg.
+           PERFORM arq-prg-Before-Open
+           OPEN INPUT arq-prg 
+           IF NOT stat-arq-prg(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-arq-emp00.
+      *    Before-Open
+           OPEN INPUT arq-emp00 
+           IF NOT stat-arq-emp00(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-ARQ-MOT01.
+      *    Before-Open
+           OPEN INPUT ARQ-MOT01 
+           IF NOT stat-arq-mot01(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-arq-pro01.
+      *    Before-Open
+           OPEN INPUT arq-pro01 
+           IF NOT STAT-ARQ-PRO01(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-arq-vei01.
+      *    Before-Open
+           OPEN INPUT arq-vei01 
+           IF NOT STAT-ARQ-VEI01(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-t1-Routine.
+      *    Before-Routine
+           PERFORM Acu-t1-Scrn
+           PERFORM Acu-t1-Proc
+      *    After-Routine
+           .
+
+       Acu-t1-Scrn.
+           PERFORM Acu-t1-Create-Win
+           PERFORM Acu-t1-Init-Data
+           .
+
+       Acu-t1-Create-Win.
+           PERFORM t1-Bef-Create
+      * display screen
+              DISPLAY Floating GRAPHICAL WINDOW
+                 LINES 60,10, SIZE 48,30, CELL HEIGHT 10, 
+                 CELL WIDTH 10, COLOR IS 65793, CONTROL FONT Arial9, 
+                 LABEL-OFFSET 0, LINK TO THREAD, NO SCROLL, 
+                 WITH SYSTEM MENU, 
+                 TITLE 
+                 "P99-R035 - Relatórios de Infrações por RH / Veículo / 
+      -          "Proprietário", TITLE-BAR, NO WRAP, 
+                 HANDLE IS t1-Handle
+      * toolbar
+           DISPLAY TOOL-BAR CELL HEIGHT 10, CELL WIDTH 10, 
+              LINES 3,10 CELLS, 
+              HANDLE IS t1-Tb-1-Handle
+           DISPLAY t1-Tb-1 UPON t1-Tb-1-Handle
+      * status-bar
+           DISPLAY STATUS-BAR
+              PANEL-WIDTHS (32, 200), 
+              PANEL-STYLE (1, 1), 
+              PANEL-TEXT (SPACE, SPACE), 
+              GRIP, FONT IS Arial7B, 
+              HANDLE IS t1-St-1-Handle
+           DISPLAY t1 UPON t1-Handle
+           PERFORM t1-Aft-Create
+           .
+
+       Acu-t1-Init-Data.
+           PERFORM t1-Bef-Initdata
+           PERFORM t1-Aft-Initdata
+           .
+      * t1
+       Acu-t1-Proc.
+           PERFORM UNTIL Exit-Pushed
+              ACCEPT t1  
+                 ON EXCEPTION PERFORM Acu-t1-Evaluate-Func
+              END-ACCEPT
+           END-PERFORM
+           DESTROY t1-Handle
+           INITIALIZE Key-Status
+           .
+
+      * t1
+       Acu-t1-Evaluate-Func.
+           EVALUATE TRUE
+              WHEN Exit-Pushed
+                 PERFORM Acu-t1-Exit
+              WHEN Event-Occurred
+                 IF Event-Type = Cmd-Close
+                    PERFORM Acu-t1-Exit
+                 END-IF
+      * t1-Pb-Ok Link To
+              WHEN Key-Status = 1100
+                 PERFORM t1-Pb-Ok-Link
+      * t1-Pb-Cancelar Link To
+              WHEN Key-Status = 1110
+                 PERFORM t1-Pb-Cancelar-Link
+      * t1-Pb-pesquisa Link To
+              WHEN Key-Status = 3
+                 PERFORM t1-Pb-pesquisa-Link
+      * t1-Pb-inclui Link To
+              WHEN Key-Status = 6
+                 PERFORM t1-Pb-inclui-Link
+      * t1-pb-help Link To
+              WHEN Key-Status = 1
+                 PERFORM t1-pb-help-Link
+      * t1-pb-informacao Link To
+              WHEN Key-Status = 1008
+                 PERFORM t1-pb-informacao-Link
+      * t1-Pb-primeiro Link To
+              WHEN Key-Status = 1003
+                 PERFORM t1-Pb-primeiro-Link
+      * t1-Pb-anterior Link To
+              WHEN Key-Status = 1004
+                 PERFORM t1-Pb-anterior-Link
+      * t1-Pb-proximo Link To
+              WHEN Key-Status = 1005
+                 PERFORM t1-Pb-proximo-Link
+      * t1-Pb-ultimo Link To
+              WHEN Key-Status = 1006
+                 PERFORM t1-Pb-ultimo-Link
+      * t1-Pb-relatorio Link To
+              WHEN Key-Status = 1007
+                 PERFORM t1-Pb-relatorio-Link
+           END-EVALUATE
+           MOVE 4 TO Accept-Control
+           .
+
+       Acu-t1-Display-Status-Msg.
+           MODIFY t1-St-1-Handle
+              PANEL-WIDTHS (32, 200), 
+              PANEL-STYLE (1, 1), 
+              PANEL-TEXT (SPACE, SPACE), 
+              GRIP, FONT IS Arial7B, 
+           .
+
+       Acu-t1-Clear-Status-Msg.
+           PERFORM Acu-t1-Display-Status-Msg
+           .
+
+       Acu-Close-Files.
+      *    Before-Close
+           CLOSE arq-usu
+           CLOSE arq-usu-prg
+           CLOSE arq-prg
+           CLOSE ARQ-LOG123
+           CLOSE ARQ-LOG23
+           CLOSE arq-emp00
+           CLOSE ARQ-MOT01
+           CLOSE arq-pro01
+           CLOSE arq-vei01
+      *    After-Close
+           .
+
+      * ds-arq-usu
+
+       Acu-ds-arq-usu-Read.
+           READ arq-usu WITH NO LOCK KEY usu-chave OF arq-usu
+           .
+
+       Acu-ds-arq-usu-Read-Next.
+           READ arq-usu NEXT WITH NO LOCK
+           .
+
+       Acu-ds-arq-usu-Read-Prev.
+           READ arq-usu PREVIOUS WITH NO LOCK
+           .
+
+       Acu-ds-arq-usu-Delete.
+           DELETE FILE arq-usu
+           .
+
+      * ds-arq-usu-prg
+
+       Acu-ds-arq-usu-prg-Read.
+           READ arq-usu-prg WITH NO LOCK 
+              KEY chave-usu-prg OF arq-usu-prg
+           .
+
+       Acu-ds-arq-usu-prg-Read-Next.
+           READ arq-usu-prg NEXT WITH NO LOCK
+           .
+
+       Acu-ds-arq-usu-prg-Read-Prev.
+           READ arq-usu-prg PREVIOUS WITH NO LOCK
+           .
+
+       Acu-ds-arq-usu-prg-Delete.
+           DELETE FILE arq-usu-prg
+           .
+
+      * ds-arq-prg
+
+       Acu-ds-arq-prg-Read.
+           READ arq-prg WITH NO LOCK KEY chave-prg OF arq-prg
+           .
+
+       Acu-ds-arq-prg-Read-Next.
+           READ arq-prg NEXT WITH NO LOCK
+           .
+
+       Acu-ds-arq-prg-Read-Prev.
+           READ arq-prg PREVIOUS WITH NO LOCK
+           .
+
+       Acu-ds-arq-prg-Delete.
+           DELETE FILE arq-prg
+           .
+
+      * ds-arq-log123
+
+       Acu-ds-arq-log123-Read.
+           READ ARQ-LOG123 WITH NO LOCK KEY log123-CHAVE OF ARQ-LOG123
+           .
+
+       Acu-ds-arq-log123-Read-Next.
+           READ ARQ-LOG123 NEXT WITH NO LOCK
+           .
+
+       Acu-ds-arq-log123-Read-Prev.
+           READ ARQ-LOG123 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-ds-arq-log123-Rec-Write.
+           WRITE REG-Log123
+           .
+
+       Acu-ds-arq-log123-Rec-Rewrite.
+           REWRITE REG-Log123
+           .
+
+       Acu-ds-arq-log123-Rec-Delete.
+           DELETE ARQ-LOG123
+           .
+
+       Acu-ds-arq-log123-Delete.
+           DELETE FILE ARQ-LOG123
+           .
+
+      * ds-arq-log23
+
+       Acu-ds-arq-log23-Read.
+           READ ARQ-LOG23 WITH NO LOCK KEY Log23-CHAVE OF ARQ-LOG23
+           .
+
+       Acu-ds-arq-log23-Read-Next.
+           READ ARQ-LOG23 NEXT WITH NO LOCK
+           .
+
+       Acu-ds-arq-log23-Read-Prev.
+           READ ARQ-LOG23 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-ds-arq-log23-Rec-Write.
+           WRITE REG-Log23
+           .
+
+       Acu-ds-arq-log23-Rec-Rewrite.
+           REWRITE REG-Log23
+           .
+
+       Acu-ds-arq-log23-Rec-Delete.
+           DELETE ARQ-LOG23
+           .
+
+       Acu-ds-arq-log23-Delete.
+           DELETE FILE ARQ-LOG23
+           .
+
+      * ds-arq-emp00
+
+       Acu-ds-arq-emp00-Read.
+           READ arq-emp00 WITH NO LOCK KEY EMP00-CHAVE OF arq-emp00
+           .
+
+       Acu-ds-arq-emp00-Read-Next.
+           READ arq-emp00 NEXT WITH NO LOCK
+           .
+
+       Acu-ds-arq-emp00-Read-Prev.
+           READ arq-emp00 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-ds-arq-emp00-Delete.
+           DELETE FILE arq-emp00
+           .
+
+      * DS-arq-mot01
+
+       Acu-DS-arq-mot01-Read.
+           READ ARQ-MOT01 WITH NO LOCK KEY mot01-CHAVE OF ARQ-MOT01
+           .
+
+       Acu-DS-arq-mot01-Read-Next.
+           READ ARQ-MOT01 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-arq-mot01-Read-Prev.
+           READ ARQ-MOT01 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-arq-mot01-Delete.
+           DELETE FILE ARQ-MOT01
+           .
+
+      * DS-arq-pro01
+
+       Acu-DS-arq-pro01-Read.
+           READ arq-pro01 WITH NO LOCK KEY Pro01-CHAVE OF arq-pro01
+           .
+
+       Acu-DS-arq-pro01-Read-Next.
+           READ arq-pro01 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-arq-pro01-Read-Prev.
+           READ arq-pro01 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-arq-pro01-Delete.
+           DELETE FILE arq-pro01
+           .
+
+      * DS-arq-vei01
+
+       Acu-DS-arq-vei01-Read.
+           READ arq-vei01 WITH NO LOCK KEY VEI01-CHAVE OF arq-vei01
+           .
+
+       Acu-DS-arq-vei01-Read-Next.
+           READ arq-vei01 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-arq-vei01-Read-Prev.
+           READ arq-vei01 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-arq-vei01-Delete.
+           DELETE FILE arq-vei01
+           . 
+
+       Acu-t1-Exit.
+           SET Exit-Pushed TO TRUE
+           .
+

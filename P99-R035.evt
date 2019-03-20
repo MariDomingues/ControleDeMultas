@@ -1,0 +1,1274 @@
+      * P99-R035.evt
+      * P99-R035.evt is generated from T:\Transport\FONTES\TRABALHO\SISTEMA\P99-R035.Psf
+      * This is a generated file. DO NOT modify this file directly.
+      
+
+       t1-Exception-Proc.
+           PERFORM t1-Ex-Other
+           .
+      ***   start event editor code   ***
+      *
+       arq-usu-Before-Open.
+           move "\comp-3\ac-progr\programa\ARQ-USU.DAD" to drv-usu           
+           .
+      *
+       arq-usu-prg-Before-Open.
+           move "\comp-3\ac-progr\programa\ARQ-USU-PRG.DAD" 
+                                                        to drv-usu-prg           
+           .
+      *
+       arq-prg-Before-Open.
+           move "\comp-3\ac-progr\programa\ARQ-PRG.DAT" to drv-prg           
+           .
+      *
+       t1-Pb-grava-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t1-pb-grava bitmap-handle = tripao2-bmp
+           modify t1-pb-grava style         = pbs-framed
+           modify t1-pb-grava bitmap-number = 1
+           .
+      *
+       t1-Pb-grava-Aft-Procedure.
+           modify t1-pb-grava bitmap-handle = tripao2-bmp
+           modify t1-pb-grava bitmap-number = 1
+           modify t1-pb-grava flat
+           .
+      *
+       t1-Pb-desiste-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t1-pb-desiste bitmap-handle = tripao2-bmp
+           modify t1-pb-desiste style         = pbs-framed
+           modify t1-pb-desiste bitmap-number = 2
+           .
+      *
+       t1-Pb-desiste-Aft-Procedure.
+           modify t1-pb-desiste bitmap-handle = tripao2-bmp
+           modify t1-pb-desiste bitmap-number = 2
+           modify t1-pb-desiste flat
+           .
+      *
+       t1-Pb-exclui-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t1-pb-exclui bitmap-handle = tripao2-bmp
+           modify t1-pb-exclui style         = pbs-framed
+           modify t1-pb-exclui bitmap-number = 3
+           .
+      *
+       t1-Pb-exclui-Aft-Procedure.
+           modify t1-pb-exclui bitmap-handle = tripao2-bmp
+           modify t1-pb-exclui bitmap-number = 3
+           modify t1-pb-exclui flat
+           .
+      *
+       t1-Pb-cancela-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t1-pb-cancela bitmap-handle = tripao2-bmp
+           modify t1-pb-cancela style         = pbs-framed
+           modify t1-pb-cancela bitmap-number = 4
+           .
+      *
+       t1-Pb-cancela-Aft-Procedure.
+           modify t1-pb-cancela bitmap-handle = tripao2-bmp
+           modify t1-pb-cancela bitmap-number = 4
+           modify t1-pb-cancela flat
+           .
+      *
+       t1-Pb-primeiro-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t1-pb-primeiro bitmap-handle = tripao1-bmp
+           modify t1-pb-primeiro style         = pbs-framed
+           modify t1-pb-primeiro bitmap-number = 1
+           .
+      *
+       t1-Pb-primeiro-Aft-Procedure.
+           modify t1-pb-primeiro bitmap-handle = tripao1-bmp
+           modify t1-pb-primeiro bitmap-number = 1
+           modify t1-pb-primeiro flat
+           .
+      *
+       t1-Pb-anterior-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t1-pb-anterior bitmap-handle = tripao1-bmp
+           modify t1-pb-anterior style         = pbs-framed
+           modify t1-pb-anterior bitmap-number = 2
+           .
+      *
+       t1-Pb-anterior-Aft-Procedure.
+           modify t1-pb-anterior bitmap-handle = tripao1-bmp
+           modify t1-pb-anterior bitmap-number = 2
+           modify t1-pb-anterior flat
+           .
+      *
+       t1-Pb-proximo-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t1-pb-proximo bitmap-handle = tripao1-bmp
+           modify t1-pb-proximo style         = pbs-framed
+           modify t1-pb-proximo bitmap-number = 3
+           .
+      *
+       t1-Pb-proximo-Aft-Procedure.
+           modify t1-pb-proximo bitmap-handle = tripao1-bmp
+           modify t1-pb-proximo bitmap-number = 3
+           modify t1-pb-proximo flat
+           .
+      *
+       t1-Pb-ultimo-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t1-pb-ultimo bitmap-handle = tripao1-bmp
+           modify t1-pb-ultimo style         = pbs-framed
+           modify t1-pb-ultimo bitmap-number = 4
+           .
+      *
+       t1-Pb-ultimo-Aft-Procedure.
+           modify t1-pb-ultimo bitmap-handle = tripao1-bmp
+           modify t1-pb-ultimo bitmap-number = 4
+           modify t1-pb-ultimo flat
+           .
+      *
+       t1-Pb-relatorio-Bef-Procedure.
+           perform trata-barra-funcoes    
+           modify t1-pb-relatorio bitmap-handle = tripao2-bmp
+           modify t1-pb-relatorio style         = pbs-framed
+           modify t1-pb-relatorio bitmap-number = 5
+           .
+      *
+       t1-Pb-relatorio-Aft-Procedure.
+           modify t1-pb-relatorio bitmap-handle = tripao2-bmp
+           modify t1-pb-relatorio bitmap-number = 5
+           modify t1-pb-relatorio flat
+           .
+      *
+       t1-Pb-pesquisa-Link.
+           if control-id = 37 |Motorista
+              initialize reg-mot01
+      
+              call 'VIEWVIX' using 'N' 'PCTRCMOT' reg-mot01
+              cancel 'VIEWVIX'
+      
+              if mot01-CODIGO > 0
+                 move mot01-CODIGO to wrk-mot-cod
+                 modify t1-Ef-wrk-mot-cod value wrk-mot-cod
+              end-if
+           end-if
+
+           if control-id = 42 |Proprietário
+              initialize REG-PRO01
+      
+              call 'VIEWVIX' using 'N' 'PCTRC143' REG-PRO01
+              cancel 'VIEWVIX'
+      
+              if Pro01-CODIGO > 0
+                 move Pro01-CODIGO to wrk-pro-cod
+                 modify t1-Ef-wrk-pro-cod value wrk-pro-cod
+              end-if
+           end-if
+
+           if control-id = 46 |Veículo
+              initialize REG-VEI01
+      
+              call 'VIEWVIX' using 'N' 'PCTRCVEI' REG-VEI01
+              cancel 'VIEWVIX'
+      
+              if VEI01-CODIGO > 0
+                 move VEI01-CODIGO to wrk-vei-cod
+                 modify t1-Ef-wrk-vei-cod value wrk-vei-cod
+              end-if
+           end-if
+           .
+      *
+       t1-Pb-inclui-Link.
+           evaluate control-id
+              when 37 |Motorista
+                 Call "P99-C018" using lnk-padrao
+                 Cancel "P99-C018"
+              when 42 |Proprietário
+                 Call "P99-C008" using lnk-padrao
+                 Cancel "P99-C008"
+              when 46 |Veículo
+                 Call "P99-C019" using lnk-padrao
+                 Cancel "P99-C019"
+           end-evaluate
+           .
+      *
+       t1-Pb-primeiro-Link.
+      *    initialize reg-usu
+      *    start arq-usu key is >= chave-usu
+      *    read arq-usu next with lock
+      *    if stat-arq-usu = "99"
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              move "Registro bloqueado por outro usuário" 
+                                                        to wrk-message-1
+              set wrk-warning-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+      *       inquire t1-ef-usu-codigo id in control-id
+      *       exit paragraph
+      *    end-if
+      *    if not valid-arq-usu
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              move "Nenhum registro encontrado" to wrk-message-1
+              set wrk-warning-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+      *       exit paragraph
+      *    end-if
+           move "A" to wrk-acaexe
+           perform monta-tela
+           inquire t1-pb-grava id in control-id
+           .
+      *
+       t1-Pb-anterior-Link.
+      *    start arq-usu key is <  chave-usu
+      *    read arq-usu previous with lock
+      *    if stat-arq-usu = "99"
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              move "Registro bloqueado por outro usuário" 
+                                                        to wrk-message-1
+              set wrk-warning-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+      *       inquire t1-ef-usu-codigo id in control-id
+      *       exit paragraph
+      *    end-if
+      *    if stat-arq-usu = "10" or "46"
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              move "Primeiro registro cadastrado" to wrk-message-1
+              set wrk-Information-type to true
+              set wrk-ok-type          to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+      *    end-if
+           move "A" to wrk-acaexe
+           perform monta-tela
+           inquire t1-pb-grava id in control-id
+           .
+      *
+       t1-Pb-proximo-Link.
+      *    start arq-usu key is > chave-usu
+      *    read arq-usu next with lock
+      *    if stat-arq-usu = "99"
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              move "Registro bloqueado por outro usuário" 
+                                                        to wrk-message-1
+              set wrk-warning-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+      *       inquire t1-ef-usu-codigo id in control-id
+      *       exit paragraph
+      *    end-if
+      *    if stat-arq-usu = "10" or "46"
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              move "Último registro cadastrado" to wrk-message-1
+              set wrk-Information-type to true
+              set wrk-ok-type          to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+      *    end-if
+           move "A" to wrk-acaexe
+           perform monta-tela
+           inquire t1-pb-grava id in control-id
+           .
+      *
+       t1-Pb-ultimo-Link.
+      *    move high-value to usu-codigo
+      *    start arq-usu key is < chave-usu
+      *    read arq-usu previous with lock
+      *    if stat-arq-usu = "99"
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              move "Registro bloqueado por outro usuário" 
+                                                        to wrk-message-1
+              set wrk-warning-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+      *       inquire t1-ef-usu-codigo id in control-id
+      *       exit paragraph
+      *    end-if
+      *    if not valid-arq-usu
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              move "Registro não encontrado" to wrk-message-1
+              set wrk-warning-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+      *       exit paragraph
+      *    end-if
+           move "A" to wrk-acaexe
+           perform monta-tela
+           inquire t1-pb-grava id in control-id
+           .
+      *
+       t1-Pb-relatorio-Link.
+           perform acu-r1-preview    
+           .
+      *
+       t1-Ex-Other.
+           if key-status = 27
+              initialize key-status
+              if control-id = 14
+                 set exit-pushed to true
+                 exit paragraph
+              else 
+                 perform inicio
+
+                 move zeros to wrk-lnk-ifc-codigo-p01-m155
+
+                 inquire t1-Rb-wrk-saida-1 id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+           end-if
+           .
+      *
+       t1-Aft-Initdata.
+           move 01 to wrk-prgantnovo
+           if ext-codusu is not numeric or
+              ext-codusu = zeros
+              move 1 to  wrk-prgantnovo
+              initialize wrk-texto-msg
+              move "Usuário não encontrado" to wrk-message-1
+              set wrk-warning-type to true
+              set wrk-ok-type      to true
+              Call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                            wrk-message-1, wrk-Message-2, wrk-Message-3
+              on overflow perform call-error end-call
+              Cancel "mensagem"
+              set exit-pushed to true
+           end-if
+      *    ler o usuario para montar a barra inferior
+           initialize reg-usu
+           move ext-codusu to usu-codigo
+           read arq-usu with no lock
+           if valid-arq-usu
+              string "Usuário: " usu-nome 
+                                   delimited by size into wrk-barusuario
+              modify t1-St-1-Handle panel-index 1
+                                               panel-text wrk-barusuario
+
+              initialize reg-emp00
+              move 1 to emp00-codigo
+              read arq-emp00 with no lock
+              if valid-arq-emp00
+                 Move emp00-nome to wrk-barempresa
+              else
+                 string "Empresa não encontrada"
+                                   delimited by size into wrk-barempresa
+              end-if
+                 modify t1-St-1-Handle panel-index 2 
+                                               panel-text wrk-barempresa
+           end-if
+
+      *    antes de checar as permissoes do usuario, tem que passar o 
+      *    nome do programa para a work ex: "p00-c001" 
+           move "P99-R035" to wrk-codprg
+      *     perform checa-permissao
+           copy "checa-permissao.cpy".
+
+           perform inicio
+           .
+      *
+       trata-barra-funcoes.
+           move 1 to wrk-prgantnovo
+           modify t1-pb-pesquisa enabled 0
+           modify t1-pb-inclui   enabled 0
+           if control-id = 37 or 42 or 46
+              modify t1-pb-pesquisa enabled 1
+           end-if
+
+           if control-id = 37 or 42 or 46
+              modify t1-pb-inclui   enabled 1
+           end-if
+           .
+      *
+       monta-tela.
+           modify t1-Pb-anterior,   FLAT
+           modify t1-Pb-cancela,    FLAT
+           modify t1-Pb-desiste,    FLAT
+           modify t1-Pb-exclui,     FLAT
+           modify t1-Pb-grava,      FLAT
+           modify t1-pb-help,       FLAT
+           modify t1-Pb-inclui,     FLAT
+           modify t1-pb-informacao, FLAT
+           modify t1-Pb-pesquisa,   FLAT
+           modify t1-Pb-primeiro,   FLAT
+           modify t1-Pb-proximo,    FLAT
+           modify t1-Pb-relatorio,  FLAT
+           modify t1-Pb-ultimo,     FLAT
+
+           display t1
+           .
+      *
+       r1-RwEf-wrk-usuario-BeforePrint.
+           initialize reg-usu
+           move ext-codusu to usu-codigo
+           perform acu-ds-arq-usu-Read
+           if usu-login not = spaces
+              move usu-login to wrk-loginusuario
+           end-if           
+           .
+      *
+       r1-RwEf-wrk-pagina-BeforePrint.
+           move acu-pagenum to wrk-pagina            
+           .
+      *
+       t1-pb-informacao-Link.
+           move "P99-R035"       to    wrk-codprg
+           call   "rot-0084.acu" using wrk-codprg
+           cancel "rot-0084.acu"           
+           .
+      *
+       t1-pb-help-Link.
+           move "P99-R035"      to    wrk-codprg
+           call   "rot-hlp.acu" using wrk-codprg
+           cancel "rot-hlp.acu"                      
+           .
+      *
+       t1-Bef-Initdata.                     
+           move 1 to  wrk-prgantnovo
+           .
+      *
+       call-error.
+           move 1 to  wrk-prgantnovo
+           initialize wrk-texto-msg
+           string "Programa ( " wrk-codprg " ) não encontrado !" 
+                                    delimited by size into wrk-message-1
+           set wrk-warning-type to true
+           set wrk-ok-type      to true
+           call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                             wrk-message-1, wrk-Message-2, wrk-Message-3
+           on overflow perform call-error end-call
+           cancel "mensagem"
+           .       
+
+
+      *
+       t1-Bef-Create.
+           set environment "translate_to_ansi" to 0 
+           .
+      *
+       t1-Aft-Create.
+           copy "rot-log.cpy".
+           .
+      *
+       Chama-Programa.
+      *    Verifica o código do programa passado, para ver se chama o
+      *    programa antigo ou o novo.
+	        initialize reg-prg
+           move wrk-programa-chamar to prg-codant
+
+           start arq-prg key is >= chave-prg-codant
+
+           if not valid-arq-prg
+              move 1 to wrk-prgantnovo
+              initialize wrk-texto-msg
+              string "Programa " wrk-programa-chamar " não encontrado"
+                                                      into wrk-message-1
+
+              set wrk-warning-type to true
+              set wrk-ok-type      to true
+
+              call "mensagem" using wrk-Message-Type, wrk-Response-Type,
+                                    wrk-Message-1, wrk-Message-2,
+                                    wrk-Message-3
+              on overflow perform call-error end-call
+              cancel "mensagem"
+
+              exit paragraph
+           end-if
+
+           read arq-prg next
+
+           if valid-arq-prg
+
+      *       Se o prg-usacodnv = 1, então chama o programa pelo código novo
+      *       senão, usa o antigo mesmo
+              if prg-usacodnv = 1
+                 string prg-codigo ".acu" into wrk-chamaprog
+
+                 call wrk-chamaprog using lnk-padrao
+                 cancel wrk-chamaprog                 
+              else
+                 string prg-codant ".acu" into wrk-chamaprog
+
+                 set environment "TRANSLATE_TO_ANSI" to 1
+
+                 call wrk-chamaprog using lnk-padrao
+                 cancel wrk-chamaprog
+                 
+                 set environment "TRANSLATE_TO_ANSI" to 0
+              end-if
+           end-if
+           .
+      *
+       t1-Rb-wrk-saida-1-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Rb-wrk-saida-2-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Rb-wrk-saida-3-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Rb-wrk-tipo-1-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Rb-wrk-tipo-2-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Cb-wrk-lancada-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Cb-wrk-em-recurso-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Cb-wrk-cancelada-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Cb-wrk-aguardando-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Cb-wrk-baixada-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Rb-wrk-periodo-1-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Rb-wrk-periodo-2-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Ef-wrk-dt-inicial-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Ef-wrk-dt-final-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Ef-wrk-mot-cod-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Ef-wrk-pro-cod-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Ef-wrk-vei-cod-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Cb-wrk-assinada-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Cb-wrk-nao-assinada-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+      *
+       t1-Cb-wrk-sem-moto-Bef-Procedure.
+           perform trata-barra-funcoes
+           .
+
+       Mensagem.
+           move 1 to  wrk-prgantnovo
+           set wrk-warning-type to true
+           set wrk-ok-type      to true
+           call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+                             wrk-message-1, wrk-Message-2, wrk-Message-3
+           on overflow perform call-error end-call
+           cancel "mensagem" 
+           .
+
+       Inicio.
+           initialize reg-t1
+
+           if wrk-lnk-situacao-p01-m155 = zeros or = spaces
+              move 1 to wrk-saida
+                        wrk-tipo
+                        wrk-lancada
+                        wrk-em-recurso
+                        wrk-aguardando
+                        wrk-baixada
+                        wrk-periodo
+                        wrk-assinada
+                        wrk-nao-assinada
+                        wrk-notificacao
+                        wrk-multa
+   
+              move zeros to wrk-data
+                            wrk-resultado
+                            wrk-resto
+                            wrk-sem-moto
+   
+              accept wrk-data from date YYYYMMDD
+              move 1 to wrk-dt-inicial-r-dia
+              move wrk-data-r-mes to wrk-dt-inicial-r-mes
+              move wrk-data-r-mes to wrk-dt-final-r-mes
+              move wrk-data-r-ano to wrk-dt-inicial-r-ano
+              move wrk-data-r-ano to wrk-dt-final-r-ano
+              | VERIFICANDO O ULTIMO DIA DO MÊS
+              if wrk-data-r-mes = 1 or 3 or 5 or 7 or 8 or 10 or 12
+                 move 31 to wrk-dt-final-r-dia 
+              else
+                 if wrk-data-r-mes = 4 or 6 or 9 or 11
+                    move 30 to wrk-dt-final-r-dia
+                 else
+                    divide wrk-data-r-ano by 4 giving wrk-resultado
+                    remainder wrk-resto
+                    if wrk-resto = 0
+                       move 29 to wrk-dt-final-r-dia  
+                    else 
+                       move 28 to wrk-dt-final-r-dia
+                    end-if
+                 end-if
+              end-if
+   
+              move "Todos" to wrk-mot-nom
+                              wrk-pro-nom
+                              wrk-vei-nom
+   
+              modify t1-Cb-wrk-lancada      enabled true
+              modify t1-Cb-wrk-em-recurso   enabled true
+              modify t1-Cb-wrk-cancelada    enabled true
+              modify t1-Cb-wrk-aguardando   enabled true
+              modify t1-Cb-wrk-baixada      enabled true
+              modify t1-Rb-wrk-periodo-1    enabled true
+              modify t1-Rb-wrk-periodo-2    enabled true
+              modify t1-Ef-wrk-dt-inicial   enabled true
+              modify t1-Ef-wrk-dt-final     enabled true
+              modify t1-Ef-wrk-mot-cod      enabled true
+              modify t1-Ef-wrk-pro-cod      enabled true
+              modify t1-Ef-wrk-vei-cod      enabled true
+              modify t1-Cb-wrk-assinada     enabled true
+              modify t1-Cb-wrk-nao-assinada enabled true
+              modify t1-Cb-wrk-sem-moto     enabled true
+           else
+              move 1 to wrk-saida
+                        wrk-tipo
+   
+              evaluate wrk-lnk-situacao-p01-m155
+                 when 1
+                    move 1 to wrk-lancada
+                    move 0 to wrk-em-recurso
+                    move 0 to wrk-cancelada
+                    move 0 to wrk-aguardando
+                    move 0 to wrk-baixada
+         
+                    modify t1-Cb-wrk-lancada    enabled false
+                    modify t1-Cb-wrk-em-recurso enabled false
+                    modify t1-Cb-wrk-cancelada  enabled false
+                    modify t1-Cb-wrk-aguardando enabled false
+                    modify t1-Cb-wrk-baixada    enabled false
+                 when 2
+                    move 1 to wrk-em-recurso
+                    move 0 to wrk-lancada
+                    move 0 to wrk-cancelada
+                    move 0 to wrk-aguardando
+                    move 0 to wrk-baixada
+         
+                    modify t1-Cb-wrk-lancada    enabled false
+                    modify t1-Cb-wrk-em-recurso enabled false
+                    modify t1-Cb-wrk-cancelada  enabled false
+                    modify t1-Cb-wrk-aguardando enabled false
+                    modify t1-Cb-wrk-baixada    enabled false
+                 when 3
+                    move 1 to wrk-cancelada
+                    move 0 to wrk-lancada
+                    move 0 to wrk-em-recurso
+                    move 0 to wrk-aguardando
+                    move 0 to wrk-baixada
+         
+                    modify t1-Cb-wrk-lancada    enabled false
+                    modify t1-Cb-wrk-em-recurso enabled false
+                    modify t1-Cb-wrk-cancelada  enabled false
+                    modify t1-Cb-wrk-aguardando enabled false
+                    modify t1-Cb-wrk-baixada    enabled false
+                 when 4
+                    move 1 to wrk-aguardando
+                    move 0 to wrk-lancada
+                    move 0 to wrk-em-recurso
+                    move 0 to wrk-cancelada
+                    move 0 to wrk-baixada
+         
+                    modify t1-Cb-wrk-lancada    enabled false
+                    modify t1-Cb-wrk-em-recurso enabled false
+                    modify t1-Cb-wrk-cancelada  enabled false
+                    modify t1-Cb-wrk-aguardando enabled false
+                    modify t1-Cb-wrk-baixada    enabled false
+                 when 5
+                    move 1 to wrk-baixada
+                    move 0 to wrk-lancada
+                    move 0 to wrk-em-recurso
+                    move 0 to wrk-cancelada
+                    move 0 to wrk-aguardando
+         
+                    modify t1-Cb-wrk-lancada    enabled false
+                    modify t1-Cb-wrk-em-recurso enabled false
+                    modify t1-Cb-wrk-cancelada  enabled false
+                    modify t1-Cb-wrk-aguardando enabled false
+                    modify t1-Cb-wrk-baixada    enabled false
+              end-evaluate
+         
+              move 1               to wrk-periodo
+              move wrk-lnk-periodo-p01-m155 to wrk-dt-inicial
+                                               wrk-dt-final
+              move wrk-lnk-mot-p01-m155     to wrk-mot-cod
+              move wrk-lnk-pro-p01-m155     to wrk-pro-cod
+              move wrk-lnk-vei-p01-m155     to wrk-vei-cod
+         
+              if wrk-lnk-assinada-p01-m155 = 1
+                 move 1 to wrk-assinada 
+                 move 0 to wrk-nao-assinada
+              else
+                 move 1 to wrk-nao-assinada 
+                 move 0 to wrk-assinada
+              end-if
+         
+              if wrk-lnk-listar-mot-p01-m155 = 1
+                 move 1 to wrk-sem-moto
+              else
+                 move 0 to wrk-sem-moto
+              end-if
+
+              |Protocolo 54.601
+              if wrk-lnk-tipo-p01-m155 = 1
+                 move 1 to wrk-notificacao 
+                 move 0 to wrk-multa
+              else
+                 move 1 to wrk-multa 
+                 move 0 to wrk-notificacao
+              end-if
+              |Fim
+         
+              modify t1-Rb-wrk-periodo-1    enabled false
+              modify t1-Rb-wrk-periodo-2    enabled false
+              modify t1-Ef-wrk-dt-inicial   enabled false
+              modify t1-Ef-wrk-dt-final     enabled false
+              modify t1-Ef-wrk-mot-cod      enabled false
+              modify t1-Ef-wrk-pro-cod      enabled false
+              modify t1-Ef-wrk-vei-cod      enabled false
+              modify t1-Cb-wrk-assinada     enabled false
+              modify t1-Cb-wrk-nao-assinada enabled false
+              modify t1-Cb-wrk-sem-moto     enabled false
+              |Protocolo 54.601
+              modify t1-Cb-wrk-notificacao  enabled false
+              modify t1-Cb-wrk-multa        enabled false
+              |Fim
+         
+              move zeros  to wrk-lnk-situacao-p01-m155
+                             wrk-lnk-periodo-p01-m155
+                             wrk-lnk-mot-p01-m155
+                             wrk-lnk-pro-p01-m155
+                             wrk-lnk-assinada-p01-m155
+                             wrk-lnk-listar-mot-p01-m155
+              move spaces to wrk-lnk-vei-p01-m155
+         
+              perform t1-Ef-wrk-mot-cod-Aft-Procedure
+              perform t1-Ef-wrk-pro-cod-Aft-Procedure
+              perform t1-Ef-wrk-vei-cod-Aft-Procedure
+           end-if
+
+           display t1
+           .
+      *
+       t1-Pb-Cancelar-Link.
+           move zeros to wrk-lnk-ifc-codigo-p01-m155
+           Set exit-pushed to true
+           .
+      *
+       t1-Ef-wrk-dt-inicial-Aft-Procedure.
+           if wrk-dt-inicial > 0
+              move "@" to wrk-valid-data
+              call "Rot-data" using wrk-dt-inicial, wrk-valid-data
+              cancel "Rot-data"
+              if wrk-valid-data = "N"
+                 move "Data Inválida." to wrk-message-1
+                 perform mensagem
+                 inquire t1-Ef-wrk-dt-inicial id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+           else
+              move "Indique uma Data Inicial." to wrk-message-1
+              perform mensagem
+              inquire t1-Ef-wrk-dt-inicial id in control-id
+              move 4 to accept-control
+              exit paragraph
+           end-if
+           .
+      *
+       t1-Ef-wrk-dt-final-Aft-Procedure.
+           if wrk-dt-final > 0
+              move "@" to wrk-valid-data
+              call "Rot-data" using wrk-dt-final, wrk-valid-data
+              cancel "Rot-data"
+              if wrk-valid-data = "N"
+                 move "Data Inválida." to wrk-message-1
+                 perform mensagem
+                 inquire t1-Ef-wrk-dt-final id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+              move zeros to wrk-dt-final-inv
+                            wrk-dt-inicial-inv
+              move wrk-dt-inicial-r-dia to wrk-dt-inicial-inv-r-dia
+              move wrk-dt-inicial-r-mes to wrk-dt-inicial-inv-r-mes
+              move wrk-dt-inicial-r-ano to wrk-dt-inicial-inv-r-ano
+              move wrk-dt-final-r-dia   to wrk-dt-final-inv-r-dia
+              move wrk-dt-final-r-mes   to wrk-dt-final-inv-r-mes
+              move wrk-dt-final-r-ano   to wrk-dt-final-inv-r-ano
+              if wrk-dt-inicial-inv > wrk-dt-final-inv
+                 move "Data inicial maior que a data final." 
+                                                        to wrk-message-1
+                 perform mensagem
+                 inquire t1-Ef-wrk-dt-inicial id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+           else
+              move "Indique uma Data Final." to wrk-message-1
+              perform mensagem
+              inquire t1-Ef-wrk-dt-final id in control-id
+              move 4 to accept-control
+              exit paragraph
+           end-if
+           .
+      *
+       t1-Ef-wrk-mot-cod-Aft-Procedure.
+           if wrk-mot-cod > 0
+              initialize reg-mot01
+              move wrk-mot-cod to mot01-CODIGO
+              read ARQ-MOT01 with no lock
+              if not valid-ARQ-MOT01
+                 move "Motorista Inválido." to wrk-message-1
+                 perform mensagem
+                 move spaces to wrk-mot-nom
+                 modify t1-Ef-wrk-mot-nom value wrk-mot-nom
+                 inquire t1-Ef-wrk-mot-cod id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+              move mot01-NOME to wrk-mot-nom
+
+              move zeros      to wrk-sem-moto
+              display t1-Cb-wrk-sem-moto
+           else
+              move "Todos" to wrk-mot-nom
+
+      *        move 1      to wrk-sem-moto
+      *        display t1-Cb-wrk-sem-moto
+           end-if
+           modify t1-Ef-wrk-mot-nom value wrk-mot-nom
+           .
+      *
+       t1-Ef-wrk-pro-cod-Aft-Procedure.
+           if wrk-pro-cod > 0
+              initialize REG-PRO01
+              move wrk-pro-cod to Pro01-CODIGO
+              read arq-pro01 with no lock
+              if not valid-arq-pro01
+                 move "Proprietário Inválido." to wrk-message-1
+                 perform mensagem
+                 move spaces to wrk-pro-nom
+                 modify t1-Ef-wrk-pro-nom value wrk-pro-nom
+                 inquire t1-Ef-wrk-pro-cod id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+              move Pro01-NOME to wrk-pro-nom
+           else
+              move "Todos" to wrk-pro-nom  
+           end-if
+           modify t1-Ef-wrk-pro-nom value wrk-pro-nom
+           .
+      *
+       t1-Ef-wrk-vei-cod-Aft-Procedure.
+           if wrk-vei-cod > 0
+              initialize REG-VEI01
+              move wrk-vei-cod to VEI01-CODIGO
+              read arq-vei01 with no lock
+              if not valid-arq-vei01
+                 move "Veículo Inválido." to wrk-message-1
+                 perform mensagem
+                 move spaces to wrk-vei-nom
+                 modify t1-Ef-wrk-vei-nom value wrk-vei-nom
+                 inquire t1-Ef-wrk-vei-cod id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+              move VEI01-NOME to wrk-vei-nom
+           else
+              move "Todos" to wrk-vei-nom
+           end-if
+           modify t1-Ef-wrk-vei-nom value wrk-vei-nom
+           .
+      *
+       t1-Pb-Ok-Link.
+           |Verificações
+           |Situação
+           if (wrk-lancada    + wrk-em-recurso + wrk-cancelada + 
+               wrk-aguardando + wrk-baixada) = 0
+              move "Indique no mínimo uma situação." to wrk-message-1
+              perform mensagem
+              inquire t1-Cb-wrk-lancada id in control-id
+              move 4 to accept-control
+              exit paragraph
+           end-if
+
+           |Período
+           |Data Inicial
+           if wrk-dt-inicial > 0
+              move "@" to wrk-valid-data
+              call "Rot-data" using wrk-dt-inicial, wrk-valid-data
+              cancel "Rot-data"
+              if wrk-valid-data = "N"
+                 move "Data Inválida." to wrk-message-1
+                 perform mensagem
+                 inquire t1-Ef-wrk-dt-inicial id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+           else
+              move "Indique uma Data Inicial." to wrk-message-1
+              perform mensagem
+              inquire t1-Ef-wrk-dt-inicial id in control-id
+              move 4 to accept-control
+              exit paragraph
+           end-if
+
+           |Data Final
+           if wrk-dt-final > 0
+              move "@" to wrk-valid-data
+              call "Rot-data" using wrk-dt-final, wrk-valid-data
+              cancel "Rot-data"
+              if wrk-valid-data = "N"
+                 move "Data Inválida." to wrk-message-1
+                 perform mensagem
+                 inquire t1-Ef-wrk-dt-final id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+              move zeros to wrk-dt-final-inv
+                            wrk-dt-inicial-inv
+              move wrk-dt-inicial-r-dia to wrk-dt-inicial-inv-r-dia
+              move wrk-dt-inicial-r-mes to wrk-dt-inicial-inv-r-mes
+              move wrk-dt-inicial-r-ano to wrk-dt-inicial-inv-r-ano
+              move wrk-dt-final-r-dia   to wrk-dt-final-inv-r-dia
+              move wrk-dt-final-r-mes   to wrk-dt-final-inv-r-mes
+              move wrk-dt-final-r-ano   to wrk-dt-final-inv-r-ano
+              if wrk-dt-inicial-inv > wrk-dt-final-inv
+                 move "Data inicial maior que a data final." 
+                                                        to wrk-message-1
+                 perform mensagem
+                 inquire t1-Ef-wrk-dt-inicial id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+           else
+              move "Indique uma Data Final." to wrk-message-1
+              perform mensagem
+              inquire t1-Ef-wrk-dt-final id in control-id
+              move 4 to accept-control
+              exit paragraph
+           end-if
+
+           |Motorista
+           if wrk-mot-cod > 0
+              initialize reg-mot01
+              move wrk-mot-cod to mot01-CODIGO
+              read ARQ-MOT01 with no lock
+              if not valid-ARQ-MOT01
+                 move "Motorista Inválido." to wrk-message-1
+                 perform mensagem
+                 move spaces to wrk-mot-nom
+                 modify t1-Ef-wrk-mot-nom value wrk-mot-nom
+                 inquire t1-Ef-wrk-mot-cod id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+              move mot01-NOME to wrk-mot-nom
+           else
+              move spaces to wrk-mot-nom
+           end-if
+           modify t1-Ef-wrk-mot-nom value wrk-mot-nom
+
+           |Proprietário
+           if wrk-pro-cod > 0
+              initialize REG-PRO01
+              move wrk-pro-cod to Pro01-CODIGO
+              read arq-pro01 with no lock
+              if not valid-arq-pro01
+                 move "Proprietário Inválido." to wrk-message-1
+                 perform mensagem
+                 move spaces to wrk-pro-nom
+                 modify t1-Ef-wrk-pro-nom value wrk-pro-nom
+                 inquire t1-Ef-wrk-pro-cod id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+              move Pro01-NOME to wrk-pro-nom
+           else
+              move spaces to wrk-pro-nom  
+           end-if
+           modify t1-Ef-wrk-pro-nom value wrk-pro-nom
+
+           |Veículo
+           if wrk-vei-cod > 0
+              initialize REG-VEI01
+              move wrk-vei-cod to VEI01-CODIGO
+              read arq-vei01 with no lock
+              if not valid-arq-vei01
+                 move "Veículo Inválido." to wrk-message-1
+                 perform mensagem
+                 move spaces to wrk-vei-nom
+                 modify t1-Ef-wrk-vei-nom value wrk-vei-nom
+                 inquire t1-Ef-wrk-vei-cod id in control-id
+                 move 4 to accept-control
+                 exit paragraph
+              end-if
+              move VEI01-NOME to wrk-vei-nom
+           else
+              move spaces to wrk-vei-nom
+           end-if
+           modify t1-Ef-wrk-vei-nom value wrk-vei-nom
+
+           |Assinada
+           if (wrk-assinada + wrk-nao-assinada) = 0
+              move "Indique se a infração deve ser assinada" 
+                                                        to wrk-message-1
+              move "ou não." to wrk-message-2
+              perform mensagem
+              inquire t1-Cb-wrk-assinada id in control-id
+              move 4 to accept-control
+              exit paragraph
+           end-if
+
+           move zeros  to wrk-lnk-saida
+                          wrk-lnk-tipo
+                          wrk-lnk-lancada
+                          wrk-lnk-em-recurso
+                          wrk-lnk-cancelada
+                          wrk-lnk-aguardando
+                          wrk-lnk-baixada
+                          wrk-lnk-periodo
+                          wrk-lnk-dt-inicial
+                          wrk-lnk-dt-final
+                          wrk-lnk-mot
+                          wrk-lnk-pro
+                          wrk-lnk-assinada
+                          wrk-lnk-nao-assinada
+                          wrk-lnk-sem-mot
+
+           move spaces to wrk-lnk-vei
+           
+           move wrk-saida        to wrk-lnk-saida
+           move wrk-tipo         to wrk-lnk-tipo
+           move wrk-lancada      to wrk-lnk-lancada
+           move wrk-em-recurso   to wrk-lnk-em-recurso
+           move wrk-cancelada    to wrk-lnk-cancelada
+           move wrk-aguardando   to wrk-lnk-aguardando
+           move wrk-baixada      to wrk-lnk-baixada
+           move wrk-periodo      to wrk-lnk-periodo
+           move wrk-dt-inicial   to wrk-lnk-dt-inicial
+           move wrk-dt-final     to wrk-lnk-dt-final
+           move wrk-mot-cod      to wrk-lnk-mot
+           move wrk-pro-cod      to wrk-lnk-pro
+           move wrk-vei-cod      to wrk-lnk-vei
+           move wrk-assinada     to wrk-lnk-assinada
+           move wrk-nao-assinada to wrk-lnk-nao-assinada
+           move wrk-sem-moto     to wrk-lnk-sem-mot
+           |Protocolo 54.601
+           move wrk-notificacao  to wrk-lnk-notificacao
+           move wrk-multa        to wrk-lnk-multa
+           |Fim
+
+           modify t1-La-Aguarde visible true
+
+           Call "P99-R036" using lnk-padrao
+                                 wrk-lnk-saida
+                                 wrk-lnk-tipo
+                                 wrk-lnk-lancada
+                                 wrk-lnk-em-recurso
+                                 wrk-lnk-cancelada
+                                 wrk-lnk-aguardando
+                                 wrk-lnk-baixada
+                                 wrk-lnk-periodo
+                                 wrk-lnk-dt-inicial
+                                 wrk-lnk-dt-final
+                                 wrk-lnk-mot
+                                 wrk-lnk-pro
+                                 wrk-lnk-vei
+                                 wrk-lnk-assinada
+                                 wrk-lnk-nao-assinada
+                                 wrk-lnk-sem-mot
+                                 wrk-lnk-ifc-codigo-p01-m155
+                                 wrk-lnk-notificacao
+                                 wrk-lnk-multa
+
+           Cancel "P99-R036"
+
+           modify t1-La-Aguarde visible false
+           .
+
+       
+      *
+       arq-usu-Write.
+           write reg-usu 
+           if not valid-arq-usu
+              display message box "Erro na gravação do Usuário: " 
+                 usu-codigo h"0a" "Status: " stat-arq-usu 
+                 icon mb-error-icon title "Erro" 
+           end-if                      
+           .
+      *
+       arq-usu-Rewrite.
+           rewrite reg-usu 
+           if not valid-arq-usu
+              display message box "Erro na regravação do Usuário: " 
+                 usu-codigo h"0a" "Status: " stat-arq-usu 
+                 icon mb-error-icon title "Erro" 
+           end-if                       
+           .
+      *
+       arq-usu-Delete-File-Record.
+           display message box "Confirma exclusão do Usuário?"
+              icon mb-warning-icon type mb-yes-no title "Atenção"
+              giving return-code
+           if return-code = 1
+              delete arq-usu
+              if not valid-arq-usu
+                 display message box "Erro na exclusão do Usuário: " 
+                    usu-codigo h"0a" "Status: " stat-arq-usu 
+                    icon mb-error-icon title "Erro" 
+              end-if
+           end-if                      
+           .
+      ** 
+      * call-error.
+      *     SET ENVIRONMENT "TRANSLATE_TO_ANSI" TO 0
+      *     initialize wrk-texto-msg
+      *     string "Programa ( " wrk-codprg " ) não encontrado !" 
+      *                              delimited by size into wrk-message-1
+      *     set wrk-warning-type to true
+      *     set wrk-ok-type      to true
+      *     call "mensagem" Using wrk-Message-Type, wrk-Response-Type, 
+      *                       wrk-message-1, wrk-Message-2, wrk-Message-3
+      *     on overflow perform call-error end-call
+      *     cancel "mensagem"
+      *     .
+
+      *
+       arq-usu-prg-Write.
+           write reg-usu-prg
+           if not Valid-usu-prg
+              display message box "Erro na gravação dos Programas: " 
+                 usu-prg-codprg h"0a" "Status: " stat-usu-prg
+                 icon mb-error-icon title "Erro" 
+           end-if
+           .
+      *
+       arq-usu-prg-Rewrite.
+           rewrite reg-usu-prg
+           if not Valid-usu-prg
+              display message box "Erro na regravação do Programa: " 
+                 usu-prg-codprg h"0a" "Status: " stat-usu-prg
+                 icon mb-error-icon title "Erro" 
+           end-if           
+           .
+      *
+       arq-usu-prg-Delete-File-Record.
+           display message box "Confirma exclusão do Programa?"
+              icon mb-warning-icon type mb-yes-no title "Atenção"
+              giving return-code
+           if return-code = 1
+              delete arq-usu-prg
+              if not Valid-usu-prg
+                 display message box "Erro na exclusão do Programa: " 
+                 usu-prg-codprg h"0a" "Status: " stat-usu-prg
+                 icon mb-error-icon title "Erro" 
+              end-if
+           end-if                
+           .
+
+      *
+       arq-prg-write.
+           write reg-prg
+           if not valid-arq-prg
+              display message box "Erro na gravação do Programa: " 
+                 prg-codigo h"0a" "Status: " stat-arq-prg
+                 icon mb-error-icon title "Erro" 
+           else
+              display message box "Programa: " prg-codigo 
+                                  " gravado com sucesso"
+           end-if            
+           .
+      *
+       arq-prg-rewrite.
+           rewrite reg-prg 
+           if not valid-arq-prg
+              display message box "Erro na regravação do Programa: " 
+                 prg-codigo h"0a" "Status: " stat-arq-prg
+                 icon mb-error-icon title "Erro" 
+           else
+              display message box "Programa: " prg-codigo 
+                                  " regravado com sucesso"
+           end-if            
+           .
+      *
+       arq-prg-Delete-File-Record.
+           display message box "Confirma exclusão do Programa ?"
+              icon mb-warning-icon type mb-yes-no title "Atenção"
+              giving return-code
+           if return-code = 1
+              delete arq-prg
+              if not valid-arq-prg
+                 display message box "Erro na exclusão do Programa: " 
+                    prg-codigo h"0a" "Status: " stat-arq-prg
+                    icon mb-error-icon title "Erro" 
+              else
+              display message box "Programa: " prg-codigo 
+                                  " excluído com sucesso"
+              end-if
+           end-if                                 
+           .
+
+

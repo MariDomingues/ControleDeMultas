@@ -1,0 +1,680 @@
+      * P99-R036.prd
+      * P99-R036.prd is generated from T:\Transport\FONTES\TRABALHO\SISTEMA\P99-R036.Psf
+      * This is a generated file. DO NOT modify this file directly.      
+
+       Acu-Initial-Routine.
+      *    Before-Init
+      * get system information
+           ACCEPT System-Information FROM System-Info
+      * get terminal information
+           ACCEPT Terminal-Abilities FROM Terminal-Info
+      * open file
+           PERFORM Acu-Open-Files
+      *    After-Init
+           .
+
+       Acu-Exit-Rtn.
+           PERFORM Acu-Close-Files
+      *    After-Program
+           EXIT PROGRAM
+           STOP RUN
+           .
+
+       Acu-Open-Files.
+      *    Before-Open
+           PERFORM Acu-Open-arq-usu
+           PERFORM Acu-Open-arq-emp00
+           PERFORM Acu-Open-ARQ-IFC01
+           PERFORM Acu-Open-ARQ-IFC99
+           PERFORM Acu-Open-ARQ-IFM01
+           PERFORM Acu-Open-ARQ-IFS01
+           PERFORM Acu-Open-ARQ-IFT01
+           PERFORM Acu-Open-ARQ-IFI01
+           PERFORM Acu-Open-ARQ-IFR01
+           PERFORM Acu-Open-ARQ-EMP01
+           PERFORM Acu-Open-ARQ-MOT01
+           PERFORM Acu-Open-arq-cid01
+           PERFORM Acu-Open-arq-par01
+           PERFORM Acu-Open-arq-pro01
+           PERFORM Acu-Open-ARQ-IFP01
+           PERFORM Acu-Open-ARQ-BAI09
+           PERFORM Acu-Open-ARQ-PAG09
+           PERFORM Acu-Open-arq-vei01
+           PERFORM Acu-Open-arq-uni15
+      *    After-Open
+           .
+
+       Acu-Open-arq-usu.
+           PERFORM arq-usu-Before-Open
+           OPEN INPUT arq-usu 
+           IF NOT stat-arq-usu(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-arq-emp00.
+      *    Before-Open
+           OPEN INPUT arq-emp00 
+           IF NOT stat-arq-emp00(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-ARQ-IFC01.
+      *    Before-Open
+           OPEN INPUT ARQ-IFC01 
+           IF NOT STAT-ARQ-IFC01(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-ARQ-IFC99.
+      *    Before-Open
+           OPEN INPUT ARQ-IFC99 
+           IF NOT STAT-ARQ-IFC99(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-ARQ-IFM01.
+      *    Before-Open
+           OPEN INPUT ARQ-IFM01 
+           IF NOT STAT-ARQ-IFM01(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-ARQ-IFS01.
+      *    Before-Open
+           OPEN INPUT ARQ-IFS01 
+           IF NOT STAT-ARQ-IFS01(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-ARQ-IFT01.
+      *    Before-Open
+           OPEN INPUT ARQ-IFT01 
+           IF NOT STAT-ARQ-IFT01(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-ARQ-IFI01.
+      *    Before-Open
+           OPEN INPUT ARQ-IFI01 
+           IF NOT STAT-ARQ-IFI01(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-ARQ-IFR01.
+      *    Before-Open
+           OPEN INPUT ARQ-IFR01 
+           IF NOT STAT-ARQ-IFR01(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-ARQ-EMP01.
+      *    Before-Open
+           OPEN INPUT ARQ-EMP01 
+           IF NOT stat-arq-emp01(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-ARQ-MOT01.
+      *    Before-Open
+           OPEN INPUT ARQ-MOT01 
+           IF NOT stat-arq-mot01(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-arq-cid01.
+      *    Before-Open
+           OPEN INPUT arq-cid01 
+           IF NOT stat-arq-cid01(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-arq-par01.
+      *    Before-Open
+           OPEN INPUT arq-par01 
+           IF NOT Stat-arq-par01(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-arq-pro01.
+      *    Before-Open
+           OPEN INPUT arq-pro01 
+           IF NOT STAT-ARQ-PRO01(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-ARQ-IFP01.
+      *    Before-Open
+           OPEN INPUT ARQ-IFP01 
+           IF NOT STAT-ARQ-IFP01(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-ARQ-BAI09.
+      *    Before-Open
+           OPEN INPUT ARQ-BAI09 
+           IF NOT STAT-ARQ-BAI09(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-ARQ-PAG09.
+      *    Before-Open
+           OPEN INPUT ARQ-PAG09 
+           IF NOT STAT-ARQ-PAG09(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-arq-vei01.
+      *    Before-Open
+           OPEN INPUT arq-vei01 
+           IF NOT STAT-ARQ-VEI01(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Open-arq-uni15.
+      *    Before-Open
+           OPEN INPUT arq-uni15 
+           IF NOT stat-arq-uni15(1:1) = "0"
+              PERFORM Acu-Extended-File-Status
+              GO TO Acu-Exit-Rtn
+           END-IF
+      *    After-Open
+           .
+
+       Acu-Close-Files.
+      *    Before-Close
+           CLOSE arq-usu
+           CLOSE arq-emp00
+           CLOSE ARQ-IFC01
+           CLOSE ARQ-IFC99
+           CLOSE ARQ-IFM01
+           CLOSE ARQ-IFS01
+           CLOSE ARQ-IFT01
+           CLOSE ARQ-IFI01
+           CLOSE ARQ-IFR01
+           CLOSE T99-R036
+           CLOSE arq-txt
+           CLOSE ARQ-EMP01
+           CLOSE ARQ-MOT01
+           CLOSE arq-cid01
+           CLOSE arq-par01
+           CLOSE arq-pro01
+           CLOSE T99-R036-2
+           CLOSE ARQ-IFP01
+           CLOSE ARQ-BAI09
+           CLOSE ARQ-PAG09
+           CLOSE arq-vei01
+           CLOSE arq-uni15
+      *    After-Close
+           .
+
+      * ds-arq-usu
+
+       Acu-ds-arq-usu-Read.
+           READ arq-usu WITH NO LOCK KEY usu-chave OF arq-usu
+           .
+
+       Acu-ds-arq-usu-Read-Next.
+           READ arq-usu NEXT WITH NO LOCK
+           .
+
+       Acu-ds-arq-usu-Read-Prev.
+           READ arq-usu PREVIOUS WITH NO LOCK
+           .
+
+       Acu-ds-arq-usu-Delete.
+           DELETE FILE arq-usu
+           .
+
+      * ds-arq-emp00
+
+       Acu-ds-arq-emp00-Read.
+           READ arq-emp00 WITH NO LOCK KEY EMP00-CHAVE OF arq-emp00
+           .
+
+       Acu-ds-arq-emp00-Read-Next.
+           READ arq-emp00 NEXT WITH NO LOCK
+           .
+
+       Acu-ds-arq-emp00-Read-Prev.
+           READ arq-emp00 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-ds-arq-emp00-Delete.
+           DELETE FILE arq-emp00
+           .
+
+      * DS-arq-ifc01
+
+       Acu-DS-arq-ifc01-Read.
+           READ ARQ-IFC01 WITH NO LOCK KEY IFC01-CHAVE OF ARQ-IFC01
+           .
+
+       Acu-DS-arq-ifc01-Read-Next.
+           READ ARQ-IFC01 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-arq-ifc01-Read-Prev.
+           READ ARQ-IFC01 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-arq-ifc01-Delete.
+           DELETE FILE ARQ-IFC01
+           .
+
+      * DS-arq-ifc99
+
+       Acu-DS-arq-ifc99-Read.
+           READ ARQ-IFC99 WITH NO LOCK KEY IFC99-CHAVE OF ARQ-IFC99
+           .
+
+       Acu-DS-arq-ifc99-Read-Next.
+           READ ARQ-IFC99 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-arq-ifc99-Read-Prev.
+           READ ARQ-IFC99 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-arq-ifc99-Delete.
+           DELETE FILE ARQ-IFC99
+           .
+
+      * DS-arq-ifi01
+
+       Acu-DS-arq-ifi01-Read.
+           READ ARQ-IFI01 WITH NO LOCK KEY IFI01-CHAVE OF ARQ-IFI01
+           .
+
+       Acu-DS-arq-ifi01-Read-Next.
+           READ ARQ-IFI01 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-arq-ifi01-Read-Prev.
+           READ ARQ-IFI01 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-arq-ifi01-Delete.
+           DELETE FILE ARQ-IFI01
+           .
+
+      * DS-arq-ifm01
+
+       Acu-DS-arq-ifm01-Read.
+           READ ARQ-IFM01 WITH NO LOCK KEY IFM01-CHAVE OF ARQ-IFM01
+           .
+
+       Acu-DS-arq-ifm01-Read-Next.
+           READ ARQ-IFM01 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-arq-ifm01-Read-Prev.
+           READ ARQ-IFM01 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-arq-ifm01-Delete.
+           DELETE FILE ARQ-IFM01
+           .
+
+      * DS-arq-ifs01
+
+       Acu-DS-arq-ifs01-Read.
+           READ ARQ-IFS01 WITH NO LOCK KEY IFS01-CHAVE OF ARQ-IFS01
+           .
+
+       Acu-DS-arq-ifs01-Read-Next.
+           READ ARQ-IFS01 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-arq-ifs01-Read-Prev.
+           READ ARQ-IFS01 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-arq-ifs01-Delete.
+           DELETE FILE ARQ-IFS01
+           .
+
+      * DS-arq-ift01
+
+       Acu-DS-arq-ift01-Read.
+           READ ARQ-IFT01 WITH NO LOCK KEY CHAVE-IFT01 OF ARQ-IFT01
+           .
+
+       Acu-DS-arq-ift01-Read-Next.
+           READ ARQ-IFT01 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-arq-ift01-Read-Prev.
+           READ ARQ-IFT01 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-arq-ift01-Delete.
+           DELETE FILE ARQ-IFT01
+           .
+
+      * DS-arq-ifr01
+
+       Acu-DS-arq-ifr01-Read.
+           READ ARQ-IFR01 WITH NO LOCK KEY IFR01-CHAVE OF ARQ-IFR01
+           .
+
+       Acu-DS-arq-ifr01-Read-Next.
+           READ ARQ-IFR01 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-arq-ifr01-Read-Prev.
+           READ ARQ-IFR01 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-arq-ifr01-Delete.
+           DELETE FILE ARQ-IFR01
+           .
+
+      * DS-t99-r036
+
+       Acu-DS-t99-r036-Read.
+           READ T99-R036 WITH NO LOCK KEY T99-R036-CHAVE OF T99-R036
+           .
+
+       Acu-DS-t99-r036-Read-Next.
+           READ T99-R036 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-t99-r036-Read-Prev.
+           READ T99-R036 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-t99-r036-Rec-Write.
+           WRITE REG-T99-R036
+           .
+
+       Acu-DS-t99-r036-Rec-Rewrite.
+           REWRITE REG-T99-R036
+           .
+
+       Acu-DS-t99-r036-Rec-Delete.
+           DELETE T99-R036
+           .
+
+       Acu-DS-t99-r036-Delete.
+           DELETE FILE T99-R036
+           .
+
+      * DS-arq-txt
+
+       Acu-DS-arq-txt-Read.
+           READ arq-txt WITH NO LOCK 
+           .
+
+       Acu-DS-arq-txt-Read-Next.
+           READ arq-txt NEXT WITH NO LOCK
+           .
+
+       Acu-DS-arq-txt-Delete.
+           DELETE FILE arq-txt
+           .
+
+      * DS-arq-emp01
+
+       Acu-DS-arq-emp01-Read.
+           READ ARQ-EMP01 WITH NO LOCK KEY emp01-chave OF ARQ-EMP01
+           .
+
+       Acu-DS-arq-emp01-Read-Next.
+           READ ARQ-EMP01 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-arq-emp01-Read-Prev.
+           READ ARQ-EMP01 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-arq-emp01-Delete.
+           DELETE FILE ARQ-EMP01
+           .
+
+      * DS-arq-mot01
+
+       Acu-DS-arq-mot01-Read.
+           READ ARQ-MOT01 WITH NO LOCK KEY mot01-CHAVE OF ARQ-MOT01
+           .
+
+       Acu-DS-arq-mot01-Read-Next.
+           READ ARQ-MOT01 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-arq-mot01-Read-Prev.
+           READ ARQ-MOT01 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-arq-mot01-Delete.
+           DELETE FILE ARQ-MOT01
+           .
+
+      * DS-arq-cid01
+
+       Acu-DS-arq-cid01-Read.
+           READ arq-cid01 WITH NO LOCK KEY CID01-CHAVE OF arq-cid01
+           .
+
+       Acu-DS-arq-cid01-Read-Next.
+           READ arq-cid01 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-arq-cid01-Read-Prev.
+           READ arq-cid01 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-arq-cid01-Delete.
+           DELETE FILE arq-cid01
+           .
+
+      * DS-arq-par01
+
+       Acu-DS-arq-par01-Read.
+           READ arq-par01 WITH NO LOCK KEY par01-chave OF arq-par01
+           .
+
+       Acu-DS-arq-par01-Read-Next.
+           READ arq-par01 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-arq-par01-Read-Prev.
+           READ arq-par01 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-arq-par01-Delete.
+           DELETE FILE arq-par01
+           .
+
+      * DS-arq-pro01
+
+       Acu-DS-arq-pro01-Read.
+           READ arq-pro01 WITH NO LOCK KEY Pro01-CHAVE OF arq-pro01
+           .
+
+       Acu-DS-arq-pro01-Read-Next.
+           READ arq-pro01 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-arq-pro01-Read-Prev.
+           READ arq-pro01 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-arq-pro01-Delete.
+           DELETE FILE arq-pro01
+           .
+
+      * DS-t99-r036-2
+
+       Acu-DS-t99-r036-2-Read.
+           READ T99-R036-2 WITH NO LOCK 
+              KEY T99-R036-2-CHAVE OF T99-R036-2
+           .
+
+       Acu-DS-t99-r036-2-Read-Next.
+           READ T99-R036-2 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-t99-r036-2-Read-Prev.
+           READ T99-R036-2 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-t99-r036-2-Rec-Write.
+           WRITE REG-T99-R036-2
+           .
+
+       Acu-DS-t99-r036-2-Rec-Rewrite.
+           REWRITE REG-T99-R036-2
+           .
+
+       Acu-DS-t99-r036-2-Rec-Delete.
+           DELETE T99-R036-2
+           .
+
+       Acu-DS-t99-r036-2-Delete.
+           DELETE FILE T99-R036-2
+           .
+
+      * DS-arq-ifp01
+
+       Acu-DS-arq-ifp01-Read.
+           READ ARQ-IFP01 WITH NO LOCK KEY IFP01-CHAVE OF ARQ-IFP01
+           .
+
+       Acu-DS-arq-ifp01-Read-Next.
+           READ ARQ-IFP01 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-arq-ifp01-Read-Prev.
+           READ ARQ-IFP01 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-arq-ifp01-Delete.
+           DELETE FILE ARQ-IFP01
+           .
+
+      * DS-arq-bai09
+
+       Acu-DS-arq-bai09-Read.
+           READ ARQ-BAI09 WITH NO LOCK KEY BAI09-CHAVE OF ARQ-BAI09
+           .
+
+       Acu-DS-arq-bai09-Read-Next.
+           READ ARQ-BAI09 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-arq-bai09-Read-Prev.
+           READ ARQ-BAI09 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-arq-bai09-Delete.
+           DELETE FILE ARQ-BAI09
+           .
+
+      * DS-arq-pag09
+
+       Acu-DS-arq-pag09-Read.
+           READ ARQ-PAG09 WITH NO LOCK KEY PAG09-CHAVE OF ARQ-PAG09
+           .
+
+       Acu-DS-arq-pag09-Read-Next.
+           READ ARQ-PAG09 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-arq-pag09-Read-Prev.
+           READ ARQ-PAG09 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-arq-pag09-Delete.
+           DELETE FILE ARQ-PAG09
+           .
+
+      * DS-arq-vei01
+
+       Acu-DS-arq-vei01-Read.
+           READ arq-vei01 WITH NO LOCK KEY VEI01-CHAVE OF arq-vei01
+           .
+
+       Acu-DS-arq-vei01-Read-Next.
+           READ arq-vei01 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-arq-vei01-Read-Prev.
+           READ arq-vei01 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-arq-vei01-Delete.
+           DELETE FILE arq-vei01
+           .
+
+      * DS-arq-uni15
+
+       Acu-DS-arq-uni15-Read.
+           READ arq-uni15 WITH NO LOCK KEY UNI15-CHAVE OF arq-uni15
+           .
+
+       Acu-DS-arq-uni15-Read-Next.
+           READ arq-uni15 NEXT WITH NO LOCK
+           .
+
+       Acu-DS-arq-uni15-Read-Prev.
+           READ arq-uni15 PREVIOUS WITH NO LOCK
+           .
+
+       Acu-DS-arq-uni15-Delete.
+           DELETE FILE arq-uni15
+           . 
+
